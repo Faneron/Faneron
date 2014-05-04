@@ -1,0 +1,12 @@
+extends layout
+
+block body
+	.navbar.navbar-inverse.navbar-fixed-top
+		.container-fluid
+			.navbar-head
+				a.navbar-brand(href="/") FANERON
+			ul.nav.navbar-nav.navbar-right
+				li: a(href='#') link
+				li: a(href='#') link
+
+	.container(ng-view)
