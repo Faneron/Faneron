@@ -1,10 +1,60 @@
 body {
-	padding-top: 50px;
+	padding-top: 75px;
+	margin: 0;
+	font-family: 'Helvetica', sans-serif;
 }
 
-#login-box {
-	width: 480px;
-	height: 560px;
-	margin-right: auto;
-	margin-left: auto;
+h1, h2, h3, h4, h5, h6, li a, .navbar-brand {
+	font-family: 'Josefin Sans', sans-serif;
+}
+
+#wrapper {
+	padding: 0;
+}
+
+.navbar {
+	box-shadow: 0 0 8px;
+}
+
+.navbar, 
+.navbar .container-fluid,
+.navbar .container-fluid ul,
+.navbar .container-fluid ul li,
+.navbar .container-fluid ul li a {
+	height: 75px;
+	margin: 0;
+}
+
+.navbar-brand,
+.navbar .container-fluid ul li a {
+	padding: 25px 40px;
+	line-height: 24px;
+	font-size: 24px;
+}
+
+.navbar-brand:hover {
+	color: black;
+}
+
+.navbar .container-fluid ul li a:hover {
+	background-color: black;
+	color: white;
+}
+
+.brand-box {
+	width: 75px;
+	height: 75px;
+}
+
+a {
+	color: black;
+}
+
+.form-control {
+	border-radius: 0;
+	box-shadow: none;
+}
+
+.btn {
+	border-radius: 0;
 }

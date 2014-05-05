@@ -1,12 +1,14 @@
 extends layout
 
 block body
-	.navbar.navbar-inverse.navbar-fixed-top
+	.navbar.navbar-fixed-top
 		.container-fluid
 			.navbar-head
 				a.navbar-brand(href="/") FANERON
-			ul.nav.navbar-nav.navbar-right
-				li: a(href='#') link
-				li: a(href='#') link
+			ul.nav.navbar-nav
+				li: a(href='#') EXPLORE
+				li: a(href='#') THINK
+				li: a(href='#') STUDIO
+				li: a(href='#') WHY
 
-	.container(ng-view)
+	#wrapper(ng-view)
