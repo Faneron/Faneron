@@ -1,7 +1,7 @@
 /* login.css */
 #login-box-container {
 	width: 100%;
-	background: url('/images/splash.png') no-repeat top;
+	background: url('/images/splash.jpg') no-repeat top;
 	background-size: 100% auto;
 	padding: 160px;
 }
@@ -13,6 +13,12 @@
 	background-color: white;
 	padding: 20px 40px;
 	box-shadow: 0px 0px 10px #474747;
+	position: relative;
+	/* fadein defined in style.css */
+	-webkit-animation: fadein 0.75s;
+	-moz-animation: fadein 0.75s;
+	-o-animation: fadein 0.75s;
+	animation: fadein 0.75s;
 }
 
 #login-box > h1 {
@@ -27,10 +33,5 @@
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	border-radius: 0;
 }
 
-.form-control {
-	border-radius: 0;
-	box-shadow: none;
-}

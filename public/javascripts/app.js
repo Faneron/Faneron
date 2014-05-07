@@ -1,18 +1,22 @@
-angular.module('app', ['ngRoute'])
-	.config(function($routeProvider, $locationProvider) {
-		$routeProvider
-			.when( '/', {
-				templateUrl: 'partials/frontpage'
-		    })
-		    .when('/login', {
-		    	templateUrl: 'partials/login'
-		    })
-		    .otherwise({
-		      redirectTo: '/'
-		    });
-			$locationProvider.html5Mode(true);
-		})
-	
+angular.module('app', ['ui.router'])
+
+	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+		$urlRouterProvider.otherwise('/');
+		$stateProvider
+			.state('front', {
+				url: '/',
+				templateUrl: '/partials/frontpage'
+			})
+			.state('login', {
+				url: '/login',
+				templateUrl: '/partials/login'
+			});
+	}])
+
+	.config(['$locationProvider', function($locationProvider) {
+		$locationProvider.html5Mode(true);
+	}])
+
 	.controller('myController', ['$scope', function($scope) {
 		$scope.text = '';
 	}]);
