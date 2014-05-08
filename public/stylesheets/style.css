@@ -7,44 +7,6 @@ body {
 h1, h2, h3, h4, h5, h6, li a, .navbar-brand {
 	font-family: 'Josefin Sans', sans-serif;
 }
-/* Global animations */
-@-webkit-keyframes fadein {
-  	from { opacity: 0; 
-  		   top: -20px;
-  		 }
-  	to { opacity: 1; 
-  		 top: 0px;
-  		}
-}
-
-@-moz-keyframes fadein {
-  	from { opacity: 0; 
-  		   top: -20px;
-  		 }
-  	to { opacity: 1; 
-  		 top: 0px;
-  		}
-}
-
-@-o-keyframes fadein {
-  	from { opacity: 0; 
-  		   top: -20px;
-  		 }
-  	to { opacity: 1; 
-  		 top: 0px;
-  		}
-}
-
-@-keyframes fadein {
-  	from { opacity: 0; 
-  		   top: -20px;
-  		 }
-  	to { opacity: 1; 
-  		 top: 0px;
-  		}
-}
-
-/* End animations */
 
 #wrapper {
 	padding: 0;
@@ -52,7 +14,6 @@ h1, h2, h3, h4, h5, h6, li a, .navbar-brand {
 
 .navbar {
 	box-shadow: 0 0 8px;
-	background-color: white;
 }
 
 .navbar, 
