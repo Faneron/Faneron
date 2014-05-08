@@ -7,9 +7,9 @@ angular.module('app', ['ui.router'])
 				url: '/',
 				templateUrl: '/partials/frontpage'
 			})
-			.state('login', {
-				url: '/login',
-				templateUrl: '/partials/login'
+			.state('signup', {
+				url: '/signup',
+				templateUrl: '/partials/signup'
 			})
 			.state('profile', {
 				url: '/profile/:id',
