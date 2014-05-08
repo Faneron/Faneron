@@ -1,5 +1,5 @@
 body {
-	padding-top: 75px;
+	padding-top: 60px;
 	margin: 0;
 	font-family: 'Helvetica', sans-serif;
 }
@@ -7,10 +7,15 @@ body {
 h1, h2, h3, h4, h5, h6, li a, .navbar-brand {
 	font-family: 'Josefin Sans', sans-serif;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
 /* Global animations */
 @-webkit-keyframes fadein {
   	from { opacity: 0; 
-  		   top: -20px;
+  		   top: -25px;
   		 }
   	to { opacity: 1; 
   		 top: 0px;
@@ -19,7 +24,7 @@ h1, h2, h3, h4, h5, h6, li a, .navbar-brand {
 
 @-moz-keyframes fadein {
   	from { opacity: 0; 
-  		   top: -20px;
+  		   top: -25px;
   		 }
   	to { opacity: 1; 
   		 top: 0px;
@@ -28,7 +33,7 @@ h1, h2, h3, h4, h5, h6, li a, .navbar-brand {
 
 @-o-keyframes fadein {
   	from { opacity: 0; 
-  		   top: -20px;
+  		   top: -25px;
   		 }
   	to { opacity: 1; 
   		 top: 0px;
@@ -37,7 +42,7 @@ h1, h2, h3, h4, h5, h6, li a, .navbar-brand {
 
 @-keyframes fadein {
   	from { opacity: 0; 
-  		   top: -20px;
+  		   top: -25px;
   		 }
   	to { opacity: 1; 
   		 top: 0px;
@@ -47,7 +52,7 @@ h1, h2, h3, h4, h5, h6, li a, .navbar-brand {
 /* End animations */
 
 #wrapper {
-	padding: 0;
+	padding: 0; 
 }
 
 .navbar {
@@ -60,15 +65,22 @@ h1, h2, h3, h4, h5, h6, li a, .navbar-brand {
 .navbar .container-fluid ul,
 .navbar .container-fluid ul li,
 .navbar .container-fluid ul li a {
-	height: 75px;
+	height: 60px;
 	margin: 0;
 }
 
 .navbar-brand,
 .navbar .container-fluid ul li a {
-	padding: 25px 40px;
+	padding: 18px 40px;
 	line-height: 24px;
-	font-size: 24px;
+}
+
+.navbar-brand {
+  font-size: 200%;
+}
+
+.navbar-nav {
+  font-size: 150%;
 }
 
 .navbar-brand:hover {
@@ -82,11 +94,30 @@ h1, h2, h3, h4, h5, h6, li a, .navbar-brand {
 
 .brand-box {
 	width: 75px;
-	height: 75px;
+	height: 60px;
 }
 
 a {
 	color: black;
+}
+
+/* Bootstrap replacement */
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover, 
+.nav-pills > li.active > a:focus {
+  background-color: white;
+  color: #3a90ff;
+  position: relative;
+  top: -5px;
+  z-index: -1;
+}
+
+.nav-pills > li.active {
+  height: 50px;
+  border-top: 5px solid black;
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
 .form-control {

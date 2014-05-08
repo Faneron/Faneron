@@ -1,0 +1,23 @@
+//- Template for user profile page
+.profile-container
+	.profile-info
+		.crop-box
+			img.profile-picture(alt="placeholder", src="/images/splash.jpg")
+		.basic-info
+			h1 Quan Nguyen
+			h2 Macomac
+			h3 Tagline: "I like poopies"
+		.profile-nav
+			ul.nav.nav-pills
+				//- ui-sref-active binds the "active" class to the li if the program is at the ui-sref specified in the a
+				li(ui-sref-active="active") 
+					a(ui-sref=".bio") Bio
+				li(ui-sref-active="active")
+					a(ui-sref=".projects") Projects
+				li(ui-sref-active="active")
+					a(ui-sref=".thoughts") Thoughts
+				li(ui-sref-active="active")
+					a(ui-sref=".art") Artwork
+		//- have to put this here to render sub-views in jade (weird jade bug)
+		<div class="profile-main" ui-view></div>
+		

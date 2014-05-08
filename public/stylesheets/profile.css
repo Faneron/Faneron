@@ -1,0 +1,57 @@
+.profile-container {
+	width: 800px;
+	margin: 0 auto;
+	box-shadow: 0 0 8px;
+	padding: 50px;
+}
+
+.profile-info {
+	display: inline-block;
+	width: 100%;
+}
+
+.basic-info {
+	text-align: right;
+}
+
+.crop-box {
+	height: 200px;
+	width: 200px;
+	border-radius: 125px;
+	overflow: hidden;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
+
+.profile-picture {
+	min-width: 100%;
+	max-height: 100%;
+}
+
+.profile-nav {
+	background-color: white;
+	position: absolute;
+	z-index: 999;
+	margin-left: -50px;
+	margin-top: -50px;
+	box-shadow: 0 0 8px;
+}
+
+.nav-pills li a {
+	border-radius: 0;
+	font-size: 150%;
+}
+
+/* Fix weird bootstrap thing where 
+there's a 2px margin between pills*/
+.nav-pills > li + li {
+	margin-left: 0;
+}
+
+.profile-main {
+	margin: 20px;
+}
+
+.profile-main p {
+	font-size: 125%;
+}
