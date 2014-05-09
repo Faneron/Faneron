@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', routes.index);
-app.get('/partials/:name', function() {alert("success!")}, routes.partials);
+app.get('/partials/:name', routes.partials);
 app.get('*', routes.index);
 
 /// catch 404 and forwarding to error handler
