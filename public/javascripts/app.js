@@ -1,7 +1,7 @@
 angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices'])
 
 	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider, $q, $timeout) {
-		$urlRouterProvider.otherwise('/');
+		// $urlRouterProvider.otherwise('/');
 		$stateProvider
 			.state('front', {
 				url: '/',
@@ -13,8 +13,9 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices'])
 				controller: 'signupCtrl'
 			})
 			.state('profile', {
-				url: '/profile/:id',
-				templateUrl: '/partials/profile'
+				url: '/profile',
+				templateUrl: '/partials/profile',
+				controller: 'profileCtrl'
 			})
 				.state('profile.bio', {
 					url: '/bio',

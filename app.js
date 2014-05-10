@@ -22,11 +22,16 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', routes.index);
+app.get('/userData', users.userData);
+
+// app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 app.get('*', routes.index);
 
-// Setting up Mongoose
+// Figuring out how to 'get' from express
+// app.get('/userData', users.userData);
+
+// Setting up mongoose
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection errorL'));
 db.once('open', function callback() {
