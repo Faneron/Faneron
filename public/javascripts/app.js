@@ -1,4 +1,4 @@
-angular.module('app', ['ui.router'])
+angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices'])
 
 	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider, $q, $timeout) {
 		$urlRouterProvider.otherwise('/');
@@ -9,7 +9,8 @@ angular.module('app', ['ui.router'])
 			})
 			.state('signup', {
 				url: '/signup',
-				templateUrl: '/partials/signup'
+				templateUrl: '/partials/signup',
+				controller: 'signupCtrl'
 			})
 			.state('profile', {
 				url: '/profile/:id',
