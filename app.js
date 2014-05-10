@@ -4,6 +4,7 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -24,6 +25,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 app.get('*', routes.index);
+
+// Setting up Mongoose
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection errorL'));
+db.once('open', function callback() {
+    // create schemas and models in here
+});
+mongoose.connect('mongodb://localhost/test');
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
