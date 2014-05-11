@@ -5,11 +5,17 @@ block body
 	.navbar.navbar-fixed-top
 		.container-fluid
 			.navbar-head
+				button(type="button", data-toggle="collapse", data-target="#myNav").navbar-toggle
+					span.sr-only Toggle navigation
+					span.icon-bar
+					span.icon-bar
+					span.icon-bar
 				a.navbar-brand(href="/") FANERON
-			ul.nav.navbar-nav
-				li: a(href='#') EXPLORE
-				li: a(href='#') THINK
-				li: a(href='#') STUDIO
-				li: a(href='#') WHY
-
+			.collapse.navbar-collapse
+				ul.nav.navbar-nav#myNav
+					li: a(href='#') EXPLORE
+					li: a(href='#') THINK
+					li: a(href='#') STUDIO
+					li: a(href='#') WHY
+	script $('.collapse').collapse()
 	#wrapper(ui-view)

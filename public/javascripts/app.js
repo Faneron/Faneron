@@ -1,4 +1,4 @@
-angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices'])
+angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ngAnimate'])
 
 	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider, $q, $timeout) {
 		// $urlRouterProvider.otherwise('/');

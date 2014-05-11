@@ -12,6 +12,8 @@
 
 .basic-info {
 	text-align: right;
+	position: relative;
+	top: -200px;
 }
 
 .crop-box {
@@ -48,10 +50,64 @@ there's a 2px margin between pills*/
 	margin-left: 0;
 }
 
-.profile-main {
+/* Bootstrap replacement */
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover, 
+.nav-pills > li.active > a:focus {
+  background-color: white;
+  color: #3a90ff;
+  position: relative;
+  top: -5px;
+  z-index: -1;
+}
+
+.nav-pills > li.active {
+  height: 50px;
+  border-top: 5px solid black;
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.profile-view {
 	margin: 20px;
 }
 
-.profile-main p {
+.profile-view p {
 	font-size: 125%;
 }
+
+/* Animations */
+.profile-view[ui-view].ng-enter,
+.profile-view[ui-view].ng-leave {
+	position: relative;
+	-webkit-transition:all .5s ease-in-out;
+	-moz-transition:all .5s ease-in-out;
+	-o-transition:all .5s ease-in-out;
+	transition:all .5s ease-in-out;
+}
+
+.profile-view[ui-view].ng-enter {
+	opacity: 0;
+}
+
+.profile-view[ui-view].ng-enter-active {
+	opacity: 1;
+}
+
+.profile-view[ui-view].ng-leave {
+	display: none;
+}
+
+/* responsiveness-ish */
+
+@media (max-width: 800px) {
+	.profile-container {
+		width: 100%;
+	}
+}
+
+
+
+
+

@@ -14,5 +14,6 @@ angular.module('faneronControllers', ['faneronServices'])
 		$http({method: 'GET', url: '/userData'})
 			.success(function(data) {$scope.info=data; console.log(data);})
 			.error(function() {console.log('No')});
+		// random placeholder
 		$scope.blah = 'blah!';
 	}]);
