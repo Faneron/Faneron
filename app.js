@@ -4,13 +4,10 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-// Models, schemas, Mongoose, etc.
-var mongoose = require('mongoose'),
-    UserModel = require('./models/user');
+var mongoose = require('mongoose');
 
 var routes = require('./routes/index');
-// var users = require('./routes/users');
+var users = require('./routes/users');
 
 var app = express();
 
@@ -25,25 +22,22 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/userData', users.userData);
+
+// app.get('/', routes.index);
+app.get('/partials/:name', routes.partials);
+app.get('*', routes.index);
+
+// Figuring out how to 'get' from express
+// app.get('/userData', users.userData);
+
 // Setting up mongoose
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback() {
     // create schemas and models in here
-    UserModel.load_data();
 });
 mongoose.connect('mongodb://localhost/test');
-
-
-// trying to get user data
-app.get('/userData', function(req, res) {
-    var data = UserModel.User.find();
-    res.send(data);
-});
-
-// app.get('/', routes.index);
-app.get('/partials/:name', routes.partials);
-app.get('*', routes.index);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

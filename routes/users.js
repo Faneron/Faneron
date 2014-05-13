@@ -1,7 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var mongoose = require('mongoose'),
-    UserModel = require('../models/user');
 
 /* GET users listing. */
 // router.get('/', function(req, res) {
@@ -9,10 +7,9 @@ var mongoose = require('mongoose'),
 // });
 
 exports.userData = function(req, res) {
-	var db = mongoose.connection;
-	var data = db.users.find();
+	// var data = users.find().limit(5);
 	// console.log('Yes!');
-	res.send('hello world!');
+	res.send('hello world');
 };
 
 // router.get('/api/userData', function(req, res) {
