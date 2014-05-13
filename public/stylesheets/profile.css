@@ -59,6 +59,7 @@ there's a 2px margin between pills*/
   position: relative;
   top: -5px;
   z-index: -1;
+  text-shadow: 1px 0 0 #3a90ff;
 }
 
 .nav-pills > li.active {
@@ -107,6 +108,24 @@ there's a 2px margin between pills*/
 	}
 }
 
+@media (max-width: 550px) {
+	.basic-info {
+		position: relative;
+		top: 0;
+		text-align: left;
+	}
+
+	.profile-nav {
+		position: relative;
+		margin-top: 20px;
+		margin-left: -30px;
+		width: 375px;
+	}
+
+	.profile-container {
+		padding: 30px;
+	}
+}
 
 
 

@@ -33,7 +33,7 @@ app.get('*', routes.index);
 
 // Setting up mongoose
 var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection errorL'));
+db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback() {
     // create schemas and models in here
 });
