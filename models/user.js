@@ -8,6 +8,8 @@ var UserSchema = new mongoose.Schema({
 	password: String
 });
 
+var User = mongoose.model('User', UserSchema);
+
 var load_data = function() {
 	var user1 = new User({
 		firstName: "Tod",
