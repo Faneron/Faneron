@@ -36,6 +36,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback() {
     // create schemas and models in here
+    UserModel.load_data();
 });
 mongoose.connect('mongodb://localhost/test');
 
