@@ -35,3 +35,18 @@
 	margin-right: auto;
 }
 
+@media (max-width: 800px) {
+	#login-box-container {
+		padding: 70px 0;
+		background-size: auto 1000px;
+	}
+
+	#login-box {
+		position: auto;
+	}
+}
+
+
+
+
+

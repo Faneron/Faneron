@@ -23,23 +23,25 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Setting up mongoose
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error'));
+db.once('open', function callback() {
+    // create schemas and models in here
+    // UserModel.load_data();
+});
+mongoose.connect('mongodb://localhost/test');
+
 app.get('/userData', users.userData);
 
 // app.get('/', routes.index);
+// Catchall for base website layout
 app.get('/partials/:name', routes.partials);
 app.get('*', routes.index);
 
 // Figuring out how to 'get' from express
 // app.get('/userData', users.userData);
 
-// Setting up mongoose
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error'));
-db.once('open', function callback() {
-    // create schemas and models in here
-    UserModel.load_data();
-});
-mongoose.connect('mongodb://localhost/test');
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

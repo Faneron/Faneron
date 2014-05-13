@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var UserModel = require('../models/user')
+
 
 /* GET users listing. */
 // router.get('/', function(req, res) {
@@ -7,9 +9,13 @@ var router = express.Router();
 // });
 
 exports.userData = function(req, res) {
-	// var data = users.find().limit(5);
-	// console.log('Yes!');
-	res.send('hello world');
+	var data = UserModel.User.findOne({}, function(error, user) {
+		if (error) console.log(error);
+		else {
+			console.log("User data retrieved!");
+			res.send(user);
+		}
+	});
 };
 
 // router.get('/api/userData', function(req, res) {

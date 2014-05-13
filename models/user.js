@@ -24,5 +24,5 @@ var load_data = function() {
 	});
 }
 
-module.exports.User = User;
-module.exports.load_data = load_data;
+exports.User = User;
+exports.load_data = load_data;
