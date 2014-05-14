@@ -15,6 +15,7 @@ var load_data = function() {
 		firstName: "Tod",
 		lastName: "Jones",
 		email: "minion@evil.com",
+		username: "minion",
 		password: "easypass"
 	});
 	user1.save(function(err) {

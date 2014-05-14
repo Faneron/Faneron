@@ -15,3 +15,7 @@ exports.partials = function(req, res) {
     console.log('Hurah!');
     res.render('partials/' + name);
 };
+
+exports.login = function(req, res) {
+	res.render('login', {title: 'Login'});
+};

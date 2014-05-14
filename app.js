@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose'),
     UserModel = require('./models/user');
+var passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy;
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -23,19 +25,38 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Configure Passport
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    UserModel.User.findOne({ username: username }, function(err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
+
 // Setting up mongoose
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback() {
     // create schemas and models in here
-    // UserModel.load_data();
+    UserModel.load_data();
 });
 mongoose.connect('mongodb://localhost/test');
 
-app.get('/userData', users.userData);
 
+//app.get('/userData', passport.authenticate('local', { successRedirect: users.userData, failureRedirect: '/login' }));
+app.get('/userData', users.userData);
+app.post('/login', passport.authenticate('local', { successRedirect: '/profile', failureRedirect: '/index' }));
 // app.get('/', routes.index);
 // Catchall for base website layout
+app.get('/login', routes.login);
 app.get('/partials/:name', routes.partials);
 app.get('*', routes.index);
 
