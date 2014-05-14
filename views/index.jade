@@ -5,7 +5,7 @@ block body
 	.navbar.navbar-fixed-top(role="navigation")
 		.container-fluid
 			.navbar-header
-				button(type="button", data-toggle="collapse", data-target="#myNav").navbar-toggle
+				button(type="button", data-toggle="collapse", data-target=".myNav").navbar-toggle
 					span.sr-only Toggle navigation
 					span.icon-bar
 					span.icon-bar
@@ -13,10 +13,16 @@ block body
 				a.navbar-brand(href="/") FANERON
 			.navbar-collapse.collapse
 				//- .collapse.in thing is a total hack, but hey, it works! :)
-				ul.nav.navbar-nav.collapse.in#myNav 
-					li: a(href='#') EXPLORE
-					li: a(href='#') THINK
-					li: a(href='#') STUDIO
-					li: a(href='#') WHY
+				ul.nav.navbar-nav.collapse.in.myNav 
+					li: a(href='#') 
+						.nav-link EXPLORE
+					li: a(href='#') 
+						.nav-link THINK
+					li: a(href='#') 
+						.nav-link STUDIO
+					li: a(href='#') 
+						.nav-link WHY
+				ul.nav.navbar-nav.navbar-right.icon-nav.collapse.in.myNav
+					li: a(href="/profile").profile-link
 	#wrapper(ui-view)
 	script $('.collapse').collapse();

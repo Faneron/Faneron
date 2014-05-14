@@ -1,15 +1,28 @@
+@font-face {
+  font-family: "Dolce Vita Light";
+  src: url('/Dolce_Vita_Light.ttf');
+}
+
+@font-face {
+  font-family: "Dolce Vita";
+  src: url('/Dolce_Vita.ttf');
+}
+
 body {
 	padding-top: 60px;
 	margin: 0;
-	font-family: 'Helvetica', sans-serif;
+	font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
 }
 
-h1, h2, h3, h4, h5, h6, li a, .navbar-brand {
-	font-family: 'Josefin Sans', sans-serif;
+li a, .navbar-brand {
+	font-family: 'Dolce Vita Light', sans-serif;
+  letter-spacing: 1px
 }
 
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
+  font-weight: 300;
 }
 
 /* Global animations */
@@ -98,6 +111,38 @@ h1, h2, h3, h4, h5, h6 {
 	height: 60px;
 }
 
+.profile-link {
+  background: url('/images/_0002_Profile.png') no-repeat;
+  background-size: 30px 30px;
+  background-position: center;
+  width: 60px;
+  -webkit-transition: 0.25s linear;
+  -moz-transition: 0.25s linear;
+  -o-transition: 0.25s linear;
+  transition: 0.25s linear;
+}
+
+.navbar .container-fluid ul li a.profile-link:hover {
+  /* Prevent default background highlighting of nav links */
+  background-color: transparent;
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+/* mousedown transform */
+.navbar .container-fluid ul li a.profile-link:active {
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  transform: scale(1);
+  -webkit-transition: 0s;
+  -moz-transition: 0s;
+  -o-transition: 0s;
+  transition: 0s;
+}
+
 a {
 	color: black;
 }
@@ -113,19 +158,28 @@ a {
 
 /* Toggle button for mobile menu */
 .icon-bar {
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 button.navbar-toggle {
   margin-top: 13px;
   margin-bottom: 13px;
-  border: 1px solid #666666;
+  border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 /* Bootstrap hack for navbar collapsing -___- */
 @media (min-width: 768px) {
   .collapse {
     display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-nav {
+    border-left: 1px solid rgba(0, 0, 0, 0.33);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.33);
+    border-right: 1px solid rgba(0, 0, 0, 0.33);
+    position: relative;
   }
 }
 

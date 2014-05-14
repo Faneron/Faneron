@@ -22,7 +22,6 @@
 	border-radius: 125px;
 	overflow: hidden;
 	margin-right: 20px;
-	margin-bottom: 20px;
 }
 
 .profile-picture {
@@ -35,7 +34,7 @@
 	position: absolute;
 	z-index: 999;
 	margin-left: -50px;
-	margin-top: -50px;
+	margin-top: -80px;
 	box-shadow: 0 0 8px;
 }
 
@@ -59,7 +58,6 @@ there's a 2px margin between pills*/
   position: relative;
   top: -5px;
   z-index: -1;
-  text-shadow: 1px 0 0 #3a90ff;
 }
 
 .nav-pills > li.active {
@@ -71,7 +69,7 @@ there's a 2px margin between pills*/
 }
 
 .profile-view {
-	margin: 20px;
+	margin: 0 20px 20px 20px;
 }
 
 .profile-view p {
@@ -119,11 +117,16 @@ there's a 2px margin between pills*/
 		position: relative;
 		margin-top: 20px;
 		margin-left: -30px;
-		width: 375px;
+		width: 100%;
 	}
 
 	.profile-container {
 		padding: 30px;
+	}
+
+	.profile-view {
+		padding: 10px;
+		margin: 20px 0 0 0;
 	}
 }
 
