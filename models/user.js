@@ -13,8 +13,6 @@ var UserSchema = new mongoose.Schema({
 
 var User = mongoose.model('User', UserSchema);
 
-<<<<<<< HEAD
-
 // Unnecessary right now
 // var load_data = function() {
 // 	var user1 = new User({
@@ -46,7 +44,7 @@ var addUser = function(req, res) {
 		lastName: "Moo",
 		email: config.email,
 		password: hash
-=======
+
 var load_data = function() {
 	var user1 = new User({
 		firstName: "Tod",
@@ -54,7 +52,7 @@ var load_data = function() {
 		email: "minion@evil.com",
 		username: "minion",
 		password: "easypass"
->>>>>>> 54cde7a5dd0ed130167d8967e240193172bb1ef9
+
 	});
 	// Database save
 	user.save(function(err, data) {

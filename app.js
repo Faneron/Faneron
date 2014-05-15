@@ -50,14 +50,11 @@ db.once('open', function callback() {
 });
 mongoose.connect('mongodb://localhost/test');
 
-<<<<<<< HEAD
 /* Create a new user in mongodb */
 app.post('/users', UserModel.addUser);
 
 /* Random dummy data */
 app.get('/userData', users.userData);
-=======
->>>>>>> 54cde7a5dd0ed130167d8967e240193172bb1ef9
 
 //app.get('/userData', passport.authenticate('local', { successRedirect: users.userData, failureRedirect: '/login' }));
 app.get('/userData', users.userData);
@@ -67,9 +64,6 @@ app.post('/login', passport.authenticate('local', { successRedirect: '/profile',
 app.get('/login', routes.login);
 app.get('/partials/:name', routes.partials);
 app.get('*', routes.index);
-
-// Figuring out how to 'get' from express
-// app.get('/userData', users.userData);
 
 
 /// catch 404 and forwarding to error handler
