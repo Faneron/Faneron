@@ -1,0 +1,17 @@
+.project-title {
+	font-size: 48px;
+	margin: 10px auto;
+}
+
+.project-description {
+	font-size: 20px;
+	color: rgba(0, 0, 0, 0.5);
+}
+
+.project-nav ul.nav.nav-pills li a  {
+	border-top: 1px solid rgba(0, 0, 0, 0.5);
+	margin-top: 20px;
+	font-family: 'Open Sans', sans-serif;
+	padding: 10px 25px;
+}
+

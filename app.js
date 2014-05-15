@@ -32,6 +32,10 @@ db.once('open', function callback() {
 });
 mongoose.connect('mongodb://localhost/test');
 
+/* Create a new user in mongodb */
+app.post('/users', UserModel.addUser);
+
+/* Random dummy data */
 app.get('/userData', users.userData);
 
 // app.get('/', routes.index);

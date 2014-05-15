@@ -1,0 +1,6 @@
+.faneron-container
+	h1 Explore
+	.project-container(ng-repeat="project in projects")
+		h2 Title: {{project.title}}
+		h3 Created: {{project.created}}
+		p Description: {{project.description}}

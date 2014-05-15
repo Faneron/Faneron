@@ -1,1 +1,16 @@
 //- Template for video game project page
+.project-wrapper
+	.faneron-container
+		.project-header
+			h1.project-title {{project.title}}
+			h3.project-description {{project.description}}
+		.project-nav
+			.container-fluid
+				ul.nav.nav-pills
+					li: a home
+					li: a gameplay
+					li: a artwork
+					li: a lore
+					li: a updates
+		.project-info(ui-view)
+

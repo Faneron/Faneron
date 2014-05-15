@@ -14,14 +14,10 @@ block body
 			.navbar-collapse.collapse
 				//- .collapse.in thing is a total hack, but hey, it works! :)
 				ul.nav.navbar-nav.collapse.in.myNav 
-					li: a(href='#') 
-						.nav-link EXPLORE
-					li: a(href='#') 
-						.nav-link THINK
-					li: a(href='#') 
-						.nav-link STUDIO
-					li: a(href='#') 
-						.nav-link WHY
+					li(ui-sref-active="active"): a(ui-sref='explore') EXPLORE
+					li: a(href='#') THINK
+					li: a(href='#') STUDIO
+					li: a(href='#') WHY
 				ul.nav.navbar-nav.navbar-right.icon-nav.collapse.in.myNav
 					li: a(href="/profile").profile-link
 	#wrapper(ui-view)

@@ -68,8 +68,17 @@ h1, h2, h3, h4, h5, h6 {
 	padding: 0; 
 }
 
+/* General container shit used throughout the app */
+.faneron-container {
+  width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 0 8px rgba(51, 51, 51, 0.45);
+  padding: 50px;
+  background-color: white;
+}
+
 .navbar {
-	box-shadow: 0 0 8px;
+	box-shadow: 0 0 8px rgba(51, 51, 51, 0.45);
 	background-color: white;
 }
 
@@ -90,6 +99,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .navbar-brand {
   font-size: 32px;
+  height: 100%;
 }
 
 .navbar-nav {
@@ -106,10 +116,22 @@ h1, h2, h3, h4, h5, h6 {
 	color: white;
 }
 
-.brand-box {
-	width: 75px;
-	height: 60px;
+/* disable highlighting for the active link */
+.navbar .container-fluid ul li.active a:hover {
+  background-color: transparent;
+  color: black;
 }
+
+/* used by ui-sref-active */
+.nav li.active {
+  border-top: 5px solid black;
+}
+
+.nav li.active > a {
+  position: relative;
+  top: -5px;
+}
+/* end used by ui-sref-active */
 
 .profile-link {
   background: url('/images/_0002_Profile.png') no-repeat;
@@ -165,6 +187,18 @@ button.navbar-toggle {
   margin-top: 13px;
   margin-bottom: 13px;
   border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 800px) {
+  .faneron-container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 550px) {
+  .faneron-container {
+    padding: 30px;
+  }
 }
 
 /* Bootstrap hack for navbar collapsing -___- */

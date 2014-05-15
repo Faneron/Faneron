@@ -12,7 +12,18 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 				templateUrl: '/partials/signup',
 				controller: 'signupCtrl'
 			})
+			.state('explore', {
+				url: '/explore',
+				templateUrl: '/partials/explore',
+				controller: 'exploreCtrl'
+			})
+			.state('project', {
+				url: '/projects/:id',
+				templateUrl: '/partials/project',
+				controller: 'projectCtrl'
+			})
 			.state('profile', {
+				// will add user ids to this later
 				url: '/profile',
 				templateUrl: '/partials/profile',
 				controller: 'profileCtrl'

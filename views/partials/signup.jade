@@ -1,7 +1,7 @@
 #login-box-container
 	#login-box
 		h1 Create a Profile
-		form
+		form(ng-submit='signup()')
 			.form-group
 				input.form-control(type='email', placeholder='email', ng-model="email")
 			.form-group

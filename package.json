@@ -16,6 +16,7 @@
     "angular": "*",
     "mongodb": "*",
     "mongoose": "*",
-    "passport": "*"
+    "passport": "*",
+    "password-hash": "*"
   }
 }
