@@ -44,6 +44,10 @@ var addUser = function(req, res) {
 		lastName: "Moo",
 		email: config.email,
 		password: hash
+	});
+	user.save();
+	res.send(200);
+}
 
 var load_data = function() {
 	var user1 = new User({
@@ -55,16 +59,13 @@ var load_data = function() {
 
 	});
 	// Database save
-	user.save(function(err, data) {
+	user1.save(function(err, data) {
 		if (err) {
 			console.log(err);
-		} else {
-			console.log(data);
-			res.send(200);
 		}
 	});
 }
 
 exports.User = User;
-// exports.load_data = load_data;
+exports.load_data = load_data;
 exports.addUser = addUser;

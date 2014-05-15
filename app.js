@@ -23,8 +23,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+// Fix this lel
 //Configure Passport
 passport.use(new LocalStrategy(
   function(username, password, done) {
@@ -46,7 +50,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback() {
     // create schemas and models in here
-    UserModel.load_data();
+    // UserModel.load_data();
 });
 mongoose.connect('mongodb://localhost/test');
 
@@ -56,12 +60,11 @@ app.post('/users', UserModel.addUser);
 /* Random dummy data */
 app.get('/userData', users.userData);
 
-//app.get('/userData', passport.authenticate('local', { successRedirect: users.userData, failureRedirect: '/login' }));
-app.get('/userData', users.userData);
-app.post('/login', passport.authenticate('local', { successRedirect: '/profile', failureRedirect: '/index' }));
-// app.get('/', routes.index);
+// app.get('/userData', users.userData);
+// app.post('/login', passport.authenticate('local', { successRedirect: '/profile', failureRedirect: '/' }));
+
+// app.get('/login', routes.login);
 // Catchall for base website layout
-app.get('/login', routes.login);
 app.get('/partials/:name', routes.partials);
 app.get('*', routes.index);
 

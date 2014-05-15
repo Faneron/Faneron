@@ -20,10 +20,13 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		};
 	}])
 
-	.controller('profileCtrl', ['$scope', '$http', function($scope, $http) {
+	.controller('profileCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
 		// Fetching dummy data for now
 		$http({method: 'GET', url: '/userData'})
-			.success(function(data) {$scope.info=data; console.log(data);})
+			.success(function(data) {
+				$scope.info=data;
+				console.log(data);
+			})
 			.error(function() {console.log('No')});
 	}])
 
