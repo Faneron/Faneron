@@ -9,6 +9,7 @@ var UserModel = require('../models/user')
 // });
 
 exports.userData = function(req, res) {
+	console.log(req.user);
 	var data = UserModel.User.findOne({}, function(error, user) {
 		if (error) console.log(error);
 		else {

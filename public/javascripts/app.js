@@ -1,6 +1,6 @@
 angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ngAnimate'])
 
-	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider, $q, $timeout) {
+	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 		// $urlRouterProvider.otherwise('/');
 		$stateProvider
 			.state('front', {

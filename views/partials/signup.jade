@@ -3,11 +3,11 @@
 		h1 Create a Profile
 		form(ng-submit='signup()')
 			.form-group
-				input.form-control(type='email', placeholder='email', ng-model="email")
+				input.form-control(type='email', placeholder='email', ng-model="email" autofocus required)
 			.form-group
-				input.form-control(type='text', placeholder='username', ng-model="username")
+				input.form-control(type='text', placeholder='username', ng-model="username" required)
 			.form-group
-				input.form-control(type='password', placeholder='password', ng-model="password")
+				input.form-control(type='password', placeholder='password', ng-model="password" required)
 			.form-group
-				input.form-control(type='password', placeholder='retype password', ng-model="confirm")
+				input.form-control(type='password', placeholder='retype password', ng-model="confirm" required)
 			button.btn.btn-primary(type='submit') Create Profile	

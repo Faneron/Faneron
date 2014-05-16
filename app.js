@@ -11,6 +11,9 @@ var passport = require('passport')
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var session = require('express-session')
+
+var passwordHash = require('password-hash');
 
 var app = express();
 
@@ -20,30 +23,14 @@ app.set('view engine', 'jade');
 
 app.use(favicon());
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(express.static(path.join(__dirname, 'public')));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+app.use(bodyParser());
+app.use(session({ secret: 'anything' }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(path.join(__dirname, 'public')));
-
-
-// Fix this lel
-//Configure Passport
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    UserModel.User.findOne({ username: username }, function(err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
-      }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, user);
-    });
-  }
-));
 
 // Setting up mongoose
 var db = mongoose.connection;
@@ -54,14 +41,64 @@ db.once('open', function callback() {
 });
 mongoose.connect('mongodb://localhost/test');
 
-/* Create a new user in mongodb */
-app.post('/users', UserModel.addUser);
+function loggedIn(req, res, next) {
+  if (req.user) {
+    console.log(req.user);
+  }
+  next();
+};
+
+// DECOMPOSE DIS SHIT DAWG 
+// used to serialize the user for the session
+passport.serializeUser(function(user, done) {
+    done(null, user._id);
+});
+
+// used to deserialize the user
+passport.deserializeUser(function(id, done) {
+    UserModel.User.findById(id, function(err, user) {
+        done(err, user);
+    });
+});
+
+passport.use('local-signup', new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback : true // allows us to pass back the entire request to the callback
+},
+function(req, email, password, done) {
+    process.nextTick(function() {
+        UserModel.User.findOne({ "email": email }, function(err, user) {
+            if (err) return done(err);
+            if (user) {
+                return done(null, false, {message: 'email taken'});
+            } else {
+                var user = new UserModel.User();
+                user.email = email;
+                user.password = passwordHash.generate(password);
+                user.save(function(err) {
+                    if (err) throw err;
+                    return done(null, user);
+                });
+            }
+        });
+    });
+
+}));
+
+// DECOMPOSE DAT SHIT DAWG
+
+// Set up route to auth using local-signup
+app.post('/users', passport.authenticate('local-signup', {session: true}), 
+    function(req, res) {
+        console.log('OKAY, let\'s check for the session shitz now');
+        console.log(req.user);
+        res.send(200);
+    }
+);
 
 /* Random dummy data */
-app.get('/userData', users.userData);
-
-// app.get('/userData', users.userData);
-// app.post('/login', passport.authenticate('local', { successRedirect: '/profile', failureRedirect: '/' }));
+app.get('/userData', loggedIn, users.userData);
 
 // app.get('/login', routes.login);
 // Catchall for base website layout

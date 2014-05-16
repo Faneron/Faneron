@@ -17,6 +17,7 @@
     "mongodb": "*",
     "mongoose": "*",
     "passport": "*",
+    "passport-local": "*",
     "password-hash": "*"
   }
 }

@@ -6,13 +6,13 @@ var router = express.Router();
 // Basic load page
 exports.index = function(req, res){
     res.render('index', {title: 'Express'});
-
 };
 
 // Render all partials by name
 exports.partials = function(req, res) {
     var name = req.params.name;
-    console.log('Hurah!');
+    console.log("Loaded partial");
+    console.log("Current session: " + req.user);
     res.render('partials/' + name);
 };
 

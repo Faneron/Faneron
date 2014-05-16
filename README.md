@@ -2,8 +2,6 @@ Faneron Project
 ===============
 
 To do:
-	- RESTful routes for posting, commenting, getting user info/photos/etc...
-	- Layout pages for *everything* 
-	- Fonts 'n' things
-	- Controllers -> decompose into services
-	- Create some directives to plug in throughout the application
+	- Figure out passport shit
+	- Fix ugly-ass routes lol
+	- Amazon S3... down the line lol

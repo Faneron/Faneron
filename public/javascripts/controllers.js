@@ -12,7 +12,6 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			};
 			$http({method: 'POST', url: '/users', data: $scope.config})
 				.success(function(data) {
-					console.log(data);
 					// Load the profile state
 					$state.go('profile');
 				})
@@ -25,7 +24,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		$http({method: 'GET', url: '/userData'})
 			.success(function(data) {
 				$scope.info=data;
-				console.log(data);
+				console.log(data._id);
 			})
 			.error(function() {console.log('No')});
 	}])
