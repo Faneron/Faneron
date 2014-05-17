@@ -10,9 +10,10 @@ var UserModel = require('../models/user')
 
 exports.userData = function(req, res) {
 	console.log(req.user);
-	var data = UserModel.User.findOne({}, function(error, user) {
+	var data = UserModel.User.findById(req.user._id, function(error, user) {
 		if (error) console.log(error);
 		else {
+			console.log(data);
 			console.log("User data retrieved!");
 			res.send(user);
 		}
