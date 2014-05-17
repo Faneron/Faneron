@@ -37,7 +37,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback() {
     // create schemas and models in here
-    // UserModel.load_data();
+    //UserModel.loadData();
 });
 mongoose.connect('mongodb://localhost/test');
 
@@ -73,6 +73,7 @@ function(req, email, password, done) {
             if (user) {
                 return done(null, false, {message: 'email taken'});
             } else {
+                // This should be decomposed into models/user.js
                 var user = new UserModel.User();
                 user.email = email;
                 user.password = passwordHash.generate(password);
@@ -85,8 +86,6 @@ function(req, email, password, done) {
     });
 
 }));
-
-// DECOMPOSE DAT SHIT DAWG
 
 // Set up route to auth using local-signup
 app.post('/users', passport.authenticate('local-signup', {session: true}), 
