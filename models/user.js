@@ -9,36 +9,28 @@ var passwordHash = require('password-hash');
 /* Setup
  * The following section defines the User schema and model.
  */ 
-var UserSchema = new mongoose.Schema({
+var userSchema = new mongoose.Schema({
 	firstName: String,
 	lastName: String,
 	email: String,
 	password: String
 });
-var User = mongoose.model('User', UserSchema);
 
-/* Function: addUser
- * -----------------
- * Adds a new user to the model based on information from the request.
+/* Function: generateHash
+ * ----------------------
+ * Generates a password hash given a password.
  */
-var addUser = function(req, res) {
-	// var config = req.body;
-	// // Needs validation shitz
-	// // Pattern for errorz lel
-	// if (config.email === "qwer@qwer.com") {
-	// 	res.send(500, {error: "lol failz"});
-	// }
-	// var hash = passwordHash.generate(config.password);
-	// // Replace this with actual uzer infoz
-	// var user = new User({
-	// 	firstName: "Quack",
-	// 	lastName: "Moo",
-	// 	email: config.email,
-	// 	password: hash
-	// });
-	// user.save();
-	// res.send(200);
-}
+userSchema.methods.generateHash = function(password) {
+	return passwordHash.generate(password);
+};
+
+/* Function: validatePassword
+ * --------------------------
+ * Validates that the user's password is correct when logging in.
+ */
+ userSchema.methods.validatePassword = function(password) {
+ 	// Finish
+ };
 
 /* Function: load_data
  * -------------------
@@ -61,6 +53,5 @@ var loadData = function() {
 	});
 }
 
-exports.User = User;
+exports.User = mongoose.model('User', userSchema);;
 exports.loadData = loadData;
-exports.addUser = addUser;

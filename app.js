@@ -6,8 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose'),
     UserModel = require('./models/user');
-var passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy;
+
+var passport = require('passport');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -29,8 +29,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(bodyParser());
 app.use(session({ secret: 'anything' }));
+
+// passport config
 app.use(passport.initialize());
 app.use(passport.session());
+require('./config/passport')(passport); // pass passport for configuration;
 
 // Setting up mongoose
 var db = mongoose.connection;
@@ -48,59 +51,18 @@ function loggedIn(req, res, next) {
   next();
 };
 
-// DECOMPOSE DIS SHIT DAWG 
-// used to serialize the user for the session
-passport.serializeUser(function(user, done) {
-    done(null, user._id);
-});
-
-// used to deserialize the user
-passport.deserializeUser(function(id, done) {
-    UserModel.User.findById(id, function(err, user) {
-        done(err, user);
-    });
-});
-
-passport.use('local-signup', new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password',
-    passReqToCallback : true // allows us to pass back the entire request to the callback
-},
-function(req, email, password, done) {
-    process.nextTick(function() {
-        UserModel.User.findOne({ "email": email }, function(err, user) {
-            if (err) return done(err);
-            if (user) {
-                return done(null, false, {message: 'email taken'});
-            } else {
-                // This should be decomposed into models/user.js
-                var user = new UserModel.User();
-                user.email = email;
-                user.password = passwordHash.generate(password);
-                user.save(function(err) {
-                    if (err) throw err;
-                    return done(null, user);
-                });
-            }
-        });
-    });
-
-}));
-
 // Set up route to auth using local-signup
 app.post('/users', passport.authenticate('local-signup', {session: true}), 
     function(req, res) {
-        console.log('OKAY, let\'s check for the session shitz now');
-        console.log(req.user);
+        //console.log(req.user);
         res.send(200);
     }
 );
-
 /* Random dummy data */
 app.get('/userData', loggedIn, users.userData);
 
 // app.get('/login', routes.login);
-// Catchall for base website layout
+// Catch-all for base website layout
 app.get('/partials/:name', routes.partials);
 app.get('*', routes.index);
 
