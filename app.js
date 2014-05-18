@@ -14,6 +14,7 @@ var users = require('./routes/users');
 var session = require('express-session')
 
 var passwordHash = require('password-hash');
+var flash = require('connect-flash');
 
 var app = express();
 
@@ -33,7 +34,8 @@ app.use(session({ secret: 'anything' }));
 // passport config
 app.use(passport.initialize());
 app.use(passport.session());
-require('./config/passport')(passport); // pass passport for configuration;
+app.use(flash());
+require('./config/passport')(passport, flash); // pass passport for configuration;
 
 // Setting up mongoose
 var db = mongoose.connection;
@@ -47,17 +49,53 @@ mongoose.connect('mongodb://localhost/test');
 function loggedIn(req, res, next) {
   if (req.user) {
     console.log(req.user);
+    next();
+  } else {
+    res.send(401, {message: "Log in pls"});
   }
-  next();
 };
 
 // Set up route to auth using local-signup
-app.post('/users', passport.authenticate('local-signup', {session: true}), 
+app.post('/signup', function(req, res, next) {
+    passport.authenticate('local-signup', function(err, user, info) {
+        if (err) return next(error);
+        // Auth strategy returns no user if the email is already taken
+        if (!user) {
+            console.log(req.flash('signup'));
+            res.send(500, {message: req.flash('signup')});
+        }
+        // If it's legit, we do the login!
+        else req.login(user, function(err) {
+            console.log("Loggin in! :)");
+            next();
+        });
+    })(req, res, next)}, 
     function(req, res) {
-        //console.log(req.user);
-        res.send(200);
+        console.log("Session: " + req.user);
+        res.send(200, {redirect: 'profile'});
     }
 );
+
+// Set up route to auth using local-login
+app.post('/login', function(req, res, next) {
+    passport.authenticate('local-login', function(err, user, info) {
+        if (err) return next(error);
+        // Auth strategy returns no user if either email not found or password invalid
+        if (!user) {
+            console.log(req.flash('login'));
+            res.send(500, {message: req.flash('login')});
+        }
+        // If it's legit, then yaysies! Let's log in!
+        else req.login(user, function(err) {
+            console.log("Logging in for rizzle");
+            next();
+        });
+    })(req, res, next)},
+    function(req, res) {
+        console.log("Session: " + req.user);
+        res.send(200, {redirect: 'profile'});
+    });
+
 /* Random dummy data */
 app.get('/userData', loggedIn, users.userData);
 

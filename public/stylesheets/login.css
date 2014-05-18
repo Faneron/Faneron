@@ -1,17 +1,20 @@
 /* login.css */
-#login-box-container {
-	width: 100%;
+
+#signup-box-container {
 	background: url('/images/splash.jpg') no-repeat top;
+}
+
+#login-box-container, #signup-box-container {
+	width: 100%;
 	background-size: 100% auto;
 	padding: 160px;
 }
 
 #login-box {
 	width: 360px;
-	height: 380px;
 	margin: auto;
 	background-color: white;
-	padding: 20px 40px;
+	padding: 40px;
 	box-shadow: 0px 0px 10px #474747;
 	position: relative;
 	/* fadein defined in style.css */
@@ -22,9 +25,7 @@
 }
 
 #login-box > h1 {
-	margin: 0;
-	padding-top: 20px;
-	padding-bottom: 10px;
+	margin: 0 0 20px 0;
 	text-align: center;
 }
 

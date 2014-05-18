@@ -18,6 +18,7 @@
     "mongoose": "*",
     "passport": "*",
     "passport-local": "*",
-    "password-hash": "*"
+    "password-hash": "*",
+    "connect-flash": "*"
   }
 }

@@ -33,7 +33,7 @@ module.exports = function(passport) {
 	            if (err) return done(err);
 	            // checks if user with that email already exists
 	            if (user) {
-	                return done(null, false, {message: 'email taken'});
+	                return done(null, false, req.flash('signup', 'email taken'));
 	            } else {
 	                var user = new UserModel.User;
 	                user.email = email;
@@ -47,4 +47,25 @@ module.exports = function(passport) {
 	        });
 	    });
 	}));
+
+	passport.use('local-login', new LocalStrategy({
+		usernameField: 'email',
+		passwordField: 'password',
+		passReqToCallback: true
+	},
+	function(req, email, password, done) {
+		process.nextTick(function() {
+			UserModel.User.findOne({ "email": email }, function(err, user) {
+				if (err) 
+					return done(err);
+				if (!user) 
+					return done(null, false, req.flash('login', 'email not found'));
+				if (!user.validatePassword(password))
+					return done(null, false, req.flash('login', 'invalid password'));
+				// finish
+				return done(null, user);
+			});
+		});
+	}));
+
 };

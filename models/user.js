@@ -30,6 +30,7 @@ userSchema.methods.generateHash = function(password) {
  */
  userSchema.methods.validatePassword = function(password) {
  	// Finish
+ 	return passwordHash.verify(password, this.password);
  };
 
 /* Function: load_data

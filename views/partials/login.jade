@@ -1,0 +1,9 @@
+#login-box-container
+	#login-box
+		h1 Log In
+		form(ng-submit='login()')
+			.form-group
+				input.form-control(type='email', placeholder='email', ng-model='email' autofocus required)
+			.form-group
+				input.form-control(type='password', placeholder='password', ng-model='password' required)
+			button.btn.btn-primary(type='submit') Log In

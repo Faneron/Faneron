@@ -12,10 +12,5 @@ exports.index = function(req, res){
 exports.partials = function(req, res) {
     var name = req.params.name;
     console.log("Loaded partial");
-    console.log("Current session: " + req.user);
     res.render('partials/' + name);
-};
-
-exports.login = function(req, res) {
-	res.render('login', {title: 'Login'});
 };

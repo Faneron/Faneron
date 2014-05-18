@@ -1,7 +1,7 @@
 // Controllers
 angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 	
-	.controller('signupCtrl', ['$scope', '$http', '$state', function($scope, $http, $state){
+	.controller('signupCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
 		// Waiting for http post route to create a user
 		$scope.signup = function() {
 			$scope.config = {
@@ -10,12 +10,28 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				password: $scope.password,
 				confirm: $scope.confirm
 			};
-			$http({method: 'POST', url: '/users', data: $scope.config})
+			$http({method: 'POST', url: '/signup', data: $scope.config})
 				.success(function(data) {
 					// Load the profile state
-					$state.go('profile');
+					console.log(data);
+					$state.go(data.redirect);
 				})
 				.error(function(err) {console.log(err)});
+		};
+	}])
+
+	.controller('loginCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
+		$scope.login = function() {
+			$scope.config = {
+				email: $scope.email,
+				password: $scope.password
+			};
+			console.log($scope.config);
+			$http({method: 'POST', url: '/login', data: $scope.config})
+				.success(function(data) {
+					console.log(data);
+					$state.go(data.redirect);
+				});
 		};
 	}])
 

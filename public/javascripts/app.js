@@ -12,6 +12,11 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 				templateUrl: '/partials/signup',
 				controller: 'signupCtrl'
 			})
+			.state('login', {
+				url: '/login',
+				templateUrl: '/partials/login',
+				controller: 'loginCtrl'
+			})
 			.state('explore', {
 				url: '/explore',
 				templateUrl: '/partials/explore',
