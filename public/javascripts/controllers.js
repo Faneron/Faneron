@@ -6,6 +6,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		$scope.signup = function() {
 			$scope.emailError = false;
 			$scope.passwordError = false;
+			$scope.usernameError = false;
 			$scope.config = {
 				email: $scope.email,
 				username: $scope.username,
@@ -15,7 +16,6 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			$http({method: 'POST', url: '/signup', data: $scope.config})
 				.success(function(data) {
 					// Load the profile state
-					console.log(data);
 					$state.go(data.redirect);
 				})
 				.error(function(err) {
@@ -23,7 +23,11 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 						$scope.emailError = err.signupEmail[0];
 						$scope.email = null;
 					}
-					else {
+					else if (err.signupUsername) {
+						$scope.usernameError = err.signupUsername[0];
+						$scope.username = null;
+					}
+					else if (err.signupPassword) {
 						$scope.passwordError = err.signupPassword[0];
 						$scope.password = null;
 						$scope.confirm = null;

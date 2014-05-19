@@ -34,21 +34,30 @@ module.exports = function(passport) {
 	        UserModel.User.findOne({ "email": email }, function(err, user) {
 	            if (err) return done(err);
 	            // checks if user with that email already exists
-	            if (user) {
+	            if (user)
 	                return done(null, false, req.flash('signupEmail', 'This email is already taken!'));
-	            } else {
-	            	if (req.body.confirm != req.body.password)
-            			return done(null, false, req.flash('signupPassword', 'Passwords do not match!'));
-            		else {
-		                var user = new UserModel.User;
-		                user.email = email;
-		                user.password = user.generateHash(password);
-		                //user.password = passwordHash.generate(password);
-		                user.save(function(err) {
-		                    if (err) throw err;
-		                    return done(null, user); 
-	                	});
-                	}
+	            // check if passwords are matching
+	            if (req.body.confirm != req.body.password)
+        			return done(null, false, req.flash('signupPassword', 'Passwords do not match!'));
+	            else {
+	            	// Check if username is taken
+	            	UserModel.User.findOne({"username": req.body.username}, function(err, result) {
+	            		console.log("results:");
+	            		console.log(result);
+	            		if (result) {
+	            			return done(null, false, req.flash('signupUsername', 'This username is already taken!'));
+	            		}
+	            		else {
+			                var user = new UserModel.User;
+			                user.email = email;
+			                user.password = user.generateHash(password);
+			                user.username = req.body.username;
+			                user.save(function(err) {
+			                    if (err) throw err;
+			                    return done(null, user); 
+		                	});
+	                	}
+	            	});
 	            }
 	        });
 	    });

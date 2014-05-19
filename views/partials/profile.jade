@@ -5,11 +5,9 @@
 			img.profile-picture(alt="placeholder", src="/images/splash.jpg")
 		.basic-info
 			h1 Quan Nguyen
-			h2 Macomac
+			h2 {{info.username}}
 			h3 Tagline: "I like poopies"
-			p {{info._id}}
 			p {{info.email}}
-			p {{info.password}}
 		.profile-nav
 			ul.nav.nav-pills
 				//- ui-sref-active binds the "active" class to the li if the program is at the ui-sref specified in the a
