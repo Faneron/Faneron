@@ -51,7 +51,8 @@ function loggedIn(req, res, next) {
     console.log(req.user);
     next();
   } else {
-    res.send(401, {message: "Log in pls"});
+    console.log('Log in pls!');
+    res.send(401);
   }
 };
 
@@ -61,8 +62,7 @@ app.post('/signup', function(req, res, next) {
         if (err) return next(error);
         // Auth strategy returns no user if the email is already taken
         if (!user) {
-            console.log(req.flash('signup'));
-            res.send(500, {message: req.flash('signup')});
+            res.send(500, req.flash(''));
         }
         // If it's legit, we do the login!
         else req.login(user, function(err) {
@@ -82,8 +82,10 @@ app.post('/login', function(req, res, next) {
         if (err) return next(error);
         // Auth strategy returns no user if either email not found or password invalid
         if (!user) {
-            console.log(req.flash('login'));
-            res.send(500, {message: req.flash('login')});
+            // Weird bug thing -_-, have to declare var
+            var message = req.flash('');
+            console.log(message);
+            res.send(500, message);
         }
         // If it's legit, then yaysies! Let's log in!
         else req.login(user, function(err) {
@@ -96,7 +98,7 @@ app.post('/login', function(req, res, next) {
         res.send(200, {redirect: 'profile'});
     });
 
-/* Random dummy data */
+/* current user's dummy data */
 app.get('/userData', loggedIn, users.userData);
 
 // app.get('/login', routes.login);

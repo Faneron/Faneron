@@ -4,6 +4,10 @@
 	background: url('/images/splash.jpg') no-repeat top;
 }
 
+#login-box-container {
+	background: url('/images/splash.jpg') no-repeat top;
+}
+
 #login-box-container, #signup-box-container {
 	width: 100%;
 	background-size: 100% auto;

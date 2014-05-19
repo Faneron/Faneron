@@ -2,12 +2,18 @@
 	#login-box
 		h1 Create a Profile
 		form(ng-submit='signup()')
+			p Email
 			.form-group
-				input.form-control(type='email', placeholder='email', ng-model="email" autofocus required)
+				input.form-control.email-signup(type='email', placeholder='email', ng-model="email", ng-class='{"input-error": emailError}' autofocus required)
+				.popup-alert.alert-danger(ng-show="emailError") {{emailError}}
+			p Username
 			.form-group
 				input.form-control(type='text', placeholder='username', ng-model="username" required)
+			p Password
 			.form-group
-				input.form-control(type='password', placeholder='password', ng-model="password" required)
+				input.form-control(type='password', placeholder='password', ng-model="password", ng-class='{"input-error": passwordError}' required)
+				.popup-alert.alert-danger(ng-show="passwordError") {{passwordError}}
+			p Retype Password
 			.form-group
-				input.form-control(type='password', placeholder='retype password', ng-model="confirm" required)
+				input.form-control(type='password', placeholder='retype password', ng-model="confirm", ng-class='{"input-error": passwordError}' required)
 			button.btn.btn-primary(type='submit') Create Profile	

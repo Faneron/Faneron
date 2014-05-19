@@ -169,9 +169,38 @@ a {
 	color: black;
 }
 
+/* Allow absolute positioned popup-alert to be positioned
+relative to the form group it's associated with*/
+.form-group {
+  position: relative;
+}
+
 .form-control {
 	border-radius: 0;
 	box-shadow: none;
+}
+
+form p {
+  margin-bottom: 0;
+  font-weight: 400;
+}
+
+.input-error,
+.input-error:focus {
+  border-color: #A94442;
+  box-shadow: 0 0 10px #ebccd1;
+}
+
+.popup-alert {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  position: absolute;
+  padding: 2px 5px;
+  top: 34px;
+  right: 0;
+  display: block;
 }
 
 .btn {

@@ -2,8 +2,12 @@
 	#login-box
 		h1 Log In
 		form(ng-submit='login()')
+			p Email
 			.form-group
-				input.form-control(type='email', placeholder='email', ng-model='email' autofocus required)
+				input.form-control(type='email', placeholder='email', ng-model='email', ng-class='{"input-error": emailError}' autofocus required)
+				.popup-alert.alert-danger(ng-show='emailError') {{emailError}}
+			p Password
 			.form-group
-				input.form-control(type='password', placeholder='password', ng-model='password' required)
+				input.form-control(type='password', placeholder='password', ng-model='password', ng-class='{"input-error": passwordError}' required)
+				.popup-alert.alert-danger(ng-show='passwordError') {{passwordError}}
 			button.btn.btn-primary(type='submit') Log In

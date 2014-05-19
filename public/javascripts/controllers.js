@@ -4,6 +4,8 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 	.controller('signupCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
 		// Waiting for http post route to create a user
 		$scope.signup = function() {
+			$scope.emailError = false;
+			$scope.passwordError = false;
 			$scope.config = {
 				email: $scope.email,
 				username: $scope.username,
@@ -16,12 +18,24 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 					console.log(data);
 					$state.go(data.redirect);
 				})
-				.error(function(err) {console.log(err)});
+				.error(function(err) {
+					if (err.signupEmail) {
+						$scope.emailError = err.signupEmail[0];
+						$scope.email = null;
+					}
+					else {
+						$scope.passwordError = err.signupPassword[0];
+						$scope.password = null;
+						$scope.confirm = null;
+					}
+				});
 		};
 	}])
 
 	.controller('loginCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
 		$scope.login = function() {
+			$scope.emailError = null;
+			$scope.passwordError = null;
 			$scope.config = {
 				email: $scope.email,
 				password: $scope.password
@@ -31,6 +45,18 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				.success(function(data) {
 					console.log(data);
 					$state.go(data.redirect);
+				})
+				.error(function(err) {
+					console.log("Error: ");
+					console.log(err);
+					if (err.loginEmail) {
+						$scope.emailError = err.loginEmail[0];
+						$scope.email = null;
+					}
+					else {
+						$scope.passwordError = err.loginPassword[0];
+						$scope.password = null;
+					};
 				});
 		};
 	}])
