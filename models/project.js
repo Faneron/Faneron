@@ -3,8 +3,6 @@ var mongoose = require('mongoose');
 var CommentModel = require('./comment');
 var Schema = mongoose.Schema;
 
-console.log(CommentModel);
-
 // Set up and create schema -> model
 var projectSchema = new mongoose.Schema({
 	title: String,

@@ -45,7 +45,6 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback() {
     // create schemas and models in here
-    ProjectModel.loadData();
 });
 mongoose.connect('mongodb://localhost/test');
 
@@ -86,7 +85,7 @@ app.post('/login', function(req, res, next) {
         // Auth strategy returns no user if either email not found or password invalid
         if (!user) {
             // Weird bug thing -_-, have to declare var
-            var message = req.flash('');
+            var message = req.flash(''); // get any flash messages sent by passport
             console.log(message);
             res.send(500, message);
         }

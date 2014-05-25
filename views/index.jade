@@ -10,7 +10,8 @@ block body
 					span.icon-bar
 					span.icon-bar
 					span.icon-bar
-				a.navbar-brand(href="/") FANERON
+				a.navbar-brand(href="/")
+					img(src="./images/_0000_Faneron.png")
 			.navbar-collapse.collapse
 				//- .collapse.in thing is a total hack, but hey, it works! :)
 				ul.nav.navbar-nav.collapse.in.myNav 
@@ -19,6 +20,9 @@ block body
 					li: a(href='#') STUDIO
 					li: a(href='#') WHY
 				ul.nav.navbar-nav.navbar-right.icon-nav.collapse.in.myNav
-					li: a(href="/profile").profile-link
+					li
+						a(href="/").search-link	
+						a(href="/").profile-link
+						a(href="/").messages-link
 	#wrapper(ui-view)
 	script $('.collapse').collapse();

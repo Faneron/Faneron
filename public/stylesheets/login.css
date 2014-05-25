@@ -1,7 +1,7 @@
 /* login.css */
 
 #signup-box-container {
-	background: url('/images/splash.jpg') no-repeat top;
+	background: url('/images/splash2_edit.jpg') no-repeat top;
 }
 
 #login-box-container {
@@ -11,14 +11,14 @@
 #login-box-container, #signup-box-container {
 	width: 100%;
 	background-size: 100% auto;
-	padding: 160px;
+	padding: 11% 160px;
 }
 
 #login-box {
-	width: 360px;
+	width: 400px;
 	margin: auto;
 	background-color: white;
-	padding: 40px;
+	padding: 30px 75px;
 	box-shadow: 0px 0px 10px #474747;
 	position: relative;
 	/* fadein defined in style.css */
@@ -28,26 +28,50 @@
 	animation: fadein 0.75s;
 }
 
-#login-box > h1 {
-	margin: 0 0 20px 0;
+#login-box h1 {
+	font-size: 17pt;
+	margin: 0 0 30px 0;
 	text-align: center;
 }
 
 #login-box form .btn.btn-primary {
-	width: 200px;
+	width: 150px;
+	padding: 10px 20px;
+	font-size: 85%;
 	display: block;
+	background-color: black;
+	margin-top: 30px;
 	margin-left: auto;
 	margin-right: auto;
+	font-weight: 300;
+	font-size: 12px;
+}
+
+.form-control {
+	box-shadow: inset 0 0 1px 2px rgba(242, 242, 242, 0.4);
+	font-size: 12px;
+	margin: 20px auto;
+	height: 40px;
+}
+
+
+/* Fix weird looking backgorund when shrinking window */
+@media(max-width: 1100px) {
+	#login-box-container,
+	#signup-box-container {
+		background-size: 150% auto;
+	}
 }
 
 @media (max-width: 800px) {
 	#login-box-container, 
-	#signup-box-container	 {
-		padding: 70px 0;
-		background-size: auto 1000px;
+	#signup-box-container {
+		padding: 120px 0;
+		background-size: auto 700px;
 	}
 
 	#login-box {
+		width: 360px;
 		position: auto;
 	}
 }

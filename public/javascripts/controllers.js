@@ -56,6 +56,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 					if (err.loginEmail) {
 						$scope.emailError = err.loginEmail[0];
 						$scope.email = null;
+						$scope.password = null;
 					}
 					else {
 						$scope.passwordError = err.loginPassword[0];

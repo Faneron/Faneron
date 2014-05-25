@@ -93,12 +93,19 @@ h1, h2, h3, h4, h5, h6 {
 
 .navbar-brand,
 .navbar .container-fluid ul li a {
-	padding: 20px 25px 16px 25px;
-	line-height: 24px;
+	padding: 20px 30px 16px 30px;
+	line-height: 22px;
+  font-size: 18px;
+  letter-spacing: 4px;
 }
 
 .navbar-brand {
   font-size: 32px;
+  height: 100%;
+  padding: 0 30px 0 0;
+}
+
+.navbar-brand img {
   height: 100%;
 }
 
@@ -135,16 +142,44 @@ h1, h2, h3, h4, h5, h6 {
 
 .profile-link {
   background: url('/images/_0002_Profile.png') no-repeat;
-  background-size: 30px 30px;
+}
+
+.messages-link {
+  background: url('/images/_0001_Message.png') no-repeat;
+}
+
+.search-link {
+  background: url('/images/_0003_Search.png') no-repeat;
+}
+
+.profile-link, .messages-link, .search-link {
+  background-size: auto 20px;
   background-position: center;
-  width: 60px;
+  margin: 0;
+  float: left;
   -webkit-transition: 0.25s linear;
   -moz-transition: 0.25s linear;
   -o-transition: 0.25s linear;
   transition: 0.25s linear;
 }
 
-.navbar .container-fluid ul li a.profile-link:hover {
+.icon-nav {
+  padding-right: 80px;
+}
+
+.navbar .container-fluid ul li a.profile-link, 
+.navbar .container-fluid ul li a.messages-link,
+.navbar .container-fluid ul li a.search-link {
+  height: 20px;
+  width: 20px;
+  padding: 0 18px;
+  margin-top: 20px;
+}
+
+/* Prevent default hover behavior */
+.navbar .container-fluid ul li a.profile-link:hover, 
+.navbar .container-fluid ul li a.messages-link:hover,
+.navbar .container-fluid ul li a.search-link:hover {
   /* Prevent default background highlighting of nav links */
   background-color: transparent;
   -webkit-transform: scale(1.1);
@@ -218,9 +253,23 @@ button.navbar-toggle {
   border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
-@media (max-width: 800px) {
+@media (max-width: 950px) {
+  .container-fluid {
+    border: none;
+  }
   .faneron-container {
     width: 100%;
+  }
+  .navbar-brand,
+  .navbar .container-fluid ul li a {
+    padding: 20px 20px 16px 20px;
+    letter-spacing: 3px;
+  }
+  .navbar-brand {
+    padding: 0 20px 0 0;
+  }
+  .icon-nav {
+    padding-right: 10px;
   }
 }
 
@@ -231,13 +280,13 @@ button.navbar-toggle {
 }
 
 /* Bootstrap hack for navbar collapsing -___- */
-@media (min-width: 768px) {
+@media (min-width: 767px) {
   .collapse {
     display: block;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .navbar-nav {
     border-left: 1px solid rgba(0, 0, 0, 0.33);
     border-bottom: 1px solid rgba(0, 0, 0, 0.33);
