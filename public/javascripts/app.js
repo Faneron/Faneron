@@ -29,7 +29,7 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 			})
 			.state('profile', {
 				// will add user ids to this later
-				url: '/profile',
+				url: '/users/:username',
 				templateUrl: '/partials/profile',
 				controller: 'profileCtrl'
 			})

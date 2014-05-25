@@ -16,7 +16,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			$http({method: 'POST', url: '/signup', data: $scope.config})
 				.success(function(data) {
 					// Load the profile state
-					$state.go(data.redirect);
+					$state.go(data.redirect, {username: data.params});
 				})
 				.error(function(err) {
 					if (err.signupEmail) {
@@ -48,7 +48,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			$http({method: 'POST', url: '/login', data: $scope.config})
 				.success(function(data) {
 					console.log(data);
-					$state.go(data.redirect);
+					$state.go(data.redirect, {username: data.params});
 				})
 				.error(function(err) {
 					console.log("Error: ");
@@ -65,14 +65,15 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		};
 	}])
 
-	.controller('profileCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
+	.controller('profileCtrl', ['$scope', '$http', '$state', '$stateParams', function($scope, $http, $state, $stateParams) {
+		console.log($stateParams);
 		// Fetching dummy data for now
-		$http({method: 'GET', url: '/userData'})
+		$http({method: 'GET', url: '/userData/' + $stateParams.username})
 			.success(function(data) {
 				$scope.info=data;
-				console.log(data._id);
+				console.log(data);
 			})
-			.error(function() {console.log('No')});
+			.error(function() {console.log("Log the FUCK in!")});
 	}])
 
 	.controller('exploreCtrl', ['$scope', '$http', function($scope, $http) {

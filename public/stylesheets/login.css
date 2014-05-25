@@ -42,7 +42,7 @@
 
 @media (max-width: 800px) {
 	#login-box-container, 
-	#signup-box-container {
+	#signup-box-container	 {
 		padding: 70px 0;
 		background-size: auto 1000px;
 	}

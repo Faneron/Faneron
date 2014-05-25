@@ -6,6 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose'),
     UserModel = require('./models/user');
+var CommentModel = require('./models/comment');
+var ProjectModel = require('./models/project');
+
 
 var passport = require('passport');
 
@@ -42,7 +45,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback() {
     // create schemas and models in here
-    //UserModel.loadData();
+    ProjectModel.loadData();
 });
 mongoose.connect('mongodb://localhost/test');
 
@@ -72,7 +75,7 @@ app.post('/signup', function(req, res, next) {
     })(req, res, next)}, 
     function(req, res) {
         console.log("Session: " + req.user);
-        res.send(200, {redirect: 'profile'});
+        res.send(200, {redirect: 'profile', params: req.user.username});
     }
 );
 
@@ -95,11 +98,11 @@ app.post('/login', function(req, res, next) {
     })(req, res, next)},
     function(req, res) {
         console.log("Session: " + req.user);
-        res.send(200, {redirect: 'profile'});
+        res.send(200, {redirect: 'profile', params: req.user.username});
     });
 
 /* current user's dummy data */
-app.get('/userData', loggedIn, users.userData);
+app.get('/userData/:username', loggedIn, users.userData);
 
 // app.get('/login', routes.login);
 // Catch-all for base website layout

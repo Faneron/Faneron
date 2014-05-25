@@ -55,5 +55,5 @@ var loadData = function() {
 	});
 }
 
-exports.User = mongoose.model('User', userSchema);;
+exports.User = mongoose.model('User', userSchema);
 exports.loadData = loadData;
