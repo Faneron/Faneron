@@ -2,7 +2,7 @@
 extends layout
 
 block body
-	.navbar.navbar-fixed-top(role="navigation")
+	.navbar.navbar-fixed-top(role="navigation", ng-controller="navCtrl")
 		.container-fluid
 			.navbar-header
 				button(type="button", data-toggle="collapse", data-target=".myNav").navbar-toggle
@@ -11,7 +11,7 @@ block body
 					span.icon-bar
 					span.icon-bar
 				a.navbar-brand(href="/")
-					img(src="./images/_0000_Faneron.png")
+					img(src="/images/_0000_Faneron.png")
 			.navbar-collapse.collapse
 				//- .collapse.in thing is a total hack, but hey, it works! :)
 				ul.nav.navbar-nav.collapse.in.myNav 
@@ -19,9 +19,9 @@ block body
 					li: a(href='#') THINK
 					li: a(href='#') STUDIO
 					li: a(href='#') WHY
-				ul.nav.navbar-nav.navbar-right.icon-nav.collapse.in.myNav
+				ul.nav.navbar-nav.navbar-right.icon-nav.collapse.in.myNav(ng-if="loggedIn")
 					li: a(href="/").search-link 
-						a(href="/").profile-link 
+						a(ng-href="/users/{{data.username}}").profile-link 
 						a(href="/").messages-link
 	#wrapper(ui-view)
 	script $('.collapse').collapse();

@@ -2,8 +2,9 @@
 .project-wrapper
 	.faneron-container
 		.project-header
-			h1.project-title {{project.title}}
-			h3.project-description {{project.description}}
+			h1.project-title {{info.title}}
+			//- Fix dis shit lata
+			h3.project-description {{info.genre}}
 		.project-nav
 			.container-fluid
 				ul.nav.nav-pills
@@ -11,6 +12,5 @@
 					li: a gameplay
 					li: a artwork
 					li: a lore
-					li: a updates
 		.project-info(ui-view)
 

@@ -3,6 +3,10 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 		// $urlRouterProvider.otherwise('/');
 		$stateProvider
+			.state('err', {
+				url: '/err',
+				templateUrl: '/partials/error'
+			})
 			.state('front', {
 				url: '/',
 				templateUrl: '/partials/frontpage'

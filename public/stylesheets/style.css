@@ -15,9 +15,14 @@ body {
   font-weight: 300;
 }
 
-li a, .navbar-brand {
+.nav, .navbar-brand {
 	font-family: 'Dolce Vita Light', sans-serif;
   letter-spacing: 1px
+}
+
+.nav-pills {
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: auto;
 }
 
 h1, h2, h3, h4, h5, h6 {

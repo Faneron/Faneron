@@ -1,5 +1,18 @@
 // Controllers
 angular.module('faneronControllers', ['faneronServices', 'ui.router'])
+
+	.controller('navCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
+		$scope.loggedIn = false;
+		$http({method: 'GET', url: '/login/current'})
+			.success(function(data) {
+				$scope.data = data;
+				$scope.loggedIn = true;
+			})
+			.error(function(err) {
+				console.log(err);
+				$scope.loggedIn = false;
+			});
+	}])
 	
 	.controller('signupCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
 		// Waiting for http post route to create a user
@@ -71,8 +84,8 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		// Fetching dummy data for now
 		$http({method: 'GET', url: '/userData/' + $stateParams.username})
 			.success(function(data) {
-				$scope.info=data;
-				console.log(data);
+				if (!data) $state.go('err');
+				else $scope.info = data;
 			})
 			.error(function() {console.log("Log the FUCK in!")});
 	}])
@@ -103,20 +116,29 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 
 	.controller('projectCtrl', ['$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {
 		// Dummy data (will pull from mongo later on)
-		$scope.user = {
-			"name": "Quan Nguyen",
-			"username": "macomac",
-			"followers": 2561,
-			"id": 23
-		};
-		$scope.project = {
-			"id": 5,
-			"title": "Quanville",
-			"description": "Much sexy gameplay for great justice of farming and quan business work project lemons and dandelion seed pokemon master.",
-			"cover_image_id": 13,
-			"genres": ["open world", "farm orgy"]
-		};
+		// $scope.user = {
+		// 	"name": "Quan Nguyen",
+		// 	"username": "macomac",
+		// 	"followers": 2561,
+		// 	"id": 23
+		// };
+		// $scope.project = {
+		// 	"id": 5,
+		// 	"title": "Quanville",
+		// 	"description": "Much sexy gameplay for great justice of farming and quan business work project lemons and dandelion seed pokemon master.",
+		// 	"cover_image_id": 13,
+		// 	"genres": ["open world", "farm orgy"]
+		// };
 		$scope.id = $stateParams.id;
+		$http({method: 'GET', url: '/projectData/' + $stateParams.id})
+			.success(function(data) {
+				$scope.info = data;
+				console.log("Project info received");
+				console.log($scope.info);
+			}).
+			error(function(err) {
+				console.log(err);
+			});
 	}]);
 
 

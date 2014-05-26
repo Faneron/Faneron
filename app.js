@@ -14,6 +14,7 @@ var passport = require('passport');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var projects = require('./routes/projects');
 var session = require('express-session')
 
 var passwordHash = require('password-hash');
@@ -57,6 +58,12 @@ function loggedIn(req, res, next) {
     res.send(401);
   }
 };
+
+// Use this on front end to determine if the user is logged in
+app.get('/login/current', loggedIn, function(req, res, next) {
+    console.log('You are logged in');
+    res.send(200, req.user);
+});
 
 // Set up route to auth using local-signup
 app.post('/signup', function(req, res, next) {
@@ -102,6 +109,8 @@ app.post('/login', function(req, res, next) {
 
 /* current user's dummy data */
 app.get('/userData/:username', loggedIn, users.userData);
+
+app.get('/projectData/:id', loggedIn, projects.projectData);
 
 // app.get('/login', routes.login);
 // Catch-all for base website layout
