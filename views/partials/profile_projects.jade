@@ -1,5 +1,5 @@
 //- Nested ui-view for user projects
-h1(ng-if="!projects[0]") No projects yet!
+h1(ng-if="projects.length === 0") No projects yet!
 a(ui-sref=".new"): button.btn.btn-primary Add a project
 <div ui-view> </div>
 .projects-container

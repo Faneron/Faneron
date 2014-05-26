@@ -3,14 +3,12 @@
 	.faneron-container
 		.project-header
 			h1.project-title {{info.title}}
-			//- Fix dis shit lata
-			h3.project-description {{info.genre}}
+			h3 {{info.tagline}}
 		.project-nav
-			.container-fluid
-				ul.nav.nav-pills
-					li: a home
-					li: a gameplay
-					li: a artwork
-					li: a lore
-		.project-info(ui-view)
-
+			ul.nav.nav-pills
+				li(ui-sref-active="active"): a(ui-sref=".description") home
+				li: a gameplay
+				li: a artwork
+				li: a lore
+				li: a comments
+		<div class="project-info" ui-view> </div>

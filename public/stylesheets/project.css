@@ -1,17 +1,27 @@
+.project-header {
+	margin-bottom: 40px;
+}
+
 .project-title {
 	font-size: 48px;
 	margin: 10px auto;
 }
 
-.project-description {
-	font-size: 20px;
-	color: rgba(0, 0, 0, 0.5);
+/* Same as profile nav */
+.project-nav {
+	background-color: white;
+	position: relative;
+	z-index: 997;
+	left: -50px;
+	top: 0;
+	display: inline-block;
+	margin-bottom: 20px;
+	box-shadow: 0 0 8px rgba(51, 51, 51, 0.45);
 }
 
-.project-nav ul.nav.nav-pills li a  {
-	border-top: 1px solid rgba(0, 0, 0, 0.5);
-	margin-top: 20px;
-	font-family: 'Open Sans', sans-serif;
-	padding: 10px 25px;
+@media (max-width: 550px) {
+	.project-nav {
+		left: -30px;
+		margin: 10px auto;
+	}
 }
-

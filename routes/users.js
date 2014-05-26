@@ -13,3 +13,13 @@ exports.userData = function(req, res) {
 		}
 	});
 };
+
+exports.userDataById = function(req, res) {
+	UserModel.User.findById(req.params.id, function(error, user) {
+		if (error) console.log(error);
+		else {
+			console.log("User data by id received");
+			res.send(user);
+		}
+	});
+}

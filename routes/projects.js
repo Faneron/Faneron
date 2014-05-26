@@ -28,7 +28,6 @@ exports.getUsersProjects = function(req, res) {
 			ProjectModel.Project.find({userID: user._id}, function(err, data) {
 				if (err) console.log("Error: " + err);
 				else {
-					console.log(data);
 					res.send(data);
 				}
 			});

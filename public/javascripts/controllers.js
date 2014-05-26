@@ -90,6 +90,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 	}])
 
 	.controller('profileProjectsCtrl', ['$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {
+		console.log($stateParams.username);
 		$http({method: 'GET', url: '/allProjects/' + $stateParams.username})
 			.success(function(data) {
 				console.log(data);
@@ -98,7 +99,6 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 	}])
 
 	.controller('newProjectCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
-		$scope.blah = "blah";
 		$scope.createProject = function() {
 			$scope.config = {
 				title: $scope.title,
@@ -148,7 +148,11 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			.success(function(data) {
 				$scope.info = data;
 				console.log("Project info received");
-				console.log($scope.info);
+				$http({method: 'GET', url: '/userId/' + $scope.info.userID})
+					.success(function(data) {
+						// User that made this project
+						$scope.user = data;
+					});
 			}).
 			error(function(err) {
 				console.log(err);

@@ -107,8 +107,10 @@ app.post('/login', function(req, res, next) {
         res.send(200, {redirect: 'profile', params: req.user.username});
     });
 
-/* current user's dummy data */
+/* get user's data by username */
 app.get('/userData/:username', loggedIn, users.userData);
+// get user's data by id
+app.get('/userId/:id', loggedIn, users.userDataById);
 
 app.get('/projectData/:id', loggedIn, projects.projectData);
 app.get('/allProjects/:username', loggedIn, projects.getUsersProjects);
