@@ -80,14 +80,42 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 	}])
 
 	.controller('profileCtrl', ['$scope', '$http', '$state', '$stateParams', function($scope, $http, $state, $stateParams) {
-		console.log($stateParams);
-		// Fetching dummy data for now
+		// Fetching user's data for that particular page
 		$http({method: 'GET', url: '/userData/' + $stateParams.username})
 			.success(function(data) {
 				if (!data) $state.go('err');
 				else $scope.info = data;
 			})
 			.error(function() {console.log("Log the FUCK in!")});
+	}])
+
+	.controller('profileProjectsCtrl', ['$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {
+		$http({method: 'GET', url: '/allProjects/' + $stateParams.username})
+			.success(function(data) {
+				console.log(data);
+				$scope.projects = data;
+			});
+	}])
+
+	.controller('newProjectCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
+		$scope.blah = "blah";
+		$scope.createProject = function() {
+			$scope.config = {
+				title: $scope.title,
+				tagline: $scope.tagline,
+				genre: $scope.genre,
+				description: $scope.description
+			}
+			console.log($scope.config);
+			$http({method: 'POST', url:'/projects', data: $scope.config})
+				.success(function(data) {
+					console.log('Success!');
+					$state.go('profile.projects');
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+		}
 	}])
 
 	.controller('exploreCtrl', ['$scope', '$http', function($scope, $http) {
@@ -115,20 +143,6 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 	}])
 
 	.controller('projectCtrl', ['$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {
-		// Dummy data (will pull from mongo later on)
-		// $scope.user = {
-		// 	"name": "Quan Nguyen",
-		// 	"username": "macomac",
-		// 	"followers": 2561,
-		// 	"id": 23
-		// };
-		// $scope.project = {
-		// 	"id": 5,
-		// 	"title": "Quanville",
-		// 	"description": "Much sexy gameplay for great justice of farming and quan business work project lemons and dandelion seed pokemon master.",
-		// 	"cover_image_id": 13,
-		// 	"genres": ["open world", "farm orgy"]
-		// };
 		$scope.id = $stateParams.id;
 		$http({method: 'GET', url: '/projectData/' + $stateParams.id})
 			.success(function(data) {

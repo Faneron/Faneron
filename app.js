@@ -111,6 +111,8 @@ app.post('/login', function(req, res, next) {
 app.get('/userData/:username', loggedIn, users.userData);
 
 app.get('/projectData/:id', loggedIn, projects.projectData);
+app.get('/allProjects/:username', loggedIn, projects.getUsersProjects);
+app.post('/projects', loggedIn, projects.createProject);
 
 // app.get('/login', routes.login);
 // Catch-all for base website layout

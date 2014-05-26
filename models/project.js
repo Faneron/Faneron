@@ -5,9 +5,14 @@ var Schema = mongoose.Schema;
 
 // Set up and create schema -> model
 var projectSchema = new mongoose.Schema({
+	userID: Schema.Types.ObjectId,
 	title: String,
+	tagline: String,
 	genre: String,
-	comments: [String]
+	description: String,
+	lore: String,
+	gameplay: String,
+	views: Number
 });
 
 
@@ -21,28 +26,12 @@ projectSchema.methods.addComment = function(text) {
 	this.save();
 }
 
-var Project = mongoose.model('Project', projectSchema);
-
-// Proof of concept dummy
-var loadData = function() {
-	var project = new Project({
-		title: "Project1",
-		genre: "adventure",
-		comments: []
-	});
-	project.save(function(err, data) {
-		if (err) console.log(err);
-		else {
-			console.log(data);
-			Project.findById(data._id, function(err, project) {
-				console.log("Found! " + project);
-				project.addComment('YES');
-				project.save();
-				console.log("Edited: " + project);
-			});
-		}
-	});
+// Edit the specified field by giving it the specified text
+projectSchema.methods.edit = function(field, text) {
+	this[field] = text;
+	this.save();
 }
 
+var Project = mongoose.model('Project', projectSchema);
+
 exports.Project = Project;
-exports.loadData = loadData;

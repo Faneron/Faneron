@@ -1,9 +1,10 @@
 //- Nested ui-view for user projects
-.thumbnail-box-wrapper
-	.thumbnail-box
-.thumbnail-box-wrapper
-	.thumbnail-box
-.thumbnail-box-wrapper
-	.thumbnail-box
-.thumbnail-box-wrapper
-	.thumbnail-box
+h1(ng-if="!projects[0]") No projects yet!
+a(ui-sref=".new"): button.btn.btn-primary Add a project
+<div ui-view> </div>
+.projects-container
+	.thumbnail-box-wrapper(ng-repeat='project in projects')
+		.thumbnail-box
+			.thumbnail-overlay: h1 {{project.title}}
+				h2: small {{project.genre}}
+				a(class='overlay-button-container' ng-href='/projects/{{project._id}}'): button.btn.btn-primary(type='submit') See More
