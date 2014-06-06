@@ -3,7 +3,8 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 
 	.controller('navCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
 		$scope.loggedIn = false;
-		$http({method: 'GET', url: '/login/current'})
+		$scope.$on('$stateChangeSuccess', function() {
+			$http({method: 'GET', url: '/login/current'})
 			.success(function(data) {
 				$scope.data = data;
 				$scope.loggedIn = true;
@@ -12,6 +13,18 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				console.log(err);
 				$scope.loggedIn = false;
 			});
+		});
+		
+		$scope.logout = function() {
+			$http({method: 'GET', url: '/logout'})
+				.success(function(data) {
+					console.log(data);
+					$state.go(data.redirect);
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+		}
 	}])
 	
 	.controller('signupCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {

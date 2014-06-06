@@ -107,6 +107,12 @@ app.post('/login', function(req, res, next) {
         res.send(200, {redirect: 'profile', params: req.user.username});
     });
 
+// Route to log user out
+app.get('/logout', function(req, res) {
+    req.logout();
+    res.send(200, {redirect: 'front'});
+});
+
 /* get user's data by username */
 app.get('/userData/:username', loggedIn, users.userData);
 // get user's data by id

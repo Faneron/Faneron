@@ -119,19 +119,20 @@ h1, h2, h3, h4, h5, h6 {
   background-color: white;
 }
 
-.navbar-brand:hover {
+/*.navbar .container-fluid ul li a:hover {
+	background-color: white;
 	color: black;
-}
-
-.navbar .container-fluid ul li a:hover {
-	background-color: black;
-	color: white;
-}
+}*/
 
 /* disable highlighting for the active link */
-.navbar .container-fluid ul li.active a:hover {
+/*.navbar .container-fluid ul li.active a:hover {
   background-color: transparent;
   color: black;
+}*/
+
+li a p small {
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 
 /* used by ui-sref-active */
@@ -143,6 +144,7 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   top: -5px;
 }
+
 /* end used by ui-sref-active */
 
 .profile-link {
@@ -157,7 +159,19 @@ h1, h2, h3, h4, h5, h6 {
   background: url('/images/_0003_Search.png') no-repeat;
 }
 
-.profile-link, .messages-link, .search-link {
+.logout-link {
+  padding-left: 20px;
+  height: 100%;
+  float: left;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.navbar .container-fluid ul li a.logout-link:hover {
+  background-color: transparent;
+}
+
+.profile-link, .messages-link, .search-link, .logout-link {
   background-size: auto 20px;
   background-position: center;
   margin: 0;
@@ -179,6 +193,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 20px;
   padding: 0 18px;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 /* Prevent default hover behavior */

@@ -23,5 +23,6 @@ block body
 					li: a(href="/").search-link 
 						a(ng-href="/users/{{data.username}}").profile-link 
 						a(href="/").messages-link
+						a(ng-click="logout()").logout-link: small Log Out
 	#wrapper(ui-view)
 	script $('.collapse').collapse();
