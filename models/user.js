@@ -57,3 +57,7 @@ var loadData = function() {
 
 exports.User = mongoose.model('User', userSchema);
 exports.loadData = loadData;
+
+/*
+ * An upvote adds 1 currency and 1 XP.
+ */

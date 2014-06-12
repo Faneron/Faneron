@@ -35,3 +35,8 @@ projectSchema.methods.edit = function(field, text) {
 var Project = mongoose.model('Project', projectSchema);
 
 exports.Project = Project;
+
+/*
+ * How to specify the nested pattern of comments? Maybe as a nest of JSON objects?
+ *
+ */
