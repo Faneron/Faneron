@@ -12,7 +12,8 @@ var projectSchema = new mongoose.Schema({
 	description: String,
 	lore: String,
 	gameplay: String,
-	views: Number
+	views: {type: Number, default: 0},
+	comments: {Schema.Types.ObjectId}
 });
 
 
@@ -39,4 +40,15 @@ exports.Project = Project;
 /*
  * How to specify the nested pattern of comments? Maybe as a nest of JSON objects?
  *
+ * Schema: Project
+ * ---------------
+ * Description:
+ *
+ *
+ * Field: userID
+ * -------------
+ * userID: Required
+ * 		Type: 
+ * 		Description:
+ * 		Default:
  */
