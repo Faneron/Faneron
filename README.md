@@ -19,6 +19,7 @@ Models:
 
 	Project Schema:
 		- User ID (who created this project)
+		- Time Stamp
 		- Title
 		- Subheading/tagline
 		- Main Description
@@ -34,13 +35,17 @@ Models:
 			function editText(field, text) // edit a text field such as title, subheading, descriptions...
 			function addImage(url) // upload local file to Amazon, add image to the project
 			function addComment(text) // add a comment to the project
+			function deleteImage(url)
 
 	Comment Schema:
 		- User ID (who wrote the comment)
 		- Project ID (what comment this project is on)
 		- Time Stamp (when was it created)
 		- Score (upvotes)
+		- Replies
+		- Removed (boolean)
 		- Methods:
 			function edit(text) // edit the text of the comment
 			function delete() // remove this comment from the project (will actually just remove the text, a la reddit)
+
 

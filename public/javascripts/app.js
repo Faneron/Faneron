@@ -72,7 +72,12 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 				.state('profile.art', {
 					url: '/art',
 					templateUrl: '/partials/profile_art'
-				});
+				})
+			.state('new_project', {
+				url: '/projects/new',
+				templateUrl: '/partials/profile_projects_new',
+				controller: 'newProjectCtrl'
+			});
 	}])
 
 	// Removes hash (#) from URL

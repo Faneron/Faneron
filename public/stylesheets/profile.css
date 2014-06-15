@@ -161,7 +161,6 @@ there's a 2px margin between pills*/
 .thumbnail-overlay .btn.btn-primary {
 	background-color: black;
 	border: 1px solid white;
-	-webkit-transition: 0.25s all ease;
 	width: 100%;
 	font-weight: 300;
 }
@@ -188,6 +187,7 @@ there's a 2px margin between pills*/
 	padding: 40px auto;
 	z-index: 998;
 	background-color: rgba(0, 0, 0, 0.9);
+	overflow: scroll;
 }
 
 .large-overlay {
@@ -199,10 +199,15 @@ there's a 2px margin between pills*/
 	top: 150px;
 	background-color: white;
 	z-index: 999;
+	position: relative;
 }
 
 .large-overlay textarea {
 	resize: none;
+}
+
+span[ui-sref="profile.projects"] {
+	cursor: pointer;
 }
 
 /* responsiveness-ish */

@@ -6,6 +6,7 @@ var Schema = mongoose.Schema;
 // Set up and create schema -> model
 var projectSchema = new mongoose.Schema({
 	userID: Schema.Types.ObjectId,
+	time: Date,
 	title: String,
 	tagline: String,
 	genre: String,

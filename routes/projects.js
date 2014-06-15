@@ -39,6 +39,7 @@ exports.createProject = function(req, res) {
 	console.log(req.body);
 	var project = new ProjectModel.Project({
 		userID: req.user._id, // currently logged in user
+		tim: new Date(),
 		title: req.body.title,
 		genre: req.body.genre,
 		tagline: req.body.tagline,

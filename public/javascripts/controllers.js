@@ -1,4 +1,4 @@
-// Controllers
+	// Controllers
 angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 
 	.controller('navCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
@@ -129,6 +129,10 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 					console.log(err);
 				});
 		}
+		// allow us to hit escape to go back to projects page
+		document.onkeydown = function(event) {
+			if (event.keyCode === 27) $state.go('profile.projects');
+		} 
 	}])
 
 	.controller('exploreCtrl', ['$scope', '$http', function($scope, $http) {
@@ -160,6 +164,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		$http({method: 'GET', url: '/projectData/' + $stateParams.id})
 			.success(function(data) {
 				$scope.info = data;
+				$scope.moment = moment($scope.info.time).format("MMMM DD YYYY");
 				console.log("Project info received");
 				$http({method: 'GET', url: '/userId/' + $scope.info.userID})
 					.success(function(data) {
