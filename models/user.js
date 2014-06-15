@@ -58,6 +58,44 @@ var loadData = function() {
 exports.User = mongoose.model('User', userSchema);
 exports.loadData = loadData;
 
-/*
- * An upvote adds 1 currency and 1 XP.
+/* Schema: User
+ * ------------
+ * Description: Each User represents a Faneron user. Each User has login
+ * information that is filled in while signing up. Users also have currency
+ * and experience (XP) which change based upon a user's behavior. Finally,
+ * users have an array of Comments that they have posted and an array of
+ * Projects they have made. 
+ *
+ * Field: info
+ * Subfields: firstName, lastName, email, username, password
+ * ---------------------------------------------------------
+ * info: Required
+ *		Type: Object
+ *		Description: Contains login information about the user
+ *		Default: N/A
+ * 
+ * ** firstName: Required
+ *		Type: String
+ *		Description: The User's real first name. Cannot be an empty string.
+ *		Default: N/A
+ *
+ * ** lastName: Required
+ *		Type: String
+ *		Description: The User's real last name. Cannot be an empty string.
+ *		Default: N/A
+ *
+ * ** email: Required
+ *		Type: String
+ *		Description: The User's email. Cannot be an empty string.
+ *		Default: N/A
+ *
+ * ** username: Required
+ *		Type: String
+ *		Description: The User's chosen username. Cannot be an empty string.
+ *		Default: N/A
+ *
+ * ** password: Required
+ *		Type: String
+ *		Description: The User's chosen password. Must be at least 8 characters.
+ *		Default: N/A
  */
