@@ -51,3 +51,12 @@ exports.createProject = function(req, res) {
 	project.save();
 	res.send(200);
 }
+
+exports.getAllProjects = function(req, res) {
+	ProjectModel.Project.find(function(err, data) {
+		if (err) console.log("error with getting all projects");
+		else {
+			res.send(data);
+		}
+	});
+}

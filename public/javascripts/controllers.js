@@ -102,16 +102,19 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			.error(function() {console.log("Log the FUCK in!")});
 	}])
 
-	.controller('profileProjectsCtrl', ['$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {
+	.controller('profileProjectsCtrl', ['$scope', '$state', '$http', '$stateParams', function($scope, $state, $http, $stateParams) {
 		console.log($stateParams.username);
 		$http({method: 'GET', url: '/allProjects/' + $stateParams.username})
 			.success(function(data) {
 				console.log(data);
 				$scope.projects = data;
+				data.forEach(function(data) {
+					data.time = moment(data.time).format("MMMM DD, YYYY");
+				});
 			});
 	}])
 
-	.controller('newProjectCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
+	.controller('newProjectCtrl', ['$scope', '$http', '$state', '$stateParams', function($scope, $http, $state, $stateParams) {
 		$scope.createProject = function() {
 			$scope.config = {
 				title: $scope.title,
@@ -119,44 +122,47 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				genre: $scope.genre,
 				description: $scope.description
 			}
-			console.log($scope.config);
 			$http({method: 'POST', url:'/projects', data: $scope.config})
 				.success(function(data) {
-					console.log('Success!');
-					$state.go('profile.projects');
+					// Do this instead of $state.go in order to reload parent state
+					$state.transitionTo('profile.projects', $stateParams, {
+					    reload: true,
+					    inherit: false,
+					    notify: true
+					});
 				})
 				.error(function(err) {
 					console.log(err);
 				});
 		}
+		$scope.overlay = document.getElementById('large-overlay').getBoundingClientRect();
 		// allow us to hit escape to go back to projects page
 		document.onkeydown = function(event) {
 			if (event.keyCode === 27) $state.go('profile.projects');
-		} 
+		}
+		document.getElementById('large-overlay-wrapper').onclick = function(event) {
+			// click on the black part to go back
+			var rect = $scope.overlay;
+			var clickX = event.clientX;
+			var clickY = event.clientY;
+			if ((clickX < rect.left || clickX > rect.right) && (clickY > rect.top || clickY < rect.bottom)) {	
+				$state.go('profile.projects');
+			}
+		}
 	}])
 
 	.controller('exploreCtrl', ['$scope', '$http', function($scope, $http) {
-		$scope.projects = 
-			[{
-				"title": "SexyProject1",
-				"description": "This project is so motherfucking sexy I can't even hold it in right now.",
-				"created": "5/13/2014"
-			},
-			{
-				"title": "SexyProject2",
-				"description": "This project is so motherfucking sexy I can't even hold it in right now.",
-				"created": "5/15/2014"
-			},
-			{
-				"title": "SexyProject3",
-				"description": "This project is so motherfucking sexy I can't even hold it in right now.",
-				"created": "4/13/2013"
-			},
-			{
-				"title": "SexyProject4",
-				"description": "This project is so motherfucking sexy I can't even hold it in right now.",
-				"created": "lawl sex"
-			}];
+		$http({method: 'GET', url: '/projects/all'})
+			.success(function(data) {
+				console.log("got all projects");
+				$scope.projects = data;
+				data.forEach(function(data) {
+					data.time = moment(data.time).format("MMMM DD, YYYY");
+				});
+			})
+			.error(function(err) {
+				console.log(err);
+			});
 	}])
 
 	.controller('projectCtrl', ['$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {

@@ -5,6 +5,7 @@ a(ui-sref=".new"): button.btn.btn-primary Add a project
 .projects-container
 	.thumbnail-box-wrapper(ng-repeat='project in projects')
 		.thumbnail-box
-			.thumbnail-overlay: h1 {{project.title}}
-				h2: small {{project.genre}}
+			.thumbnail-overlay: h2 {{project.title}}
+				h5 Created {{project.time}}
+				h3 {{project.genre}}
 				a(class='overlay-button-container' ng-href='/projects/{{project._id}}'): button.btn.btn-primary(type='submit') See More

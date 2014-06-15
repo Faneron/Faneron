@@ -110,6 +110,7 @@ there's a 2px margin between pills*/
 /* Projects page of profile */
 .projects-container {
 	margin-top: 20px;
+	height: auto;
 }
 
 .thumbnail-box-wrapper {
@@ -128,7 +129,9 @@ there's a 2px margin between pills*/
 	background-size: cover;
 	position: absolute;
 	width: 90%;
+	margin-left: 5%;
 	height: 90%;
+	margin-top: 5%;
 }
 
 .thumbnail-overlay {
@@ -206,6 +209,19 @@ there's a 2px margin between pills*/
 	resize: none;
 }
 
+.overlay-close-button {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+	font-size: 150%;
+	-webkit-transition: 0.1s all ease-in;
+	transition: 0.1s all ease-in;
+}
+
+.overlay-close-button:hover {
+	-webkit-transform: scale3d(1.2, 1.2, 1.2);
+}
+
 span[ui-sref="profile.projects"] {
 	cursor: pointer;
 }
@@ -243,3 +259,9 @@ span[ui-sref="profile.projects"] {
 	}
 }
 
+@media (max-width: 500px) {
+	.thumbnail-box-wrapper {
+		width: 100%;
+		padding-bottom: 100%;
+	}
+}

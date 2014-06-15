@@ -14,7 +14,7 @@ var projectSchema = new mongoose.Schema({
 	lore: String,
 	gameplay: String,
 	views: {type: Number, default: 0},
-	comments: {Schema.Types.ObjectId}
+	comments: [Schema.Types.ObjectId]
 });
 
 

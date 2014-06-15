@@ -1,6 +1,10 @@
 .faneron-container
 	h1 Explore
-	.project-container(ng-repeat="project in projects")
-		h2 Title: {{project.title}}
-		h3 Created: {{project.created}}
-		p Description: {{project.description}}
+	.projects-container
+		.thumbnail-box-wrapper(ng-repeat="project in projects")
+			.thumbnail-box
+				.thumbnail-overlay
+					h2 {{project.title}}
+					h5 Created {{project.time}}
+					h3 {{project.genre}}
+					a(class='overlay-button-container' ng-href='/projects/{{project._id}}'): button.btn.btn-primary See More

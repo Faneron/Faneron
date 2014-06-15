@@ -19,6 +19,10 @@
 	box-shadow: 0 0 8px rgba(51, 51, 51, 0.45);
 }
 
+.project-container {
+	margin: 10px auto;
+}
+
 @media (max-width: 550px) {
 	.project-nav {
 		left: -30px;

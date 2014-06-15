@@ -120,6 +120,7 @@ app.get('/userId/:id', loggedIn, users.userDataById);
 
 app.get('/projectData/:id', loggedIn, projects.projectData);
 app.get('/allProjects/:username', loggedIn, projects.getUsersProjects);
+app.get('/projects/all', loggedIn, projects.getAllProjects);
 app.post('/projects', loggedIn, projects.createProject);
 
 // app.get('/login', routes.login);

@@ -1,6 +1,6 @@
-.large-overlay-wrapper
-	.large-overlay
-		span(ui-sref="profile.projects") &#10006;
+.large-overlay-wrapper#large-overlay-wrapper
+	.large-overlay#large-overlay
+		span(ui-sref="profile.projects").overlay-close-button &#10006;
 		h1 Create Project
 		form(ng-submit='createProject()')
 			input.form-control(type='text', ng-model='title', placeholder='title' required autofocus)

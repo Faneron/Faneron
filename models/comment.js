@@ -9,12 +9,12 @@ var commentSchema = new Schema({
 		subject: String, // Subject line of an original comment
 		comment: String, // Text of the comment itself
 		original: Boolean, // Indicates whether original comment or not
-	}
+	},
 	vote: {
 		votes: Number,
 		upvoters: [Schema.Types.ObjectId],
 		downvoters: [Schema.Types.ObjectId]
-	}
+	},
 	timestamp: {type: Date, default: Date.now}, // Time the comment was posted; defaults to the time it was created
 	deleted: {type: Boolean, default: false},  // Whether the user has deleted the post; default is false
 	flag: {type: Boolean, default: false} // Marks the comment as spam -- maybe a number? -- will we have to know who marked it?
