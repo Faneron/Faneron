@@ -98,4 +98,33 @@ exports.loadData = loadData;
  *		Type: String
  *		Description: The User's chosen password. Must be at least 8 characters.
  *		Default: N/A
+ *
+ * Field: currency
+ * ---------------
+ * currency: Required
+ *		Type: Number
+ *		Description: The amount of currency a User has earned.
+ *		Default: 0
+ *
+ * Field: xp
+ * ---------
+ * xp: Required
+ *		Type: Number
+ * 		Description: The number of experience points (xp) the User has.
+ *		Default: 0
+ *
+ * Field: projects
+ * ---------------
+ * projects: Optional
+ * 		Type: Array
+ *		Description: An array of Project Object IDs created by this User.
+ *		Default: N/A
+ *
+ * Field: comments
+ * ---------------
+ * comments: Optional
+ * 		Type: Array
+ *		Description: An array of Comment Object IDs created by this User.
+ *		Default: N/A
+ *
  */
