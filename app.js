@@ -10,15 +10,13 @@ var CommentModel = require('./models/comment');
 var ProjectModel = require('./models/project');
 
 
-var passport = require('passport');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var projects = require('./routes/projects');
 var session = require('express-session')
 
-var passwordHash = require('password-hash');
-var flash = require('connect-flash');
+//var passwordHash = require('password-hash');
 
 var app = express();
 
@@ -36,10 +34,9 @@ app.use(bodyParser());
 app.use(session({ secret: 'anything' }));
 
 // passport config
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
-require('./config/passport')(passport, flash); // pass passport for configuration;
+var passport = require('passport');
+var flash = require('connect-flash');
+require('./config/passport')(passport, flash, app); // pass passport for configuration;
 
 // Setting up mongoose
 var db = mongoose.connection;

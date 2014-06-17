@@ -4,12 +4,16 @@
  */
 
 // load passport-related modules
-LocalStrategy = require('passport-local').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 
 // load User-related modules
 var UserModel = require('../models/user');
 
-module.exports = function(passport) {
+module.exports = function(passport, flash, app) {
+	app.use(passport.initialize());
+	app.use(passport.session());
+	app.use(flash());
+
 	// used to serialize the user for the session
 	passport.serializeUser(function(user, done) {
 	    done(null, user._id);
