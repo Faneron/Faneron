@@ -16,7 +16,7 @@ var userSchema = new mongoose.Schema({
 		username: String,
 		email: String,
 		password: String
-	}
+	},
 	currency: {type: Number, default: 0},
 	xp: {type: Number, default: 0},
 	projects: [Schema.Types.ObjectId],

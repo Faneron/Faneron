@@ -16,7 +16,7 @@ var commentSchema = new Schema({
 	},
 
 	vote: {
-		votes: {type: Number, default: 0}
+		votes: {type: Number, default: 0},
 		upvoters: [Schema.Types.ObjectId],
 		downvoters: [Schema.Types.ObjectId]
 	},
