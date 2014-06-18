@@ -102,6 +102,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			.error(function() {console.log("Log the FUCK in!")});
 	}])
 
+	// !!! Marked for future alterations
 	.controller('profileProjectsCtrl', ['$scope', '$state', '$http', '$stateParams', function($scope, $state, $http, $stateParams) {
 		console.log($stateParams.username);
 		$http({method: 'GET', url: '/allProjects/' + $stateParams.username})
@@ -122,7 +123,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				genre: $scope.genre,
 				description: $scope.description
 			}
-			$http({method: 'POST', url:'/projects', data: $scope.config})
+			$http({method: 'POST', url:'/project/create', data: $scope.config})
 				.success(function(data) {
 					// Do this instead of $state.go in order to reload parent state
 					$state.transitionTo('profile.projects', $stateParams, {

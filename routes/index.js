@@ -1,7 +1,18 @@
+/* FILE: routes/index.js
+ * ---------------------
+ * An index for other routes modules.
+ */
+
+module.exports = function(app) {
+	require('./project')(app);
+	//require('./users')(app);
+	//require('./auth')(app);
+};
+
 // Holds all node routes (to deal with angular routing and http requests)
 
-var express = require('express');
-var router = express.Router();
+//var express = require('express');
+//var router = express.Router();
 
 // Basic load page
 exports.index = function(req, res){

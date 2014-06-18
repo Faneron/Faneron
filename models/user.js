@@ -17,7 +17,7 @@ var userSchema = new mongoose.Schema({
 		email: String,
 		password: String
 	},
-	status: {
+	rank: {
 		currency: {type: Number, default: 0},
 		xp: {type: Number, default: 0}
 	},

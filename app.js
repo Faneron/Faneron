@@ -1,3 +1,8 @@
+/* FILE: app.js
+ * ------------
+ * Launches the node.js web server.
+ */
+
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
@@ -33,9 +38,12 @@ var passport = require('passport');
 var flash = require('connect-flash');
 require('./config/passport')(passport, flash, app); // pass passport for configuration;
 
-// Setting up mongoose
+// Mongoose
 var mongoose = require('mongoose');
 require('./models/index')(mongoose);
+
+// Routes
+require('./routes/index.js')(app);
 
 function loggedIn(req, res, next) {
   if (req.user) {
@@ -106,15 +114,15 @@ app.get('/userData/:username', loggedIn, users.userData);
 // get user's data by id
 app.get('/userId/:id', loggedIn, users.userDataById);
 
-app.get('/projectData/:id', loggedIn, projects.projectData);
-app.get('/allProjects/:username', loggedIn, projects.getUsersProjects);
-app.get('/projects/all', loggedIn, projects.getAllProjects);
-app.post('/projects', loggedIn, projects.createProject);
+// app.get('/projectData/:id', loggedIn, projects.projectData);
+// app.get('/allProjects/:username', loggedIn, projects.getUsersProjects);
+// app.get('/projects/all', loggedIn, projects.getAllProjects);
+// app.post('/projects', loggedIn, projects.createProject);
 
 // app.get('/login', routes.login);
 // Catch-all for base website layout
-app.get('/partials/:name', routes.partials);
-app.get('*', routes.index);
+//app.get('/partials/:name', routes.partials);
+//app.get('*', routes.index);
 
 
 /// catch 404 and forwarding to error handler

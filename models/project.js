@@ -12,9 +12,9 @@ var projectSchema = new mongoose.Schema({
 		genre: String,
 		description: String,
 		lore: String,
-		gameplay: String
+		gameplay: String,
+		timestamp: {type: Date, default: Date.now}
 	},
-	timestamp: {type: Date, default: Date.now},
 	views: {type: Number, default: 0},
 	comments: Schema.Types.Mixed
 });
