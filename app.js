@@ -4,14 +4,11 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose'),
-    UserModel = require('./models/user');
-var CommentModel = require('./models/comment');
-var ProjectModel = require('./models/project');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var projects = require('./routes/projects');
+
 var session = require('express-session')
 
 //var passwordHash = require('password-hash');
@@ -37,12 +34,8 @@ var flash = require('connect-flash');
 require('./config/passport')(passport, flash, app); // pass passport for configuration;
 
 // Setting up mongoose
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error'));
-db.once('open', function callback() {
-    // create schemas and models in here
-});
-mongoose.connect('mongodb://localhost/test');
+var mongoose = require('mongoose');
+require('./models/index')(mongoose);
 
 function loggedIn(req, res, next) {
   if (req.user) {
