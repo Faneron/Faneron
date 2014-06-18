@@ -9,8 +9,6 @@ var mongoose = require('mongoose'),
 var CommentModel = require('./models/comment');
 var ProjectModel = require('./models/project');
 
-
-
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var projects = require('./routes/projects');
