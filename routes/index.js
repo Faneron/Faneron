@@ -3,25 +3,40 @@
  * An index for other routes modules.
  */
 
-module.exports = function(app) {
-	require('./project')(app);
-	//require('./users')(app);
-	//require('./auth')(app);
-};
+module.exports = function(app, passport) {
+	var projectHandlers = require('./project');
+	var userHandlers = require('./users');
+	var authHandlers = require('./auth');
 
-// Holds all node routes (to deal with angular routing and http requests)
+	// Auth Routes
+	app.post('/auth/login', authHandlers.authLogin, authHandlers.authLoginRedirect);
 
-//var express = require('express');
-//var router = express.Router();
+	app.get('/auth/create', authHandlers.authCreate, authHandlers.authLoginRedirect);
 
-// Basic load page
-exports.index = function(req, res){
-    res.render('index', {title: 'Express'});
-};
+	app.get('/auth/isAuthenticated', authHandlers.isLoggedIn, authHandlers.authIsAuthenticated);
 
-// Render all partials by name
-exports.partials = function(req, res) {
-    var name = req.params.name;
-    console.log("Loaded partial");
-    res.render('partials/' + name);
+	app.get('/auth/logout', authHandlers.authLogout);
+
+	// User Routes
+	app.get('/user/get/:id', authHandlers.isLoggedIn, userHandlers.get);
+
+	app.get('/user/projects/:id', authHandlers.isLoggedIn, userHandlers.projects);
+
+	app.get('/user/comments/:id', authHandlers.isLoggedIn, userHandlers.comments);
+
+	app.post('/user/update/:id', authHandlers.isLoggedIn, authHandlers.update);
+
+	// Project Routes
+	app.get('/project/get/:id', authHandlers.isLoggedIn, projectHandlers.projectGet);
+
+	app.post('/project/create', authHandlers.isLoggedIn, projectHandlers.projectCreate);
+
+	app.post('/project/update/:id', authHandlers.isLoggedIn, projectHandlers.projectUpdate);
+
+	app.post('/project/delete/:id', authHandlers.isLoggedIn, projectHandlers.projectDelete);
+
+	// Defaut routes
+	app.get('/login', defaultHandlers.login);
+
+	app.get('*', defaultHandlers.index);
 };

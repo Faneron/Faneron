@@ -1,25 +1,57 @@
-var express = require('express');
-var router = express.Router();
 var UserModel = require('../models/user');
+var ProjectModel = require('../models/project');
 
 // Routing associated with users
-exports.userData = function(req, res) {
+exports.get = function(req, res) {
 	console.log(req.user);
-	UserModel.User.findOne ({"username": req.params.username}, function(error, user) {
-		if (error) console.log(error);
+	var dbSearchQuery;
+	if(req.params.id !== undefined) {
+		dbSearchQuery = {'_id' : req.params.id};
+	} else {
+		dbSearchQuery = {'username' : req.body.username};
+	}
+	UserModel.USer.findOne(dbSearchQuery, 'projects', function(err, user) {
+		if(err) console.log(err);
 		else {
 			console.log("User data retrieved!");
 			res.send(user);
 		}
 	});
+}
+
+exports.projects = function(req, res) {
+	console.log(req.user);
+	// Outer callback - Returns a User with only the projects field
+	UserModel.User
+	.findById(req.params.id)
+	.select('projects')
+	.populate('projects')
+	.exec(function(err, doc) {
+		if(err) console.log(err);
+		res.send(doc.projects);
+	});
 };
 
-exports.userDataById = function(req, res) {
-	UserModel.User.findById(req.params.id, function(error, user) {
-		if (error) console.log(error);
-		else {
-			console.log("User data by id received");
-			res.send(user);
+exports.comments = function(req, res) {
+	console.log(req.user);
+	UserModel.User
+	.findById(req.params.id)
+	.select('comments')
+	.populate('comments')
+	.exec(function(err, doc) {
+		if(err) console.log(err);
+		res.send(doc.comments);
+	})
+}
+
+exports.update = function(req, res) {
+	console.log(req.user);
+	UserModel.User.findById(req.params.id, function(err, doc) {
+		if(err) console.log(err);
+		for(var field in doc) {
+			if(doc.hasOwnProperty(field)) {
+				doc[field] = req.params[field];
+			}
 		}
-	});
+	})
 }
