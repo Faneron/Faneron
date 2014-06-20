@@ -3,8 +3,6 @@
  * Manages routing for authorization and authentication.
  */
 
-var UserModel = require('../models/user');
-
 exports.isLoggedIn = function(req, res, next) {
 	if(req.user) {
 		console.log(req.user);
@@ -15,7 +13,7 @@ exports.isLoggedIn = function(req, res, next) {
 	}
 };
 
-exports.authLogin = function(req, res, next) {
+exports.login = function(req, res, next) {
 	passport.authenticate('local-login', function(err, user, info) {
 	    if (err) return next(error);
 	    // Auth strategy returns no user if either email not found or password invalid
@@ -33,12 +31,12 @@ exports.authLogin = function(req, res, next) {
 	})(req, res, next)
 };
 
-exports.authLoginRedirect = function(req, res) {
+exports.loginRedirect = function(req, res) {
     console.log("Session: " + req.user);
     res.send(200, {redirect: 'profile', params: req.user.username});
 };
 
-exports.authCreate = function(req, res, next) {
+exports.create = function(req, res, next) {
 	passport.authenticate('local-signup', function(err, user, info) {
         if (err) return next(error);
         // Auth strategy returns no user if the email is already taken
@@ -53,13 +51,13 @@ exports.authCreate = function(req, res, next) {
     })(req, res, next)
 };
 
-exports.authIsAuthenticated = function(req, res) {
+exports.isAuthenticated = function(req, res) {
 	console.log('You are logged in');
 	res.send(200, req.user);
 }
 
 // Route to log user out
-exports.authLogout = function(req, res) {
+exports.logout = function(req, res) {
     req.logout();
     res.send(200, {redirect: 'front'});
 };

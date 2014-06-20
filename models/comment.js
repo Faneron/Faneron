@@ -5,9 +5,15 @@ var Schema = mongoose.Schema;
 
 var commentSchema = new Schema({
 
-	userID: Schema.Types.ObjectId,
+	_user: {
+		type: Schema.Types.ObjectId,
+		ref: 'User'
+	},
 
-	projectID: Schema.Types.ObjectId,
+	_project: {
+		type: Schema.Types.ObjectId,
+		ref: 'Project'
+	},
 
 	text: {
 		subject: String,

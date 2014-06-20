@@ -36,7 +36,7 @@ require('./config/passport')(passport, flash, app); // pass passport for configu
 
 // Mongoose
 var mongoose = require('mongoose');
-require('./models/index')(mongoose);
+require('./config/mongoose')(mongoose);
 
 // Routes
 require('./routes/index.js')(app, passport);

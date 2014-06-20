@@ -4,18 +4,20 @@
  */
 
 module.exports = function(app, passport) {
-	var projectHandlers = require('./project');
-	var userHandlers = require('./users');
-	var authHandlers = require('./auth');
+	var projectHandlers = require('./project'),
+		userHandlers = require('./user'),
+		authHandlers = require('./auth'),
+		commentHandlers = require('./comment'),
+		defaultHandlers = require('./default');
 
 	// Auth Routes
-	app.post('/auth/login', authHandlers.authLogin, authHandlers.authLoginRedirect);
+	app.post('/auth/login', authHandlers.login, authHandlers.loginRedirect);
 
-	app.get('/auth/create', authHandlers.authCreate, authHandlers.authLoginRedirect);
+	app.get('/auth/create', authHandlers.create, authHandlers.loginRedirect);
 
-	app.get('/auth/isAuthenticated', authHandlers.isLoggedIn, authHandlers.authIsAuthenticated);
+	app.get('/auth/isAuthenticated', authHandlers.isLoggedIn, authHandlers.isAuthenticated);
 
-	app.get('/auth/logout', authHandlers.authLogout);
+	app.get('/auth/logout', authHandlers.logout);
 
 	// User Routes
 	app.get('/user/get/:id', authHandlers.isLoggedIn, userHandlers.get);
@@ -24,19 +26,39 @@ module.exports = function(app, passport) {
 
 	app.get('/user/comments/:id', authHandlers.isLoggedIn, userHandlers.comments);
 
-	app.post('/user/update/:id', authHandlers.isLoggedIn, authHandlers.update);
+	app.post('/user/update/:id', authHandlers.isLoggedIn, userHandlers.update);
 
 	// Project Routes
-	app.get('/project/get/:id', authHandlers.isLoggedIn, projectHandlers.projectGet);
+	app.get('/project/get/:id', authHandlers.isLoggedIn, projectHandlers.get);
 
-	app.post('/project/create', authHandlers.isLoggedIn, projectHandlers.projectCreate);
+	app.post('/project/create', authHandlers.isLoggedIn, projectHandlers.create);
 
-	app.post('/project/update/:id', authHandlers.isLoggedIn, projectHandlers.projectUpdate);
+	app.post('/project/update/:id', authHandlers.isLoggedIn, projectHandlers.update);
 
-	app.post('/project/delete/:id', authHandlers.isLoggedIn, projectHandlers.projectDelete);
+	app.post('/project/delete/:id', authHandlers.isLoggedIn, projectHandlers.delete);
+
+	app.get('/project/comments/:id', authHandlers.isLoggedIn, projectHandlers.comments);
+
+	app.get('/project/user/:id', authHandlers.isLoggedIn, projectHandlers.user); // need to implement
+
+	// Comment Routes
+	app.get('/comment/get/:id', authHandlers.isLoggedIn, commentHandlers.get);
+
+	app.post('/comment/create', authHandlers.isLoggedIn, commentHandlers.create);
+
+	app.post('/comment/update/:id', authHandlers.isLoggedIn, commentHandlers.update);
+
+	app.post('/comment/delete/:id', authHandlers.isLoggedIn, commentHandlers.delete);
+
+	app.get('/commment/user/:id', authHandlers.isLoggedIn, commentHandlers.user);
+
+	app.get('/comment/project/:id', authHandlers.isLoggedIn, commentHandlers.project);
+
+	app.post('/comment/project/:id', authHandlers.isLoggedIn, commentHandlers.flag);
+
 
 	// Defaut routes
-	app.get('/login', defaultHandlers.login);
+	app.get('/partials/:name', defaultHandlers.partials);
 
 	app.get('*', defaultHandlers.index);
 };

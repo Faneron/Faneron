@@ -1,3 +1,7 @@
+/* FILE: routes/users.js
+ * ---------------------
+ */
+
 var UserModel = require('../models/user');
 var ProjectModel = require('../models/project');
 
@@ -8,16 +12,16 @@ exports.get = function(req, res) {
 	if(req.params.id !== undefined) {
 		dbSearchQuery = {'_id' : req.params.id};
 	} else {
-		dbSearchQuery = {'username' : req.body.username};
+		dbSearchQuery = {'username' : req.params.username};
 	}
-	UserModel.USer.findOne(dbSearchQuery, 'projects', function(err, user) {
+	UserModel.User.findOne(dbSearchQuery, 'projects', function(err, user) {
 		if(err) console.log(err);
 		else {
 			console.log("User data retrieved!");
 			res.send(user);
 		}
 	});
-}
+};
 
 exports.projects = function(req, res) {
 	console.log(req.user);
@@ -42,7 +46,7 @@ exports.comments = function(req, res) {
 		if(err) console.log(err);
 		res.send(doc.comments);
 	})
-}
+};
 
 exports.update = function(req, res) {
 	console.log(req.user);
@@ -54,4 +58,4 @@ exports.update = function(req, res) {
 			}
 		}
 	})
-}
+};
