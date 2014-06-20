@@ -5,17 +5,24 @@ var Schema = mongoose.Schema;
 
 // Set up and create schema -> model
 var projectSchema = new mongoose.Schema({
-	userID: Schema.Types.ObjectId,
+
+	_user: { // probably want to rename to _user
+		type: Schema.Types.ObjectId,
+		ref: 'User'
+	},
+
 	info: {
 		title: String,
 		tagline: String,
 		genre: String,
 		description: String,
 		lore: String,
-		gameplay: String
+		gameplay: String,
+		timestamp: {type: Date, default: Date.now}
 	},
-	timestamp: {type: Date, default: Date.now},
+
 	views: {type: Number, default: 0},
+
 	comments: Schema.Types.Mixed
 });
 

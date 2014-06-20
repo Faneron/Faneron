@@ -4,7 +4,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 	.controller('navCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
 		$scope.loggedIn = false;
 		$scope.$on('$stateChangeSuccess', function() {
-			$http({method: 'GET', url: '/login/current'})
+			$http({method: 'GET', url: '/auth/isAuthenticated'})
 			.success(function(data) {
 				$scope.data = data;
 				$scope.loggedIn = true;
@@ -16,7 +16,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		});
 		
 		$scope.logout = function() {
-			$http({method: 'GET', url: '/logout'})
+			$http({method: 'GET', url: '/auth/logout'})
 				.success(function(data) {
 					console.log(data);
 					$state.go(data.redirect);
@@ -39,7 +39,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				password: $scope.password,
 				confirm: $scope.confirm
 			};
-			$http({method: 'POST', url: '/signup', data: $scope.config})
+			$http({method: 'POST', url: '/auth/create', data: $scope.config})
 				.success(function(data) {
 					// Load the profile state
 					$state.go(data.redirect, {username: data.params});
@@ -71,7 +71,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				password: $scope.password
 			};
 			console.log($scope.config);
-			$http({method: 'POST', url: '/login', data: $scope.config})
+			$http({method: 'POST', url: '/auth/login', data: $scope.config})
 				.success(function(data) {
 					console.log(data);
 					$state.go(data.redirect, {username: data.params});
@@ -94,7 +94,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 
 	.controller('profileCtrl', ['$scope', '$http', '$state', '$stateParams', function($scope, $http, $state, $stateParams) {
 		// Fetching user's data for that particular page
-		$http({method: 'GET', url: '/userData/' + $stateParams.username})
+		$http({method: 'GET', url: '/user/get/' + $stateParams.username}, params: {})
 			.success(function(data) {
 				if (!data) $state.go('err');
 				else $scope.info = data;
@@ -102,6 +102,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			.error(function() {console.log("Log the FUCK in!")});
 	}])
 
+	// !!! Marked for future alterations
 	.controller('profileProjectsCtrl', ['$scope', '$state', '$http', '$stateParams', function($scope, $state, $http, $stateParams) {
 		console.log($stateParams.username);
 		$http({method: 'GET', url: '/allProjects/' + $stateParams.username})
@@ -122,7 +123,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				genre: $scope.genre,
 				description: $scope.description
 			}
-			$http({method: 'POST', url:'/projects', data: $scope.config})
+			$http({method: 'POST', url:'/project/create', data: $scope.config})
 				.success(function(data) {
 					// Do this instead of $state.go in order to reload parent state
 					$state.transitionTo('profile.projects', $stateParams, {

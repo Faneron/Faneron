@@ -1,16 +1,64 @@
-// Holds all node routes (to deal with angular routing and http requests)
+/* FILE: routes/index.js
+ * ---------------------
+ * An index for other routes modules.
+ */
 
-var express = require('express');
-var router = express.Router();
+module.exports = function(app, passport) {
+	var projectHandlers = require('./project'),
+		userHandlers = require('./user'),
+		authHandlers = require('./auth'),
+		commentHandlers = require('./comment'),
+		defaultHandlers = require('./default');
 
-// Basic load page
-exports.index = function(req, res){
-    res.render('index', {title: 'Express'});
-};
+	// Auth Routes
+	app.post('/auth/login', authHandlers.login, authHandlers.loginRedirect);
 
-// Render all partials by name
-exports.partials = function(req, res) {
-    var name = req.params.name;
-    console.log("Loaded partial");
-    res.render('partials/' + name);
+	app.get('/auth/create', authHandlers.create, authHandlers.loginRedirect);
+
+	app.get('/auth/isAuthenticated', authHandlers.isLoggedIn, authHandlers.isAuthenticated);
+
+	app.get('/auth/logout', authHandlers.logout);
+
+	// User Routes
+	app.get('/user/get/:id', authHandlers.isLoggedIn, userHandlers.get);
+
+	app.get('/user/projects/:id', authHandlers.isLoggedIn, userHandlers.projects);
+
+	app.get('/user/comments/:id', authHandlers.isLoggedIn, userHandlers.comments);
+
+	app.post('/user/update/:id', authHandlers.isLoggedIn, userHandlers.update);
+
+	// Project Routes
+	app.get('/project/get/:id', authHandlers.isLoggedIn, projectHandlers.get);
+
+	app.post('/project/create', authHandlers.isLoggedIn, projectHandlers.create);
+
+	app.post('/project/update/:id', authHandlers.isLoggedIn, projectHandlers.update);
+
+	app.post('/project/delete/:id', authHandlers.isLoggedIn, projectHandlers.delete);
+
+	app.get('/project/comments/:id', authHandlers.isLoggedIn, projectHandlers.comments);
+
+	app.get('/project/user/:id', authHandlers.isLoggedIn, projectHandlers.user); // need to implement
+
+	// Comment Routes
+	app.get('/comment/get/:id', authHandlers.isLoggedIn, commentHandlers.get);
+
+	app.post('/comment/create', authHandlers.isLoggedIn, commentHandlers.create);
+
+	app.post('/comment/update/:id', authHandlers.isLoggedIn, commentHandlers.update);
+
+	app.post('/comment/delete/:id', authHandlers.isLoggedIn, commentHandlers.delete);
+
+	app.get('/commment/user/:id', authHandlers.isLoggedIn, commentHandlers.user);
+
+	app.get('/comment/project/:id', authHandlers.isLoggedIn, commentHandlers.project);
+
+	app.post('/comment/project/:id', authHandlers.isLoggedIn, commentHandlers.flag);
+
+
+	// Defaut routes
+	app.get('/partials/:name', defaultHandlers.partials);
+
+	app.get('*', defaultHandlers.index);
 };

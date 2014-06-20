@@ -4,12 +4,16 @@
  */
 
 // load passport-related modules
-LocalStrategy = require('passport-local').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 
 // load User-related modules
 var UserModel = require('../models/user');
 
-module.exports = function(passport) {
+module.exports = function(passport, flash, app) {
+	app.use(passport.initialize());
+	app.use(passport.session());
+	app.use(flash());
+
 	// used to serialize the user for the session
 	passport.serializeUser(function(user, done) {
 	    done(null, user._id);
@@ -22,13 +26,14 @@ module.exports = function(passport) {
 	    });
 	});
 
+	// Local strategy for a user to sign up
 	passport.use('local-signup', new LocalStrategy({
 	    usernameField: 'email',
 	    passwordField: 'password',
 	    passReqToCallback : true // allows us to pass back the entire request to the callback
 	},
 	function(req, email, password, done) {
-	    // Doing this as an asynchronous thingy
+	    // Validates and creates User
 	    process.nextTick(function() {
 	    	console.log(req.body);
 	        UserModel.User.findOne({ "email": email }, function(err, user) {
@@ -40,10 +45,10 @@ module.exports = function(passport) {
 	            if (req.body.confirm != req.body.password)
         			return done(null, false, req.flash('signupPassword', 'Passwords do not match!'));
 	            else {
-	            	// Check if username is taken
 	            	UserModel.User.findOne({"username": req.body.username}, function(err, result) {
 	            		console.log("results:");
 	            		console.log(result);
+	            		// Check if username is taken
 	            		if (result) {
 	            			return done(null, false, req.flash('signupUsername', 'This username is already taken!'));
 	            		}
@@ -62,7 +67,8 @@ module.exports = function(passport) {
 	        });
 	    });
 	}));
-
+	
+	// Local strategy for a user to login
 	passport.use('local-login', new LocalStrategy({
 		usernameField: 'email',
 		passwordField: 'password',
@@ -74,11 +80,12 @@ module.exports = function(passport) {
 			UserModel.User.findOne({ "email": email }, function(err, user) {
 				if (err) 
 					return done(err);
+				// Checks if email is valid
 				if (!user) 
 					return done(null, false, req.flash('loginEmail', 'Email was not found!'));
+				// Checks if password is valid
 				if (!user.validatePassword(password))
 					return done(null, false, req.flash('loginPassword', 'Password is invalid!'));
-				// finish
 				return done(null, user);
 			});
 		});

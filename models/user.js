@@ -10,17 +10,29 @@ var passwordHash = require('password-hash');
  * The following section defines the User schema and model.
  */ 
 var userSchema = new mongoose.Schema({
+
 	info: {
 		firstName: String,
 		lastName: String,
 		username: String,
 		email: String,
 		password: String
-	}
-	currency: {type: Number, default: 0},
-	xp: {type: Number, default: 0},
-	projects: [Schema.Types.ObjectId],
-	comments: [Schema.Types.ObjectId]
+	},
+
+	rank: {
+		currency: {type: Number, default: 0},
+		xp: {type: Number, default: 0}
+	},
+
+	projects: [{
+		type: Schema.Types.ObjectId,
+		ref: 'Project'
+	}],
+
+	comments: [{
+		type: Schema.Types.ObjectId,
+		ref: 'Comment'
+	}]
 });
 
 /* Function: generateHash
