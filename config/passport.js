@@ -3,6 +3,8 @@
  * Sets configuration for passport.js
  */
 
+console.log("passport loading");
+
 // load passport-related modules
 var LocalStrategy = require('passport-local').Strategy;
 
@@ -14,6 +16,7 @@ module.exports = function(passport, flash, app) {
 	app.use(passport.session());
 	app.use(flash());
 
+	console.log("configuring serialize/deserialize");
 	// used to serialize the user for the session
 	passport.serializeUser(function(user, done) {
 	    done(null, user._id);
@@ -27,6 +30,7 @@ module.exports = function(passport, flash, app) {
 	});
 
 	// Local strategy for a user to sign up
+	console.log("configuring local signup strategy");
 	passport.use('local-signup', new LocalStrategy({
 	    usernameField: 'email',
 	    passwordField: 'password',
@@ -36,7 +40,7 @@ module.exports = function(passport, flash, app) {
 	    // Validates and creates User
 	    process.nextTick(function() {
 	    	console.log(req.body);
-	        UserModel.User.findOne({ "email": email }, function(err, user) {
+	        UserModel.User.findOne({ "info.email": email }, function(err, user) {
 	            if (err) return done(err);
 	            // checks if user with that email already exists
 	            if (user)
@@ -45,7 +49,7 @@ module.exports = function(passport, flash, app) {
 	            if (req.body.confirm != req.body.password)
         			return done(null, false, req.flash('signupPassword', 'Passwords do not match!'));
 	            else {
-	            	UserModel.User.findOne({"username": req.body.username}, function(err, result) {
+	            	UserModel.User.findOne({"info.username": req.body.username}, function(err, result) {
 	            		console.log("results:");
 	            		console.log(result);
 	            		// Check if username is taken
@@ -54,9 +58,9 @@ module.exports = function(passport, flash, app) {
 	            		}
 	            		else {
 			                var user = new UserModel.User;
-			                user.email = email;
-			                user.password = user.generateHash(password);
-			                user.username = req.body.username;
+			                user.info.email = email;
+			                user.info.password = user.generateHash(password);
+			                user.info.username = req.body.username;
 			                user.save(function(err) {
 			                    if (err) throw err;
 			                    return done(null, user); 
@@ -68,6 +72,7 @@ module.exports = function(passport, flash, app) {
 	    });
 	}));
 	
+	console.log("configuring local login strategy");
 	// Local strategy for a user to login
 	passport.use('local-login', new LocalStrategy({
 		usernameField: 'email',
@@ -77,18 +82,24 @@ module.exports = function(passport, flash, app) {
 	function(req, email, password, done) {
 		// Doing this as an async thing
 		process.nextTick(function() {
-			UserModel.User.findOne({ "email": email }, function(err, user) {
-				if (err) 
+			UserModel.User.findOne({ "info.email": email }, function(err, user) {
+				if (err) {
+					console.log(err);
 					return done(err);
+				}
 				// Checks if email is valid
-				if (!user) 
+				if (!user) {
 					return done(null, false, req.flash('loginEmail', 'Email was not found!'));
+				}
 				// Checks if password is valid
-				if (!user.validatePassword(password))
+				if (!user.validatePassword(password)) {
 					return done(null, false, req.flash('loginPassword', 'Password is invalid!'));
+				}
 				return done(null, user);
 			});
 		});
 	}));
 
 };
+
+console.log("passport loaded");

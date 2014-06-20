@@ -3,9 +3,13 @@
  * Manages routing for authorization and authentication.
  */
 
+var passport = require('passport');
+var flash = require('connect-flash');
+var app = require('../app');
+require('../config/passport');
+
 exports.isLoggedIn = function(req, res, next) {
 	if(req.user) {
-		console.log(req.user);
 		next();
 	} else {
 		console.log('Log in please');
@@ -15,10 +19,15 @@ exports.isLoggedIn = function(req, res, next) {
 
 exports.login = function(req, res, next) {
 	passport.authenticate('local-login', function(err, user, info) {
-	    if (err) return next(error);
+    	console.log("um so... error?");
+	    if (err) {
+			console.log("it worked...?");
+	    	return next(err);
+	    }
 	    // Auth strategy returns no user if either email not found or password invalid
 	    if (!user) {
 	        // Weird bug thing -_-, have to declare var
+	        console.log("no user found");
 	        var message = req.flash(''); // get any flash messages sent by passport
 	        console.log(message);
 	        res.send(500, message);
@@ -32,11 +41,13 @@ exports.login = function(req, res, next) {
 };
 
 exports.loginRedirect = function(req, res) {
+	console.log("what");
     console.log("Session: " + req.user);
-    res.send(200, {redirect: 'profile', params: req.user.username});
+    res.send(200, {redirect: 'profile', params: req.user.info.username});
 };
 
 exports.create = function(req, res, next) {
+	console.log(passport);
 	passport.authenticate('local-signup', function(err, user, info) {
         if (err) return next(error);
         // Auth strategy returns no user if the email is already taken
@@ -52,7 +63,6 @@ exports.create = function(req, res, next) {
 };
 
 exports.isAuthenticated = function(req, res) {
-	console.log('You are logged in');
 	res.send(200, req.user);
 }
 

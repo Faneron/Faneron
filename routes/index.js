@@ -2,8 +2,7 @@
  * ---------------------
  * An index for other routes modules.
  */
-
-module.exports = function(app, passport) {
+module.exports = function(app) {
 	var projectHandlers = require('./project'),
 		userHandlers = require('./user'),
 		authHandlers = require('./auth'),
@@ -13,16 +12,16 @@ module.exports = function(app, passport) {
 	// Auth Routes
 	app.post('/auth/login', authHandlers.login, authHandlers.loginRedirect);
 
-	app.get('/auth/create', authHandlers.create, authHandlers.loginRedirect);
+	app.post('/auth/create', authHandlers.create, authHandlers.loginRedirect);
 
 	app.get('/auth/isAuthenticated', authHandlers.isLoggedIn, authHandlers.isAuthenticated);
 
 	app.get('/auth/logout', authHandlers.logout);
 
 	// User Routes
-	app.get('/user/get/:id', authHandlers.isLoggedIn, userHandlers.get);
+	app.get('/user/get/:username', authHandlers.isLoggedIn, userHandlers.get);
 
-	app.get('/user/projects/:id', authHandlers.isLoggedIn, userHandlers.projects);
+	app.get('/user/projects/:username', authHandlers.isLoggedIn, userHandlers.projects);
 
 	app.get('/user/comments/:id', authHandlers.isLoggedIn, userHandlers.comments);
 

@@ -4,36 +4,49 @@
  */
 
 var ProjectModel = require('../models/project');
+var UserModel = require('../models/user');
 
-// Implementation not complete -- see docs
+// Implementation not complete -- see docs (FIXED!)
 exports.get = function(req, res) {
 	console.log(req.route.path);
-	ProjectModel.Project.findById(req.params.id, function(err, data) {
-	if (err) {
-		console.log("Error: " + err);
-	} else {
-		console.log(data);
-		data.views++;
-		data.save();
-		res.send(data);
-	}
-	});
+	ProjectModel.Project.findById(req.params.id)
+		.populate('_user')
+		.exec(function(err, data) {
+			if (err) console.log(err);
+			else {
+				console.log(data);
+				data.views++;
+				data.save();
+				res.send(data);
+			}
+		});
 };
 
 exports.create = function(req, res) {
 	console.log(req.route.path);
-	var project = new ProjectModel.Project({
-		_user: req.user._id, // currently logged in user
-		info: {
-			title: req.body.title,
-			tagline: req.body.tagline,
-			genre: req.body.genre,
-			description: req.body.description,
-			lore: req.body.lore,
-			gameplay: req.body.gameplay,
+	
+	console.log(req.user);
+	UserModel.User.findById(req.user._id, function(err, data) {
+		if (err) console.log(err);
+		else {
+			console.log(data);
+			var project = new ProjectModel.Project({
+				_user: req.user._id, // currently logged in user
+				info: {
+					title: req.body.title,
+					tagline: req.body.tagline,
+					genre: req.body.genre,
+					description: req.body.description,
+					lore: req.body.lore,
+					gameplay: req.body.gameplay,
+				}
+			});
+			project.save();
+			data.projects.push(project._id);
+			data.save();
+			console.log(data);
 		}
 	});
-	project.save();
 	res.send(200);
 };
 

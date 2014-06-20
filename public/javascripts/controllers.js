@@ -3,14 +3,13 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 
 	.controller('navCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
 		$scope.loggedIn = false;
-		$scope.$on('$stateChangeSuccess', function() {
+		$scope.$on('$stateChangeStart', function() {
 			$http({method: 'GET', url: '/auth/isAuthenticated'})
 			.success(function(data) {
 				$scope.data = data;
 				$scope.loggedIn = true;
 			})
 			.error(function(err) {
-				console.log(err);
 				$scope.loggedIn = false;
 			});
 		});
@@ -22,6 +21,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 					$state.go(data.redirect);
 				})
 				.error(function(err) {
+					console.log("couldn't log out");
 					console.log(err);
 				});
 		}
@@ -94,10 +94,10 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 
 	.controller('profileCtrl', ['$scope', '$http', '$state', '$stateParams', function($scope, $http, $state, $stateParams) {
 		// Fetching user's data for that particular page
-		$http({method: 'GET', url: '/user/get/' + $stateParams.username}, params: {})
+		$http({method: 'GET', url: '/user/get/' + $stateParams.username})
 			.success(function(data) {
 				if (!data) $state.go('err');
-				else $scope.info = data;
+				else $scope.user = data;
 			})
 			.error(function() {console.log("Log the FUCK in!")});
 	}])
@@ -105,12 +105,12 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 	// !!! Marked for future alterations
 	.controller('profileProjectsCtrl', ['$scope', '$state', '$http', '$stateParams', function($scope, $state, $http, $stateParams) {
 		console.log($stateParams.username);
-		$http({method: 'GET', url: '/allProjects/' + $stateParams.username})
+		$http({method: 'GET', url: '/user/projects/' + $stateParams.username})
 			.success(function(data) {
 				console.log(data);
 				$scope.projects = data;
 				data.forEach(function(data) {
-					data.time = moment(data.time).format("MMMM DD, YYYY");
+					data.time = moment(data.info.timestamp).format("MMMM DD, YYYY");
 				});
 			});
 	}])
@@ -166,18 +166,15 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			});
 	}])
 
+	// fix this!
 	.controller('projectCtrl', ['$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {
 		$scope.id = $stateParams.id;
-		$http({method: 'GET', url: '/projectData/' + $stateParams.id})
+		$http({method: 'GET', url: '/project/get/' + $stateParams.id})
 			.success(function(data) {
-				$scope.info = data;
-				$scope.moment = moment($scope.info.time).format("MMMM DD YYYY");
+				$scope.project = data;
+				$scope.moment = moment($scope.project.info.timestamp).format("MMMM DD YYYY");
 				console.log("Project info received");
-				$http({method: 'GET', url: '/userId/' + $scope.info.userID})
-					.success(function(data) {
-						// User that made this project
-						$scope.user = data;
-					});
+				console.log($scope.project);	
 			}).
 			error(function(err) {
 				console.log(err);

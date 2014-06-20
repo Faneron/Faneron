@@ -4,11 +4,12 @@
  */
 
 exports.partials = function(req, res) {
-	res.render('index', {title: 'Express'});
+	console.log("Loaded partial");
+	var name = req.params.name;
+	console.log(name);
+	res.render('partials/' + name);
 }
 
 exports.index = function(req, res) {
-	var name = req.params.name;
-	console.log("Loaded partial");
-	res.render('partials/' + name);
+	res.render('index', {title: 'Express'});
 };

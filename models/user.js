@@ -48,8 +48,9 @@ userSchema.methods.generateHash = function(password) {
  * Validates that the user's password is correct when logging in.
  */
  userSchema.methods.validatePassword = function(password) {
+ 	console.log(this.info.password);
  	// Finish
- 	return passwordHash.verify(password, this.password);
+ 	return passwordHash.verify(password, this.info.password);
  };
 
 /* Function: load_data

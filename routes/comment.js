@@ -21,9 +21,9 @@ exports.create = function(req, res) {
 		_user: req.params.user._id,
 		_project: req.body.project._id,
 		text: {
-			subject: req.body.subject;
-			comment: req.body.comment;
-			original: req.body.original;
+			subject: req.body.subject,
+			comment: req.body.comment,
+			original: req.body.original
 		}
 	});
 	newComment.save(function(err) {

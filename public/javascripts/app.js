@@ -8,7 +8,13 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 			})
 			.state('front', {
 				url: '/',
-				templateUrl: '/partials/frontpage'
+				templateUrl: '/partials/frontpage',
+				resolve: {
+					auth: function() {
+						console.log("yaass");
+						return;
+					}
+				}
 			})
 			.state('signup', {
 				url: '/signup',

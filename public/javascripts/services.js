@@ -6,10 +6,10 @@ angular.module('faneronServices', ['ui.router'])
 		return {
 			check: function() {
 				var deferred = $q.defer();
-				$http({method: 'GET', url: '/login/current'})
+				$http({method: 'GET', url: '/auth/isAuthenticated'})
 					.success(function(data) {
 						console.log("Yasss!");
-						$state.go('profile', {"username": data.username});
+						$state.go('profile', {"username": data.info.username});
 						deferred.reject("YAY");
 					})
 					.error(function(err) {
