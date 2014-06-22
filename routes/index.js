@@ -55,7 +55,9 @@ module.exports = function(app) {
 
 	app.post('/comment/project/:id', authHandlers.isLoggedIn, commentHandlers.flag);
 
+	app.get('/comment/upvote/:id', authHandlers.isLoggedIn, commentHandlers.upvote);
 
+	app.get('/comment/downvote/:id', authHandlers.isLoggedIn, commentHandlers.downvote);
 	// Defaut routes
 	app.get('/partials/:name', defaultHandlers.partials);
 
