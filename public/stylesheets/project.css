@@ -23,10 +23,57 @@
 	margin: 10px auto;
 }
 
+.comment {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.comment-user {
+	line-height: 140%;
+	font-size: 1.3em;
+}
+
+.comment-username {
+	font-weight: 600;
+}
+
+.comment-form {
+}
+
+.comment-form textarea {
+ 	width: 80%;
+ 	height: 100px;
+	margin: 0;
+	resize: none;
+}
+
+.comment-time {
+	font-weight: 400;
+}
+
+.vote-button {
+}
+
+.vote-button:hover {
+	-webkit-transition: 0.2s all ease-out;
+	-moz-transition: 0.2s all ease-out;
+	transition: 0.2s all ease-out;
+	color: #3a90ff;
+	-webkit-transform: scale(1.2, 1.2);
+	-moz-transform: scale(1.2, 1.2);
+	transform: scale(1.2, 1.2);
+
+}
+
 @media (max-width: 550px) {
 	.project-nav {
 		left: -30px;
 		margin: 10px auto;
 	}
+
+	.comment-form textarea {
+		height: 80px;
+	}
+
 }
 

@@ -17,6 +17,15 @@
 	float: left;
 }
 
+.basic-info .experience {
+	color: #3a90ff;
+}
+
+.basic-info > * {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
 .crop-box {
 	height: 170px;
 	width: 170px;
@@ -203,6 +212,7 @@ there's a 2px margin between pills*/
 	background-color: white;
 	z-index: 999;
 	position: relative;
+	margin-bottom: 100px;
 }
 
 .large-overlay textarea {

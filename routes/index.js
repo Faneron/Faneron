@@ -28,6 +28,9 @@ module.exports = function(app) {
 	app.post('/user/update/:id', authHandlers.isLoggedIn, userHandlers.update);
 
 	// Project Routes
+
+	app.get('/project/get/all', authHandlers.isLoggedIn, projectHandlers.all);
+
 	app.get('/project/get/:id', authHandlers.isLoggedIn, projectHandlers.get);
 
 	app.post('/project/create', authHandlers.isLoggedIn, projectHandlers.create);
@@ -55,9 +58,9 @@ module.exports = function(app) {
 
 	app.post('/comment/project/:id', authHandlers.isLoggedIn, commentHandlers.flag);
 
-	app.get('/comment/upvote/:id', authHandlers.isLoggedIn, commentHandlers.upvote);
+	app.post('/comment/upvote/:id', authHandlers.isLoggedIn, commentHandlers.upvote);
 
-	app.get('/comment/downvote/:id', authHandlers.isLoggedIn, commentHandlers.downvote);
+	app.post('/comment/downvote/:id', authHandlers.isLoggedIn, commentHandlers.downvote);
 	// Defaut routes
 	app.get('/partials/:name', defaultHandlers.partials);
 

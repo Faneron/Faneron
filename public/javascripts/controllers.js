@@ -8,6 +8,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			.success(function(data) {
 				$scope.data = data;
 				$scope.loggedIn = true;
+				console.log(data);
 			})
 			.error(function(err) {
 				$scope.loggedIn = false;
@@ -104,7 +105,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 
 	// !!! Marked for future alterations
 	.controller('profileProjectsCtrl', ['$scope', '$state', '$http', '$stateParams', function($scope, $state, $http, $stateParams) {
-		console.log($stateParams.username);
+		console.log($stateParams);
 		$http({method: 'GET', url: '/user/projects/' + $stateParams.username})
 			.success(function(data) {
 				console.log(data);
@@ -153,9 +154,10 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 	}])
 
 	.controller('exploreCtrl', ['$scope', '$http', function($scope, $http) {
-		$http({method: 'GET', url: '/projects/all'})
+		$http({method: 'GET', url: '/project/get/all'})
 			.success(function(data) {
 				console.log("got all projects");
+				console.log(data);
 				$scope.projects = data;
 				data.forEach(function(data) {
 					data.time = moment(data.time).format("MMMM DD, YYYY");
@@ -166,19 +168,63 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			});
 	}])
 
-	// fix this!
-	.controller('projectCtrl', ['$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {
-		$scope.id = $stateParams.id;
+	.controller('projectCtrl', ['$scope', '$http', '$stateParams', '$state', function($scope, $http, $stateParams, $state) {
+		$scope.showCommentForm = false;
+		$scope.show = function() {
+			$scope.showCommentForm = true;
+		}
 		$http({method: 'GET', url: '/project/get/' + $stateParams.id})
 			.success(function(data) {
 				$scope.project = data;
 				$scope.moment = moment($scope.project.info.timestamp).format("MMMM DD YYYY");
-				console.log("Project info received");
-				console.log($scope.project);	
+				$scope.comments = $scope.project._comments;
+				if ($scope.project.comments) {
+					$scope.project.comments.forEach(function(data) {
+						// data.timestamp = moment(data.timeStamp).format("MMMM DD YYYY");
+						data.timestamp = moment(data.timestamp).fromNow();
+						console.log(data);
+					});
+				}
 			}).
 			error(function(err) {
 				console.log(err);
 			});
+		$scope.addComment = function() {
+			$scope.comment = document.getElementById('comment-box').value;
+			console.log($scope.comment);
+			var config = {
+				project: $scope.project,
+				subject: null, 
+				comment: $scope.comment,
+				original: true
+			};
+			$http({method: 'POST', url: '/comment/create', data: config})
+				.success(function(data) {
+					console.log(data);
+					$state.transitionTo('project.comments', $stateParams, {
+					    reload: true,
+					    inherit: false,
+					    notify: true
+					});
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+		}
+		$scope.up = function(id) {
+			$http({method: 'POST', url: '/comment/upvote/' + id})
+				.success(function(data) {
+					for (var i = 0; i < $scope.comments.length; i++) {
+						if ($scope.comments[i]._id === data._id) {
+							$scope.comments[i].vote.votes = data.vote.votes;
+							return;
+						}
+					}
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+		}
 	}]);
 
 

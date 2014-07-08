@@ -3,6 +3,9 @@
  * Description: Route handlers where the primary object is a Comment.
  */
 
+
+console.log("configuring comment routes");
+
 var CommentModel = require('../models/comment'),
 	UserModel = require('../models/user'),
 	ProjectModel = require('../models/project');
@@ -17,8 +20,9 @@ exports.get = function(req, res) {
 
 exports.create = function(req, res) {
 	console.log(req.user);
+	console.log("creating comment");
 	var newComment = new CommentModel.Comment({
-		_user: req.params.user._id,
+		_user: req.user._id, // person who's posting it is the one logged in
 		_project: req.body.project._id,
 		text: {
 			subject: req.body.subject,
@@ -28,7 +32,20 @@ exports.create = function(req, res) {
 	});
 	newComment.save(function(err) {
 		if(err) console.log(err);
-	})
+	});
+	ProjectModel.Project.findById(req.body.project._id, function(err, doc) {
+		if (err) console.log(err);
+		else {
+			console.log(newComment._id);
+			doc._comments.push(newComment._id);
+			doc.save(function(err, doc) {
+				if (err) console.log(err);
+				else {
+					res.send(200, newComment);
+				}
+			});
+		}
+	});
 };
 
 exports.update = function(req, res) {
@@ -84,37 +101,57 @@ exports.flag = function(req, res) {
 };
 
 exports.upvote = function(req, res) {
-	console.log(req.user);
+	console.log("blah");
+
+	// CommentModel.Comment.findById(req.params.id, function(err, comment) {
+	// 	if (err) console.log(err);
+	// 	else {
+	// 		comment.vote.votes++;
+	// 		comment.save();
+	// 		console.log(comment);
+	// 		res.send(200, comment);
+	// 	}
+	// });
 
 	CommentModel.Comment.findById(req.params.id, 'vote', function(err, comment){
 		if(err) console.log(err);
 		UserModel.User.findById(req.user.id, 'rank', function(err, user){
+			console.log("User finding");
 			if(err) console.log(err);
 
 			var vote = comment.vote;
 			var rank = user.rank;
 
+
 			// if the current user has already upvoted the comment, do nothing
-			if(vote.upvoters.indexOf(req.user.id) !== -1) {
+			if(comment.vote.upvoters.indexOf(req.user.id) !== -1) {
+				console.log("already upboated");
 				res.send(204);
 				return;
 			}
 			// if the current user has already downvoted the comment, reverse the effect of the downvote
-			var downIndex = vote.downvoters.indexOf(req.user.id);
+			var downIndex = comment.vote.downvoters.indexOf(req.user.id);
 			if(downIndex !== -1) {
 				// reverse comment votes
-				vote.votes++;
-				vote.downvoters.splice(downIndex, 1);
+				comment.vote.votes++;
+				comment.vote.downvoters.splice(downIndex, 1);
+				comment.save();
 				// reverse user rank
-				rank.xp++;
+				user.rank.xp++;
+				user.save();
 			}
-			// upvote coment and increase user xp and currency each by 1
-			vote.votes++;
-			vote.upvoters.push(req.user.id);
-			rank.xp++;
-			rank.currency++;
+			// upvote comment and increase user xp and currency each by 1
+			comment.vote.votes++;
+			comment.vote.upvoters.push(req.user.id);
+			comment.save();
+			user.rank.xp++;
+			user.rank.currency++;
+			user.save();
 
-			res.send(200, req.user);
+			console.log(user);
+			console.log(comment);
+
+			res.send(200, comment);
 		});
 	});
 };
@@ -156,3 +193,5 @@ exports.downvote = function(req, res) {
 		});
 	});
 };
+
+console.log("done");
