@@ -272,6 +272,16 @@ button.navbar-toggle {
   border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
 @media (max-width: 950px) {
   .container-fluid {
     border: none;
@@ -313,5 +323,4 @@ button.navbar-toggle {
     position: relative;
   }
 }
-
 

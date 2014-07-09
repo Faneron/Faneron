@@ -65,10 +65,12 @@
 
 }
 
-@media (max-width: 550px) {
+@media (max-width: 635px) {
 	.project-nav {
-		left: -30px;
-		margin: 10px auto;
+		/*left: -30px;*/
+		margin: -10px -80px 20px 10px;
+		/*margin: 10px 0;*/
+		width: calc(100% + 70px);
 	}
 
 	.comment-form textarea {

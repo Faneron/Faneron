@@ -178,8 +178,8 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				$scope.project = data;
 				$scope.moment = moment($scope.project.info.timestamp).format("MMMM DD YYYY");
 				$scope.comments = $scope.project._comments;
-				if ($scope.project.comments) {
-					$scope.project.comments.forEach(function(data) {
+				if ($scope.comments) {
+					$scope.comments.forEach(function(data) {
 						// data.timestamp = moment(data.timeStamp).format("MMMM DD YYYY");
 						data.timestamp = moment(data.timestamp).fromNow();
 						console.log(data);
