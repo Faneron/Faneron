@@ -222,9 +222,19 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			$http({method: 'POST', url: '/comment/upvote/' + id})
 				.success(function(data) {
 					for (var i = 0; i < $scope.comments.length; i++) {
+						// Check comments to update view with new score
 						if ($scope.comments[i]._id === data._id) {
 							$scope.comments[i].vote.votes = data.vote.votes;
 							return;
+						}
+						var replies = $scope.comments[i]._replies;
+						// Check replies to update view with new score
+						if (replies) {
+							for (var j = 0; j < replies.length; j++) {
+								if (replies[j]._id === data._id) {
+									replies[j].vote.votes = data.vote.votes;
+								}
+							}
 						}
 					}
 				})
@@ -238,6 +248,15 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 					for (var i = 0; i < $scope.comments.length; i++) {
 						if ($scope.comments[i]._id === data._id) {
 							$scope.comments[i].vote.votes = data.vote.votes;
+						}
+						var replies = $scope.comments[i]._replies;
+						// Check replies to update view with new score
+						if (replies) {
+							for (var j = 0; j < replies.length; j++) {
+								if (replies[j]._id === data._id) {
+									replies[j].vote.votes = data.vote.votes;
+								}
+							}
 						}
 					}
 				})

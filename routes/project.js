@@ -29,15 +29,18 @@ exports.all = function(req, res) {
 exports.get = function(req, res) {
 	console.log(req.route.path);
 	ProjectModel.Project.findById(req.params.id)
-		.populate('_comments')
-		.populate('_user')
+		.populate('_comments _user')
+		// .populate('_user')
 		.exec(function(err, data) {
 			console.log("Project info: ");
 			console.log(data);
-			var options = {
+			var options = [{
 				path: "_comments._user",
 				model: 'User'
-			};
+			}, {
+				path: "_comments._replies",
+				model: "Comment"
+			}];
 			if (err) console.log(err);
 			else {
 				// Fix this jank-ass attempt at replies
@@ -45,9 +48,9 @@ exports.get = function(req, res) {
 				data.save();
 				ProjectModel.Project.populate(data, options, function(err, doc) {
 					var options = {
-						path: "_comments._replies",
-						model: "Comment"
-					}
+						path: '_comments._replies._user',
+						model: "User"
+					};
 					ProjectModel.Project.populate(data, options, function(err, doc) {
 						console.log(doc);
 						res.send(doc);
