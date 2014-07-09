@@ -14,4 +14,4 @@ div(ng-repeat="comment in comments").comment
 	p.comment-text {{comment.text.comment}} &nbsp;
 		strong: a(ng-click="") reply
 		i.fa.fa-fw.fa-chevron-up.vote-button(ng-click="up(comment._id)")
-		i.fa.fa-fw.fa-chevron-down.vote-button
+		i.fa.fa-fw.fa-chevron-down.vote-button(ng-click="down(comment._id)")

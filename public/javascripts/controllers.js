@@ -1,17 +1,18 @@
 	// Controllers
 angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 
-	.controller('navCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
-		$scope.loggedIn = false;
+	.controller('navCtrl', ['$scope', '$rootScope', '$http', '$state', function($scope, $rootScope, $http, $state) {
+		$rootScope.loggedIn = false;
 		$scope.$on('$stateChangeStart', function() {
 			$http({method: 'GET', url: '/auth/isAuthenticated'})
 			.success(function(data) {
-				$scope.data = data;
-				$scope.loggedIn = true;
+				$rootScope.user = data;
+				$rootScope.loggedIn = true;
 				console.log(data);
 			})
 			.error(function(err) {
-				$scope.loggedIn = false;
+				$rootScope.loggedIn = false;
+				$rootScope.user = null;
 			});
 		});
 		
@@ -93,7 +94,8 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		};
 	}])
 
-	.controller('profileCtrl', ['$scope', '$http', '$state', '$stateParams', function($scope, $http, $state, $stateParams) {
+	.controller('profileCtrl', ['$scope', '$rootScope', '$http', '$state', '$stateParams', function($scope, $rootScope, $http, $state, $stateParams) {
+		$scope.loggedInUser = $rootScope.user;
 		// Fetching user's data for that particular page
 		$http({method: 'GET', url: '/user/get/' + $stateParams.username})
 			.success(function(data) {
@@ -218,6 +220,19 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 						if ($scope.comments[i]._id === data._id) {
 							$scope.comments[i].vote.votes = data.vote.votes;
 							return;
+						}
+					}
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+		}
+		$scope.down = function(id) {
+			$http({method: 'POST', url: '/comment/downvote/' + id})
+				.success(function(data) {
+					for (var i = 0; i < $scope.comments.length; i++) {
+						if ($scope.comments[i]._id === data._id) {
+							$scope.comments[i].vote.votes = data.vote.votes;
 						}
 					}
 				})

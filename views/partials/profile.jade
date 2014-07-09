@@ -8,6 +8,7 @@
 				h1.username {{user.info.username}}
 				h4.email {{user.info.email}}
 				h3.experience: span {{user.rank.xp}} Experience
+				p(ng-show="loggedInUser._id === user._id"): a(href="#") edit my shit!
 
 		.profile-nav
 			ul.nav.nav-pills

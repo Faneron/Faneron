@@ -12,9 +12,8 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 				url: '/',
 				templateUrl: '/partials/frontpage',
 				resolve: {
-					auth: function() {
-						console.log("yaass");
-						return;
+					auth: function(LoggedInService) {
+						return LoggedInService.check();
 					}
 				}
 			})
