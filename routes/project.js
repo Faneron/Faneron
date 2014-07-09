@@ -40,11 +40,18 @@ exports.get = function(req, res) {
 			};
 			if (err) console.log(err);
 			else {
+				// Fix this jank-ass attempt at replies
 				data.views++;
 				data.save();
 				ProjectModel.Project.populate(data, options, function(err, doc) {
-					console.log(doc);
-					res.send(doc);
+					var options = {
+						path: "_comments._replies",
+						model: "Comment"
+					}
+					ProjectModel.Project.populate(data, options, function(err, doc) {
+						console.log(doc);
+						res.send(doc);
+					});
 				});
 				// res.send(data);
 			}

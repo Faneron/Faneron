@@ -8,7 +8,6 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			.success(function(data) {
 				$rootScope.user = data;
 				$rootScope.loggedIn = true;
-				console.log(data);
 			})
 			.error(function(err) {
 				$rootScope.loggedIn = false;
@@ -178,12 +177,18 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		$http({method: 'GET', url: '/project/get/' + $stateParams.id})
 			.success(function(data) {
 				$scope.project = data;
+				console.log($scope.project);
 				$scope.moment = moment($scope.project.info.timestamp).format("MMMM DD YYYY");
 				$scope.comments = $scope.project._comments;
 				if ($scope.comments) {
 					$scope.comments.forEach(function(data) {
 						// data.timestamp = moment(data.timeStamp).format("MMMM DD YYYY");
 						data.timestamp = moment(data.timestamp).fromNow();
+						if (data._replies) {
+							data._replies.forEach(function(reply) {
+								reply.timestamp = moment(reply.timestamp).fromNow();
+							});
+						}
 						console.log(data);
 					});
 				}
@@ -238,6 +243,22 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				})
 				.error(function(err) {
 					console.log(err);
+				});
+		}
+		$scope.reply = function(id) {
+			var config = {
+				project: $scope.project,
+				subject: null, 
+				comment: "reply test",
+				original: true
+			};
+
+			$http({method: 'POST', url: '/comment/reply/' + id, data: config})
+				.success(function(data) {
+					console.log(data);
+				})
+				.error(function(err) {
+					console.log(err)
 				});
 		}
 	}]);

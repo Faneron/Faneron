@@ -48,6 +48,8 @@ module.exports = function(app) {
 
 	app.post('/comment/create', authHandlers.isLoggedIn, commentHandlers.create);
 
+	app.post('/comment/reply/:id', authHandlers.isLoggedIn, commentHandlers.reply);
+
 	app.post('/comment/update/:id', authHandlers.isLoggedIn, commentHandlers.update);
 
 	app.post('/comment/delete/:id', authHandlers.isLoggedIn, commentHandlers.delete);

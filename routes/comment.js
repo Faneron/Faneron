@@ -48,6 +48,30 @@ exports.create = function(req, res) {
 	});
 };
 
+exports.reply = function(req, res) {
+	console.log("replying to comment " + req.params.id);
+	CommentModel.Comment.findById(req.params.id, function(err, comment) {
+		if (err) console.log(err);
+		else {
+			console.log("found parent comment");
+			var reply = new CommentModel.Comment({
+				_user: req.user._id,
+				_project: req.body.project._id,
+				text: {
+					subject: req.body.subject,
+					comment: req.body.comment,
+					original: req.body.original
+				}
+			});
+			reply.save(function(err) {
+				if (err) console.log(err);
+			});
+			comment._replies.push(reply._id);
+			comment.save();
+		}
+	});
+}
+
 exports.update = function(req, res) {
 	console.log(req.user);
 	CommentModel.Comment.findById(req.params.id, function(err, doc) {
