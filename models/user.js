@@ -16,8 +16,10 @@ var userSchema = new mongoose.Schema({
 		lastName: String,
 		username: String,
 		email: String,
-		password: String
+		password: String,
 	},
+
+	bio: String,
 
 	rank: {
 		currency: {type: Number, default: 0},

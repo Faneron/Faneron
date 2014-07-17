@@ -64,7 +64,8 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 			})
 				.state('profile.bio', {
 					url: '/bio',
-					templateUrl: '/partials/profile_bio'
+					templateUrl: '/partials/profile_bio',
+					controller: 'profileBioCtrl'
 				})
 				.state('profile.projects', {
 					url: '/projects',

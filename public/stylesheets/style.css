@@ -261,6 +261,16 @@ form p {
 	border-radius: 0;
 }
 
+.btn.btn-primary {
+  border: none;
+  margin: 0;
+}
+
+.btn.btn-primary.btn-inline {
+  display: inline-block;
+  margin-right: 10px;
+}
+
 /* Toggle button for mobile menu */
 .icon-bar {
   background-color: rgba(0, 0, 0, 0.5);

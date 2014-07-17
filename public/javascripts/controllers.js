@@ -75,7 +75,12 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			$http({method: 'POST', url: '/auth/login', data: $scope.config})
 				.success(function(data) {
 					console.log(data);
-					$state.go(data.redirect, {username: data.params});
+					// want to load controller for the page – use transitionTo with reload: true
+					$state.transitionTo(data.redirect, {username: data.params}, {
+					    reload: true,
+					    inherit: false,
+					    notify: true
+					});
 				})
 				.error(function(err) {
 					console.log("Error: ");
@@ -102,6 +107,29 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				else $scope.user = data;
 			})
 			.error(function() {console.log("Log the FUCK in!")});
+	}])
+
+	.controller('profileBioCtrl', ['$scope', '$rootScope', '$http', '$state', '$stateParams', function($scope, $rootScope, $http, $state, $stateParams) {
+		console.log("bio controller is loaded");
+		$scope.loggedInUser = $rootScope.user;
+		$scope.editBioToggled = false;
+		$scope.editBio = function() {
+			console.log($scope.bio);
+			$http({method: 'POST', url: '/user/update/' + $scope.loggedInUser._id, data: {
+					bio: $scope.bio
+				}})
+				.success(function(data) {
+					console.log(data);
+					$state.transitionTo('profile.bio', $stateParams, {
+					    reload: true,
+					    inherit: false,
+					    notify: true
+					});
+				})
+				.error(function(error) {
+					console.log(error);
+				});
+		}
 	}])
 
 	// !!! Marked for future alterations
