@@ -273,6 +273,9 @@ there's a 2px margin between pills*/
 	max-height: 150px;
 }
 
+.profile-bio {
+	margin-top: 20px;
+}
 
 span[ui-sref="profile.projects"] {
 	cursor: pointer;

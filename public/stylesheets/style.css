@@ -98,7 +98,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .navbar-brand,
 .navbar .container-fluid ul li a {
-	padding: 20px 30px 16px 30px;
+	padding: 20px 20px 16px 20px;
 	line-height: 22px;
   font-size: 18px;
   letter-spacing: 4px;
@@ -301,7 +301,7 @@ button.navbar-toggle {
   }
   .navbar-brand,
   .navbar .container-fluid ul li a {
-    padding: 20px 20px 16px 20px;
+    padding: 20px 10px 16px 10px;
     letter-spacing: 3px;
   }
   .navbar-brand {
