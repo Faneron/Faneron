@@ -29,6 +29,7 @@ exports.create = function(req, res) {
 	newComment.save(function(err) {
 		if(err) console.log(err);
 	})
+	res.send(200, req.user);
 };
 
 exports.update = function(req, res) {
