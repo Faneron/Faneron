@@ -1,6 +1,8 @@
 angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ngAnimate'])
 
 	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider, $q) {
+		$urlRouterProvider.when('/users/:username', '/users/:username/bio');
+		$urlRouterProvider.when('/projects/:id', '/projects/:id/description');
 		$stateProvider
 			.state('err', {
 				url: '/err',
@@ -10,9 +12,8 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 				url: '/',
 				templateUrl: '/partials/frontpage',
 				resolve: {
-					auth: function() {
-						console.log("yaass");
-						return;
+					auth: function(LoggedInService) {
+						return LoggedInService.check();
 					}
 				}
 			})
@@ -51,6 +52,10 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 					templateUrl: '/partials/project_description'
 					// inherit controller from project
 				})
+				.state('project.comments', {
+					url: '/comments',
+					templateUrl: '/partials/project_comments'
+				})
 			.state('profile', {
 				// will add user ids to this later
 				url: '/users/:username',
@@ -59,7 +64,8 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 			})
 				.state('profile.bio', {
 					url: '/bio',
-					templateUrl: '/partials/profile_bio'
+					templateUrl: '/partials/profile_bio',
+					controller: 'profileBioCtrl'
 				})
 				.state('profile.projects', {
 					url: '/projects',

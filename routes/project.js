@@ -6,18 +6,57 @@
 var ProjectModel = require('../models/project');
 var UserModel = require('../models/user');
 
+exports.all = function(req, res) {
+	console.log(req.route.path);
+	ProjectModel.Project.find()
+		.populate('_user')
+		.exec(function(err, data) {
+			var options = {
+				path: "comments._user",
+				model: 'User'
+			};
+			if (err) console.log(err);
+			else {
+				console.log(data);
+				ProjectModel.Project.populate(data, options, function(err, doc) {
+					res.send(doc);
+				});
+			}
+		});
+}
+
 // Implementation not complete -- see docs (FIXED!)
 exports.get = function(req, res) {
 	console.log(req.route.path);
 	ProjectModel.Project.findById(req.params.id)
-		.populate('_user')
+		.populate('_comments _user')
+		// .populate('_user')
 		.exec(function(err, data) {
+			console.log("Project info: ");
+			console.log(data);
+			var options = [{
+				path: "_comments._user",
+				model: 'User'
+			}, {
+				path: "_comments._replies",
+				model: "Comment"
+			}];
 			if (err) console.log(err);
 			else {
-				console.log(data);
+				// Fix this jank-ass attempt at replies
 				data.views++;
 				data.save();
-				res.send(data);
+				ProjectModel.Project.populate(data, options, function(err, doc) {
+					var options = {
+						path: '_comments._replies._user',
+						model: "User"
+					};
+					ProjectModel.Project.populate(data, options, function(err, doc) {
+						console.log(doc);
+						res.send(doc);
+					});
+				});
+				// res.send(data);
 			}
 		});
 };

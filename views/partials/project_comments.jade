@@ -1,0 +1,26 @@
+button.btn.btn-primary(ng-click="show()" ng-if="!showCommentForm") Comment
+
+form(ng-submit="addComment()" ng-show="showCommentForm").comment-form
+	.form-group
+		textarea.form-group(type="text" placeholder="type your comment here..." ng-model="comment")#comment-box
+	.form-group
+		button.btn.btn-primary(type="submit") submit
+
+div(ng-repeat="comment in comments").comment
+	h3.comment-user 
+		a(ng-href="/users/{{comment._user.info.username}}").comment-username {{comment._user.info.username}}
+		small.comment-time &nbsp; Posted {{comment.timestamp}}
+		small.comment-score &nbsp; {{comment.vote.votes}} points
+	p.comment-text {{comment.text.comment}} &nbsp;
+		strong: a(ng-click="reply(comment._id)") reply
+		i.fa.fa-fw.fa-chevron-up.vote-button(ng-click="up(comment._id)")
+		i.fa.fa-fw.fa-chevron-down.vote-button(ng-click="down(comment._id)")
+	div(ng-if="comment._replies" ng-repeat="reply in comment._replies").comment.reply
+		h3.comment-user
+			a(ng-href="/users/{{comment._user.info.username}}").comment-username {{reply._user.info.username}}
+			small.comment-time &nbsp; Posted {{reply.timestamp}}
+			small.comment-time &nbsp; {{reply.vote.votes}} points
+		p.comment-text {{reply.text.comment}} &nbsp;
+			strong: a(ng-click="reply(reply._id)") reply
+			i.fa.fa-fw.fa-chevron-up.vote-button(ng-click="up(reply._id)")
+			i.fa.fa-fw.fa-chevron-down.vote-button(ng-click="down(reply._id)")

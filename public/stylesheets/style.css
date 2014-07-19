@@ -98,7 +98,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .navbar-brand,
 .navbar .container-fluid ul li a {
-	padding: 20px 30px 16px 30px;
+	padding: 20px 20px 16px 20px;
 	line-height: 22px;
   font-size: 18px;
   letter-spacing: 4px;
@@ -261,6 +261,16 @@ form p {
 	border-radius: 0;
 }
 
+.btn.btn-primary {
+  border: none;
+  margin: 0;
+}
+
+.btn.btn-primary.btn-inline {
+  display: inline-block;
+  margin-right: 10px;
+}
+
 /* Toggle button for mobile menu */
 .icon-bar {
   background-color: rgba(0, 0, 0, 0.5);
@@ -272,6 +282,16 @@ button.navbar-toggle {
   border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
 @media (max-width: 950px) {
   .container-fluid {
     border: none;
@@ -281,7 +301,7 @@ button.navbar-toggle {
   }
   .navbar-brand,
   .navbar .container-fluid ul li a {
-    padding: 20px 20px 16px 20px;
+    padding: 20px 10px 16px 10px;
     letter-spacing: 3px;
   }
   .navbar-brand {
@@ -313,5 +333,4 @@ button.navbar-toggle {
     position: relative;
   }
 }
-
 

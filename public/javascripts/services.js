@@ -9,6 +9,7 @@ angular.module('faneronServices', ['ui.router'])
 				$http({method: 'GET', url: '/auth/isAuthenticated'})
 					.success(function(data) {
 						console.log("Yasss!");
+						console.log(data.info.username);
 						$state.go('profile', {"username": data.info.username});
 						deferred.reject("YAY");
 					})

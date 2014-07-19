@@ -35,14 +35,17 @@
 }
 
 #login-box form .btn.btn-primary {
+	margin-top: 30px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.btn.btn-primary {
 	width: 150px;
 	padding: 10px 20px;
 	font-size: 85%;
 	display: block;
 	background-color: black;
-	margin-top: 30px;
-	margin-left: auto;
-	margin-right: auto;
 	font-weight: 300;
 	font-size: 12px;
 }

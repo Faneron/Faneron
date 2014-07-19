@@ -17,6 +17,15 @@
 	float: left;
 }
 
+.basic-info .experience {
+	color: #3a90ff;
+}
+
+.basic-info > * {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
 .crop-box {
 	height: 170px;
 	width: 170px;
@@ -203,6 +212,7 @@ there's a 2px margin between pills*/
 	background-color: white;
 	z-index: 999;
 	position: relative;
+	margin-bottom: 100px;
 }
 
 .large-overlay textarea {
@@ -222,8 +232,59 @@ there's a 2px margin between pills*/
 	-webkit-transform: scale3d(1.2, 1.2, 1.2);
 }
 
+.bio-edit {
+	opacity: 1;
+}
+
+.ng-hide-add, .ng-hide-remove, .ng-hide-add textarea, .ng-hide-remove textarea {
+	display: block !important;
+}
+
+.bio-edit textarea {
+	height: 150px;
+	display: block;
+}
+
+.bio-edit.ng-hide-add {
+	
+}
+
+.bio-edit.ng-hide-add-active {
+
+}
+
+.bio-edit.ng-hide-remove, .bio-edit.ng-hide-remove textarea {
+	-webkit-transition: 0.3s all ease-out;
+	transition: 0.3s all ease-out;
+	opacity: 0;
+}
+
+.bio-edit.ng-hide-remove textarea {
+	max-height: 0;
+
+}
+
+.bio-edit.ng-hide-remove-active {
+	opacity: 1;
+}
+
+.bio-edit.ng-hide-remove-active textarea {
+	/* intentionally too high */
+	max-height: 150px;
+}
+
+.profile-bio {
+	margin-top: 20px;
+}
+
 span[ui-sref="profile.projects"] {
 	cursor: pointer;
+}
+
+a.edit-button {
+	font-size: 0.35em;
+	font-weight: 400;
+	text-decoration: none;
 }
 
 /* responsiveness-ish */

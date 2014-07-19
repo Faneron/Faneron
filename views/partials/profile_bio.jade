@@ -1,3 +1,10 @@
 //- Nested ui-view template for user bios
-p Description
-	| Lorem ipsum In proident proident do in incididunt ullamco ex aliqua pariatur ullamco ut anim officia qui Excepteur dolore laborum dolor eiusmod magna velit aute sint ullamco exercitation non laborum est dolore aliquip sit commodo est sunt in commodo cillum ea mollit occaecat elit minim adipisicing ut culpa in labore consectetur aliquip proident Excepteur tempor ut deserunt dolore anim sit Excepteur officia dolore qui Excepteur ea sed velit aute eiusmod nostrud magna aliqua sed pariatur ea voluptate fugiat voluptate Duis sint laboris deserunt pariatur non enim enim Duis incididunt mollit eu dolore culpa aliqua sed irure aute amet sit aliquip elit Excepteur Ut tempor nostrud est pariatur ut dolor do proident est cupidatat in sint in consectetur fugiat amet in dolore ullamco sed Duis voluptate et nisi qui anim commodo exercitation occaecat cillum in commodo nisi consectetur tempor velit deserunt commodo incididunt consectetur.	
+h1 Bio
+	a(ng-show="loggedInUser._id === user._id" href="#" ng-click="editBioToggled=!editBioToggled").edit-button
+		i.fa.fa-fw.fa-pencil 
+form(ng-show="editBioToggled" ng-submit="editBio(); editBioToggled=false;").bio-edit
+	.form-group
+		textarea.form-control(type="text" placeholder="write your bio here" ng-model="bio" ng-init="bio=user.bio")
+	button.btn.btn-primary.btn-inline(type="submit") Submit
+	button.btn.btn-primary.btn-inline(ng-click="editBioToggled=false") Cancel
+p(ng-show="!editBioToggled" style="white-space: pre-wrap;").profile-bio {{user.bio}}

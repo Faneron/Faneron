@@ -54,10 +54,21 @@ exports.update = function(req, res) {
 	console.log(req.user);
 	UserModel.User.findById(req.params.id, function(err, doc) {
 		if(err) console.log(err);
-		for(var field in doc) {
-			if(doc.hasOwnProperty(field)) {
-				doc[field] = req.params[field];
-			}
+		// for(var field in doc) {
+		// 	if(doc.hasOwnProperty(field)) {
+		// 		doc[field] = req.params[field];
+		// 	}
+		// 	doc.save();
+		// 	res.send(200, doc);
+		// }
+		console.log(req.body);
+		for (var field in req.body) {
+			doc[field] = req.body[field];
 		}
+		doc.save(function(err, data) {
+			if (err) console.log(err);
+			if (data) res.send(200, data);
+		});
 	})
 };
+

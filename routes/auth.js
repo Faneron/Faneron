@@ -49,7 +49,7 @@ exports.loginRedirect = function(req, res) {
 exports.create = function(req, res, next) {
 	console.log(passport);
 	passport.authenticate('local-signup', function(err, user, info) {
-        if (err) return next(error);
+        if (err) return next(err);
         // Auth strategy returns no user if the email is already taken
         if (!user) {
             res.send(500, req.flash(''));

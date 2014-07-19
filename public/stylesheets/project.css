@@ -23,10 +23,63 @@
 	margin: 10px auto;
 }
 
-@media (max-width: 550px) {
+.comment {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.comment.reply {
+	margin-left: 30px;
+}
+
+.comment-user {
+	line-height: 140%;
+	font-size: 1.3em;
+}
+
+.comment-username {
+	font-weight: 600;
+}
+
+.comment-form {
+}
+
+.comment-form textarea {
+ 	width: 80%;
+ 	height: 100px;
+	margin: 0;
+	resize: none;
+}
+
+.comment-time {
+	font-weight: 400;
+}
+
+.vote-button {
+}
+
+.vote-button:hover {
+	-webkit-transition: 0.2s all ease-out;
+	-moz-transition: 0.2s all ease-out;
+	transition: 0.2s all ease-out;
+	color: #3a90ff;
+	-webkit-transform: scale(1.2, 1.2);
+	-moz-transform: scale(1.2, 1.2);
+	transform: scale(1.2, 1.2);
+
+}
+
+@media (max-width: 635px) {
 	.project-nav {
-		left: -30px;
-		margin: 10px auto;
+		/*left: -30px;*/
+		margin: -10px -80px 20px 10px;
+		/*margin: 10px 0;*/
+		width: calc(100% + 70px);
 	}
+
+	.comment-form textarea {
+		height: 80px;
+	}
+
 }
 

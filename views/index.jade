@@ -15,14 +15,14 @@ block body
 			.navbar-collapse.collapse
 				//- .collapse.in thing is a total hack, but hey, it works! :)
 				ul.nav.navbar-nav.collapse.in.myNav 
-					li(ui-sref-active="active"): a(ui-sref='explore') EXPLORE
+					li(ui-sref-active="active", data-toggle="collapse", data-target=".myNav"): a(ui-sref='explore') EXPLORE
 					li: a(href='#') THINK
 					li: a(href='#') STUDIO
 					li: a(href='#') WHY
 				ul.nav.navbar-nav.navbar-right.icon-nav.collapse.in.myNav(ng-if="loggedIn")
-					li: a(href="/").search-link 
-						a(ng-href="/users/{{data.username}}").profile-link 
-						a(href="/").messages-link
-						a(ng-click="logout()").logout-link: small Log Out
+					li: a(href="/", data-toggle="collapse", data-target=".myNav").search-link 
+						a(ng-href="/users/{{user.info.username}}", data-toggle="collapse", data-target=".myNav").profile-link 
+						a(href="/", data-toggle="collapse", data-target=".myNav").messages-link
+						a(ng-click="logout()", data-toggle="collapse", data-target=".myNav").logout-link: small Log Out
 	#wrapper(ui-view)
 	script $('.collapse').collapse();

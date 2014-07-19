@@ -27,6 +27,10 @@ var commentSchema = new Schema({
 		downvoters: [Schema.Types.ObjectId]
 	},
 
+	_replies: {
+		type: [{type: Schema.Types.ObjectId, ref: 'Comment'}]
+	},
+
 	timestamp: {type: Date, default: Date.now},
 
 	deleted: {type: Boolean, default: false},

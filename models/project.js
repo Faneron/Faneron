@@ -23,7 +23,9 @@ var projectSchema = new mongoose.Schema({
 
 	views: {type: Number, default: 0},
 
-	comments: Schema.Types.Mixed
+	_comments: {
+		type: [{type: Schema.Types.ObjectId, ref: 'Comment'}],
+	}
 });
 
 
