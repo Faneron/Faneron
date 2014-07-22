@@ -90,16 +90,22 @@ exports.create = function(req, res) {
 };
 
 exports.update = function(req, res) {
+	// only do one update at a time pls, and only for stuff under "info"
 	console.log(req.route.path);
+	var mainProp = null;
 	ProjectModel.Project.findById(req.params.id, function(err, doc) {
 		if(err) console.log("Error: " + err);
 		else {
-			console.log(doc);
-			for(var prop in doc) {
-				if(req.body[prop] !== undefined) {
-					doc[prop] = req.body[prop];
-				}
+			console.log("\n\n\n UPDATING");
+			for (var prop in req.body) {
+				console.log(prop);
+				doc.info[prop] = req.body[prop];
+				mainProp = prop;
 			}
+			doc.save(function(err, data) {
+				if (err) console.log(err);
+				if (data) res.send(200, req.body[mainProp]);
+			});
 		}
 	});
 };

@@ -49,12 +49,23 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 			})
 				.state('project.description', {
 					url:'/description',
-					templateUrl: '/partials/project_description'
-					// inherit controller from project
+					templateUrl: '/partials/project_description',
+					controller: 'projectDescriptionCtrl'
 				})
 				.state('project.comments', {
 					url: '/comments',
-					templateUrl: '/partials/project_comments'
+					templateUrl: '/partials/project_comments',
+					controller: 'projectCommentsCtrl'
+				})
+				.state('project.gameplay', {
+					url: '/gameplay',
+					templateUrl: '/partials/project_gameplay',
+					controller: 'projectGameplayCtrl'
+				})
+				.state('project.lore', {
+					url: '/lore',
+					templateUrl: '/partials/project_lore',
+					controller: 'projectLoreCtrl'
 				})
 			.state('profile', {
 				// will add user ids to this later

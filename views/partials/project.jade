@@ -8,8 +8,8 @@
 		.project-nav
 			ul.nav.nav-pills
 				li(ui-sref-active="active"): a(ui-sref=".description") home
-				li: a gameplay
+				li(ui-sref-active="active"): a(ui-sref=".gameplay") gameplay
 				li: a artwork
-				li: a lore
+				li(ui-sref-active="active"): a(ui-sref=".lore") lore
 				li(ui-sref-active="active"): a(ui-sref=".comments") comments
 		<div class="project-info" ui-view> </div>

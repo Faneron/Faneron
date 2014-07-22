@@ -15,8 +15,8 @@ var projectSchema = new mongoose.Schema({
 		title: String,
 		tagline: String,
 		genre: String,
-		description: String,
-		lore: String,
+		description: {type: String, default: ""},
+		lore: {type: String, default: ""},
 		gameplay: String,
 		timestamp: {type: Date, default: Date.now}
 	},

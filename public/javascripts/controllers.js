@@ -197,50 +197,90 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			});
 	}])
 
-	.controller('projectCtrl', ['$scope', '$http', '$stateParams', '$state', function($scope, $http, $stateParams, $state) {
+	.controller('projectDescriptionCtrl', ['$scope', '$stateParams', '$state', '$http', function($scope, $stateParams, $state, $http) {
+		$scope.toggled = false;
+		$scope.update = function() {
+			$scope.project = $scope.$parent.project;
+			var config = {
+				description: $scope.description
+			}
+			var projectId = $scope.$parent.project._id;
+			console.log(projectId);
+			$http({method: 'POST', url: '/project/update/' + projectId, data: config})
+				.success(function(data) {
+					$state.transitionTo('project.description', $stateParams, {
+						reload: true,
+						inherit: false,
+						notify: true
+					})
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+		}
+	}])
+
+	.controller('projectGameplayCtrl', ['$scope', '$http', '$state', '$stateParams', function($scope, $http, $state, $stateParams) {
+		$scope.toggled = false;
+		$scope.update = function() {
+			$scope.project = $scope.$parent.project;
+			var config = {
+				gameplay: $scope.gameplay
+			}
+			var projectId = $scope.project._id;
+			$http({method: 'POST', url: '/project/update/' + projectId, data: config})
+				.success(function(data) {
+					$state.transitionTo('project.gameplay', $stateParams, {
+						reload: true,
+						inherit: false,
+						notify: true
+					})
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+		}
+	}])
+
+	.controller('projectLoreCtrl', ['$scope', '$http', '$state', '$stateParams', function($scope, $http, $state, $stateParams) {
+		$scope.toggled = false;
+		$scope.update = function() {
+			$scope.project = $scope.$parent.project;
+			var config = {
+				lore: $scope.lore
+			}
+			console.log(config);
+			var projectId = $scope.project._id;
+			$http({method: 'POST', url: '/project/update/' + projectId, data: config})
+				.success(function(data) {
+					$scope.project.info.lore = data; 
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+		}
+	}])
+
+	.controller('projectCommentsCtrl', ['$scope', '$stateParams', '$state', '$http', function($scope, $stateParams, $state, $http) {
 		$scope.showCommentForm = false;
 		$scope.show = function() {
 			$scope.showCommentForm = true;
 		}
-		$http({method: 'GET', url: '/project/get/' + $stateParams.id})
-			.success(function(data) {
-				$scope.project = data;
-				console.log($scope.project);
-				$scope.moment = moment($scope.project.info.timestamp).format("MMMM DD YYYY");
-				$scope.comments = $scope.project._comments;
-				if ($scope.comments) {
-					$scope.comments.forEach(function(data) {
-						// data.timestamp = moment(data.timeStamp).format("MMMM DD YYYY");
-						data.timestamp = moment(data.timestamp).fromNow();
-						if (data._replies) {
-							data._replies.forEach(function(reply) {
-								reply.timestamp = moment(reply.timestamp).fromNow();
-							});
-						}
-						console.log(data);
-					});
-				}
-			}).
-			error(function(err) {
-				console.log(err);
-			});
 		$scope.addComment = function() {
 			$scope.comment = document.getElementById('comment-box').value;
-			console.log($scope.comment);
-			var config = {
-				project: $scope.project,
-				subject: null, 
+			var config = { 
+				project: $scope.$parent.project,
+				subject: null,
 				comment: $scope.comment,
 				original: true
 			};
 			$http({method: 'POST', url: '/comment/create', data: config})
 				.success(function(data) {
-					console.log(data);
 					$state.transitionTo('project.comments', $stateParams, {
-					    reload: true,
-					    inherit: false,
-					    notify: true
-					});
+						reload: true,
+						inherit: false,
+						notify: true
+					})
 				})
 				.error(function(err) {
 					console.log(err);
@@ -249,13 +289,13 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		$scope.up = function(id) {
 			$http({method: 'POST', url: '/comment/upvote/' + id})
 				.success(function(data) {
-					for (var i = 0; i < $scope.comments.length; i++) {
+					for (var i = 0; i < $scope.$parent.comments.length; i++) {
 						// Check comments to update view with new score
-						if ($scope.comments[i]._id === data._id) {
-							$scope.comments[i].vote.votes = data.vote.votes;
+						if ($scope.$parent.comments[i]._id === data._id) {
+							$scope.$parent.comments[i].vote.votes = data.vote.votes;
 							return;
 						}
-						var replies = $scope.comments[i]._replies;
+						var replies = $scope.$parent.comments[i]._replies;
 						// Check replies to update view with new score
 						if (replies) {
 							for (var j = 0; j < replies.length; j++) {
@@ -273,11 +313,11 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		$scope.down = function(id) {
 			$http({method: 'POST', url: '/comment/downvote/' + id})
 				.success(function(data) {
-					for (var i = 0; i < $scope.comments.length; i++) {
+					for (var i = 0; i < $scope.$parent.comments.length; i++) {
 						if ($scope.comments[i]._id === data._id) {
 							$scope.comments[i].vote.votes = data.vote.votes;
 						}
-						var replies = $scope.comments[i]._replies;
+						var replies = $scope.$parent.comments[i]._replies;
 						// Check replies to update view with new score
 						if (replies) {
 							for (var j = 0; j < replies.length; j++) {
@@ -308,6 +348,34 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 					console.log(err)
 				});
 		}
+	}])
+
+	.controller('projectCtrl', ['$scope', '$http', '$rootScope', '$stateParams', '$state', function($scope, $http, $rootScope, $stateParams, $state) {
+		$scope.showCommentForm = false;
+		$scope.loggedInUser = $rootScope.user;
+		$scope.show = function() {
+			$scope.showCommentForm = true;
+		}
+		$http({method: 'GET', url: '/project/get/' + $stateParams.id})
+			.success(function(data) {
+				$scope.project = data;
+				console.log($scope.project);
+				$scope.moment = moment($scope.project.info.timestamp).format("MMMM DD YYYY");
+				$scope.comments = $scope.project._comments;
+				if ($scope.comments) {
+					$scope.comments.forEach(function(data) {
+						data.timestamp = moment(data.timestamp).fromNow();
+						if (data._replies) {
+							data._replies.forEach(function(reply) {
+								reply.timestamp = moment(reply.timestamp).fromNow();
+							});
+						}
+					});
+				}
+			}).
+			error(function(err) {
+				console.log(err);
+			});
 	}]);
 
 

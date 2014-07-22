@@ -1,4 +1,4 @@
-button.btn.btn-primary(ng-click="show()" ng-if="!showCommentForm") Comment
+button.btn.btn-primary(ng-click="showCommentForm=true" ng-show="!showCommentForm") Comment
 
 form(ng-submit="addComment()" ng-show="showCommentForm").comment-form
 	.form-group

@@ -32,10 +32,6 @@ exports.create = function(req, res) {
 	});
 	newComment.save(function(err) {
 		if(err) console.log(err);
-<<<<<<< HEAD
-	})
-	res.send(200, req.user);
-=======
 	});
 	ProjectModel.Project.findById(req.body.project._id, function(err, doc) {
 		if (err) console.log(err);
@@ -50,7 +46,6 @@ exports.create = function(req, res) {
 			});
 		}
 	});
->>>>>>> 74842f71ebbefc8fec46cf8786174637ce8d292f
 };
 
 exports.reply = function(req, res) {

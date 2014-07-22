@@ -1,9 +1,9 @@
-h1 Description
+h1 Gameplay
 	a(ng-show="$parent.loggedInUser._id === $parent.project._user._id" href="#" ng-click="toggled=!toggled").edit-button
 		i.fa.fa-fw.fa-pencil
 form(ng-show="toggled" ng-submit="update(); toggled=false;").bio-edit
 	.form-group
-		textarea.form-control(type="text" placeholder="write your project description here" ng-model="description")
+		textarea.form-control(type="text" placeholder="write your project gameplay here" ng-model="gameplay")
 	button.btn.btn-primary.btn-inline(type="submit") Submit
 	button.btn.btn-primary.btn-inline(type="reset" ng-click="toggled=false") Cancel
-p(ng-show="!toggled" style="white-space: pre-wrap").project-body: big {{ $parent.project.info.description || project.info.description}}
+p(ng-show="!toggled" style="white-space: pre-wrap").project-body: big {{ $parent.project.info.gameplay || project.info.gameplay }}

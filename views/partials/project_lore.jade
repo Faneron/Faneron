@@ -1,0 +1,10 @@
+h1 Lore
+	a(ng-show="$parent.loggedInUser._id === $parent.project._user._id" href="#" ng-click="toggled=!toggled").edit-button
+		i.fa.fa-fw.fa-pencil
+form(ng-show="toggled" ng-submit="update(); toggled=false;").bio-edit
+	.form-group
+		textarea.form-control(type="text" placeholder="write your project lore here" ng-model="lore")
+	button.btn.btn-primary.btn-inline(type="submit") Submit
+	button.btn.btn-primary.btn-inline(type="reset" ng-click="toggled=!toggled") Cancel
+p(ng-show="!toggled" style="white-space: pre-wrap;").project-body: big {{ $parent.project.info.lore || project.info.lore }}
+p(ng-show="!project.info.lore"): big No lore yet!
