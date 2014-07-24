@@ -19,7 +19,7 @@ div(ng-repeat="comment in comments").comment
 		h3.comment-user
 			a(ng-href="/users/{{comment._user.info.username}}").comment-username {{reply._user.info.username}}
 			small.comment-time &nbsp; Posted {{reply.timestamp}}
-			small.comment-time &nbsp; {{reply.vote.votes}} points
+		small.comment-time &nbsp; {{reply.vote.votes}} points
 		p.comment-text {{reply.text.comment}} &nbsp;
 			strong: a(ng-click="reply(reply._id)") reply
 			i.fa.fa-fw.fa-chevron-up.vote-button(ng-click="up(reply._id)")

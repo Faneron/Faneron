@@ -29,35 +29,12 @@ exports.all = function(req, res) {
 exports.get = function(req, res) {
 	console.log(req.route.path);
 	ProjectModel.Project.findById(req.params.id)
-		.populate('_comments _user')
+		.populate('_user')
 		// .populate('_user')
 		.exec(function(err, data) {
 			console.log("Project info: ");
 			console.log(data);
-			var options = [{
-				path: "_comments._user",
-				model: 'User'
-			}, {
-				path: "_comments._replies",
-				model: "Comment"
-			}];
-			if (err) console.log(err);
-			else {
-				// Fix this jank-ass attempt at replies
-				data.views++;
-				data.save();
-				ProjectModel.Project.populate(data, options, function(err, doc) {
-					var options = {
-						path: '_comments._replies._user',
-						model: "User"
-					};
-					ProjectModel.Project.populate(data, options, function(err, doc) {
-						console.log(doc);
-						res.send(doc);
-					});
-				});
-				// res.send(data);
-			}
+			res.send(200, data);
 		});
 };
 
@@ -117,14 +94,37 @@ exports.delete = function(req, res) {
 	});
 };
 
+// Recursive populate function for project comments
+// project is the project object containing the comments (duh)
+// pathString is the current path (tells how deep the recursive populate is)
+// counter ticks down to count depth
+function populateReplies(project, pathString, counter, res) {
+	if (counter == 0) {
+		res.send(200, project._comments);
+		return;
+	}
+	counter--;
+	console.log(counter);
+	pathString += '._replies';
+	project
+		// first populate replies
+		.populate({path: pathString, model: 'Comment'}, function(err, doc) {
+			doc.populate({path: pathString + '._user', model: 'User'}, function(err, data) {
+				populateReplies(data, pathString, counter, res);
+			});
+		});
+}
+
+// Gets only three levels of comments - get more by using comment model reply methods 
 exports.comments = function(req, res) {
-	console.log(req.user);
 	ProjectModel.Project
 	.findById(req.params.id)
-	.populate('comments') // NOT SURE IF THIS WORKS BECAUSE OF COMMENTS' NESTED STRUCTURE
-	.exec(function(err, doc) {
-		if(err) console.log(err);
-		res.send(doc.comments);
+	.populate('_comments') // NOT SURE IF THIS WORKS BECAUSE OF COMMENTS' NESTED STRUCTURE
+	.exec(function(err, data) {
+		data.populate({path: '_comments._user', model: 'User'}, function(err, doc) {
+			if (err) console.log(err);
+			populateReplies(doc, '_comments', 3, res);
+		});
 	});
 };
 

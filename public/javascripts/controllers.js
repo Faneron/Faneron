@@ -263,6 +263,14 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 
 	.controller('projectCommentsCtrl', ['$scope', '$stateParams', '$state', '$http', function($scope, $stateParams, $state, $http) {
 		$scope.showCommentForm = false;
+		$http({method: 'GET', url: '/project/comments/' + $stateParams['id']})
+			.success(function(data){
+				console.log(data);
+				$scope.comments = data;
+			})
+			.error(function(err) {
+				console.log(err);
+			});
 		$scope.show = function() {
 			$scope.showCommentForm = true;
 		}
@@ -360,18 +368,6 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			.success(function(data) {
 				$scope.project = data;
 				console.log($scope.project);
-				$scope.moment = moment($scope.project.info.timestamp).format("MMMM DD YYYY");
-				$scope.comments = $scope.project._comments;
-				if ($scope.comments) {
-					$scope.comments.forEach(function(data) {
-						data.timestamp = moment(data.timestamp).fromNow();
-						if (data._replies) {
-							data._replies.forEach(function(reply) {
-								reply.timestamp = moment(reply.timestamp).fromNow();
-							});
-						}
-					});
-				}
 			}).
 			error(function(err) {
 				console.log(err);
