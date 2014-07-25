@@ -6,15 +6,15 @@ var Schema = mongoose.Schema;
 // Set up and create schema -> model
 var projectSchema = new mongoose.Schema({
 
-	_user: { // probably want to rename to _user
+	_user: {
 		type: Schema.Types.ObjectId,
 		ref: 'User'
 	},
 
 	info: {
-		title: String,
-		tagline: String,
-		genre: String,
+		title: { type: String, default: "" },
+		tagline: { type: String, default: ""},
+		genre: {type: String, default: ""},
 		description: {type: String, default: ""},
 		lore: {type: String, default: ""},
 		gameplay: String,
@@ -27,6 +27,17 @@ var projectSchema = new mongoose.Schema({
 		type: [{type: Schema.Types.ObjectId, ref: 'Comment'}],
 	}
 });
+
+// Validations
+var required_message = 'Please enter a {PATH}';
+
+projectSchema.path('_user').require(true, required_message); // Message should never be shown client side
+projectSchema.path('info.title').require(true, required_message);
+projectSchema.path('info.description').require(true, required_message);
+
+projectSchema.path('views').validate(function(value) {
+	return value >= 0;
+}, 'Invalid number of views'); // Message should never be shown client side
 
 
 projectSchema.methods.addComment = function(text) {
