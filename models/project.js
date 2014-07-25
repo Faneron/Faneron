@@ -23,9 +23,10 @@ var projectSchema = new mongoose.Schema({
 
 	views: {type: Number, default: 0},
 
-	_comments: {
-		type: [{type: Schema.Types.ObjectId, ref: 'Comment'}],
-	}
+	_comments: [{
+		type: Schema.Types.ObjectId,
+		ref: 'Comment'
+	}]
 });
 
 // Validations

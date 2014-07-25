@@ -33,12 +33,10 @@ var commentSchema = new Schema({
 		}]
 	},
 
-	_replies: {
-		type: [{
+	_replies: [{
 			type: Schema.Types.ObjectId,
 			ref: 'Comment'
-		}]
-	},
+	}],
 
 	timestamp: {type: Date, default: Date.now},
 
@@ -49,18 +47,30 @@ var commentSchema = new Schema({
 });
 
 // Validations
-var required_message = 'Please enter a {PATH}';
 
-commentSchema.path('_user').require(true, required_message); // Message should never be shown client side
-commentSchema.path('_project').require(true, required_message); // Message should never be shown client side
+var required_message = 'Please enter a {PATH}';
+// An error message for these paths should never be shown client side
+commentSchema.path('_user').require(true, required_message); 
+commentSchema.path('_project').require(true, required_message);
+commentSchema.path('text.original').require(true, required_message);
+// Error messages here should be shown client side
 commentSchema.path('text.comment').require(true, required_message);
 commentSchema.path('_user').require(true);
 commentSchema.path('_project').require(true);
 
+
+var votes_message = "The number of votes is the number of upvotes - the number of downvotes";
 commentSchema.path('vote.votes').validate(function(value) {
 	var vote = this.vote;
 	return (value === (vote.upvoters.length - vote.downvoters.length));
-}, 'Votes number isn\'t correct'); // Message should never be shown client side
+}, votes_message); // Message should never be shown client side
+
+
+var original_message = "Original comments must have a subject."
+commentSchema.path('text.subject').validate(function(value) {
+	var original = this.text.original;
+	return original ? Boolean(value) : true;
+}, original_message);
 
 
 var Comment = mongoose.model('Comment', commentSchema);

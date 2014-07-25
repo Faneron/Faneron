@@ -20,6 +20,7 @@
     "passport-local": "*",
     "password-hash": "*",
     "connect-flash": "*",
-    "moment": "^2.6.0"
+    "moment": "^2.6.0",
+    "mongoose-unique-validator": "^0.3.0"
   }
 }
