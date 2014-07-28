@@ -4,11 +4,10 @@
  */
 var mongoose = require('mongoose'),
 	passwordHash = require('password-hash'),
-	mongoose_unique_validator = require('mongoose_unique_validator'); // Used to report error messages at pre-save time
+	mongoose_unique_validator = require('mongoose-unique-validator'); // Used to report error messages at pre-save time
 var Schema = mongoose.Schema;
 
 var unique_message = "It seems like someone's already used that {PATH}";
-Schema.plugin(mongoose_unique_validator, unique_message);
 
 var userSchema = new mongoose.Schema({
 
@@ -42,9 +41,9 @@ var userSchema = new mongoose.Schema({
 // Note that validations for unique properties are in the schema itself
 var required_message = 'Please enter a {PATH}';
 
-userSchema.path('info.username').require(true, required_message);
-userSchema.path('info.email').require(true, required_message);
-userSchema.path('info.password').require(true, required_message);
+userSchema.path('info.username').required(true, required_message);
+userSchema.path('info.email').required(true, required_message);
+userSchema.path('info.password').required(true, required_message);
 
 var email_has_at = "Invalid email, there is no @ sign";
 userSchema.path('info.email').validate(function(value) {
@@ -53,15 +52,17 @@ userSchema.path('info.email').validate(function(value) {
 	
 var password_too_short = 'Your password must be at least 6 characters long';
 userSchema.path('info.password').validate(function(value) {
+	console.log(value);
 	return value.length >= 6;
 }, password_too_short);
-	
-	var password_not_username = "Your password can't be the same as your username";
-	userSchema.path('info.password').validate(function(value) {
-		var username = this.info.username;
-		return value !== username;
-	}, password_not_username);
 
+var password_not_username = "Your password can't be the same as your username";
+userSchema.path('info.password').validate(function(value) {
+	var username = this.info.username;
+	return value !== username;
+}, password_not_username);
+
+userSchema.plugin(mongoose_unique_validator, unique_message);
 
 // Schema methods
 
