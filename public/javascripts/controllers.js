@@ -341,10 +341,10 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 					console.log(err);
 				});
 		}
-		$scope.reply = function(id) {
+		$scope.createReply = function(id) {
 			var config = {
 				project: $scope.project,
-				subject: null, 
+				subject: 'eat blah blah blah', 
 				comment: "reply test",
 				original: true
 			};
@@ -379,7 +379,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		$http({method: 'GET', url: '/comment/thread/' + $stateParams.id})
 			.success(function(data) {
 				console.log(data);
-				$scope.thread = data;
+				$scope.comment = data;
 			})
 			.error(function(err) {
 				console.log(err);
