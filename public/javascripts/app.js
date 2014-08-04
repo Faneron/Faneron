@@ -100,6 +100,11 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 				url: '/projects/new',
 				templateUrl: '/partials/profile_projects_new',
 				controller: 'newProjectCtrl'
+			})
+			.state('comment_thread', {
+				url: '/comments/:id',
+				templateUrl: '/partials/comment_thread',
+				controller: 'commentThreadCtrl'
 			});
 	}])
 

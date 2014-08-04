@@ -10,6 +10,27 @@ var CommentModel = require('../models/comment'),
 	UserModel = require('../models/user'),
 	ProjectModel = require('../models/project');
 
+// Recursive populate function for abitrary comment thread
+// 'comment' is the root of the tree 
+// pathString is the current path (tells how deep the recursive populate is)
+// counter ticks down to count depth
+function populateReplies(comment, pathString, counter, res) {
+	if (counter == 0) {
+		// sends comment, now populated with n levels of replies
+		res.send(200, comment);
+		return;
+	}
+	counter--;
+	console.log(counter);
+	comment
+		// first populate replies
+		.populate({path: pathString, model: 'Comment'}, function(err, doc) {
+			doc.populate({path: pathString + '._user', model: 'User'}, function(err, data) {
+				populateReplies(data, pathString + '._replies', counter, res);
+			});
+		});
+}
+
 exports.get = function(req, res) {
 	console.log(req.user);
 	CommentModel.Comment.findById(req.params.id, function(err, doc) {
@@ -17,6 +38,14 @@ exports.get = function(req, res) {
 		res.send(doc);
 	})
 };
+
+exports.getThread = function(req, res) {
+	CommentModel.Comment.findById(req.params.id)
+		.populate('_user')
+		.exec(function(err, doc) {
+			populateReplies(doc, '_replies', 5, res);
+		});
+}
 
 exports.create = function(req, res) {
 	console.log(req.user);
@@ -31,7 +60,10 @@ exports.create = function(req, res) {
 		}
 	});
 	newComment.save(function(err) {
-		if(err) console.log(err);
+		if(err) {
+			res.send(400);
+			console.log(err);
+		}	
 	});
 	ProjectModel.Project.findById(req.body.project._id, function(err, doc) {
 		if (err) console.log(err);

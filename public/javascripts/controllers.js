@@ -278,10 +278,11 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			$scope.comment = document.getElementById('comment-box').value;
 			var config = { 
 				project: $scope.$parent.project,
-				subject: null,
+				subject: 'blah blah blahhhhh',
 				comment: $scope.comment,
 				original: true
 			};
+			console.log(config);
 			$http({method: 'POST', url: '/comment/create', data: config})
 				.success(function(data) {
 					$state.transitionTo('project.comments', $stateParams, {
@@ -370,6 +371,17 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				console.log($scope.project);
 			}).
 			error(function(err) {
+				console.log(err);
+			});
+	}])
+	.controller('commentThreadCtrl', ['$scope', '$http', '$rootScope', '$stateParams', function($scope, $http, $rootScope, $stateParams) {
+		console.log('comment thread controller loaded');
+		$http({method: 'GET', url: '/comment/thread/' + $stateParams.id})
+			.success(function(data) {
+				console.log(data);
+				$scope.thread = data;
+			})
+			.error(function(err) {
 				console.log(err);
 			});
 	}]);
