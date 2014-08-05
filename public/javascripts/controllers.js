@@ -298,13 +298,13 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		$scope.up = function(id) {
 			$http({method: 'POST', url: '/comment/upvote/' + id})
 				.success(function(data) {
-					for (var i = 0; i < $scope.$parent.comments.length; i++) {
+					for (var i = 0; i < $scope.comments.length; i++) {
 						// Check comments to update view with new score
-						if ($scope.$parent.comments[i]._id === data._id) {
-							$scope.$parent.comments[i].vote.votes = data.vote.votes;
+						if ($scope.comments[i]._id === data._id) {
+							$scope.comments[i].vote.votes = data.vote.votes;
 							return;
 						}
-						var replies = $scope.$parent.comments[i]._replies;
+						var replies = $scope.comments[i]._replies;
 						// Check replies to update view with new score
 						if (replies) {
 							for (var j = 0; j < replies.length; j++) {
@@ -322,11 +322,11 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		$scope.down = function(id) {
 			$http({method: 'POST', url: '/comment/downvote/' + id})
 				.success(function(data) {
-					for (var i = 0; i < $scope.$parent.comments.length; i++) {
+					for (var i = 0; i < $scope.comments.length; i++) {
 						if ($scope.comments[i]._id === data._id) {
 							$scope.comments[i].vote.votes = data.vote.votes;
 						}
-						var replies = $scope.$parent.comments[i]._replies;
+						var replies = $scope.comments[i]._replies;
 						// Check replies to update view with new score
 						if (replies) {
 							for (var j = 0; j < replies.length; j++) {

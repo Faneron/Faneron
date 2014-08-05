@@ -1,4 +1,3 @@
 // Just testing right now
 h1 {{comment.text.comment}}
-
-h2(ng-repeat="reply in comment._replies") {{reply.text.comment}}
+div(ng-if="comment._replies" ng-include="'/partials/comment_reply_template'" onload="replies = comment._replies").comment.reply
