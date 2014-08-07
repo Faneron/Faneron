@@ -1,6 +1,21 @@
 	// Controllers
 angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 
+	.factory('updateVotes', [function() {
+		// comments = array 
+		// update = comment object that we're looking for
+		var update = function(comments, to_update) {
+			if (comments.length === 0) return false;
+			else if (comments[0]._id === to_update._id) {
+				comments[0].vote = to_update.vote;
+				return true; 
+			} else {
+				return update(comments.slice(1, comments.length), to_update) || update(comments[0]._replies, to_update);
+			}
+		}
+		return update; 
+	}])
+
 	.controller('navCtrl', ['$scope', '$rootScope', '$http', '$state', function($scope, $rootScope, $http, $state) {
 		$rootScope.loggedIn = false;
 		$scope.$on('$stateChangeStart', function() {
@@ -261,11 +276,10 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		}
 	}])
 
-	.controller('projectCommentsCtrl', ['$scope', '$stateParams', '$state', '$http', function($scope, $stateParams, $state, $http) {
+	.controller('projectCommentsCtrl', ['$scope', '$stateParams', '$state', '$http', 'updateVotes', function($scope, $stateParams, $state, $http, updateVotes) {
 		$scope.showCommentForm = false;
 		$http({method: 'GET', url: '/project/comments/' + $stateParams['id']})
 			.success(function(data){
-				console.log(data);
 				$scope.comments = data;
 			})
 			.error(function(err) {
@@ -298,22 +312,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		$scope.up = function(id) {
 			$http({method: 'POST', url: '/comment/upvote/' + id})
 				.success(function(data) {
-					for (var i = 0; i < $scope.comments.length; i++) {
-						// Check comments to update view with new score
-						if ($scope.comments[i]._id === data._id) {
-							$scope.comments[i] = data;
-							return;
-						}
-						var replies = $scope.comments[i]._replies;
-						// Check replies to update view with new score
-						if (replies) {
-							for (var j = 0; j < replies.length; j++) {
-								if (replies[j]._id === data._id) {
-									replies[j].vote.votes = data.vote.votes;
-								}
-							}
-						}
-					}
+					updateVotes($scope.comments, data);
 				})
 				.error(function(err) {
 					console.log(err);
@@ -322,20 +321,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		$scope.down = function(id) {
 			$http({method: 'POST', url: '/comment/downvote/' + id})
 				.success(function(data) {
-					for (var i = 0; i < $scope.comments.length; i++) {
-						if ($scope.comments[i]._id === data._id) {
-							$scope.comments[i] = data;
-						}
-						var replies = $scope.comments[i]._replies;
-						// Check replies to update view with new score
-						if (replies) {
-							for (var j = 0; j < replies.length; j++) {
-								if (replies[j]._id === data._id) {
-									replies[j].vote.votes = data.vote.votes;
-								}
-							}
-						}
-					}
+					updateVotes($scope.comments, data);
 				})
 				.error(function(err) {
 					console.log(err);
@@ -368,13 +354,12 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		$http({method: 'GET', url: '/project/get/' + $stateParams.id})
 			.success(function(data) {
 				$scope.project = data;
-				console.log($scope.project);
 			}).
 			error(function(err) {
 				console.log(err);
 			});
 	}])
-	.controller('commentThreadCtrl', ['$scope', '$http', '$rootScope', '$stateParams', function($scope, $http, $rootScope, $stateParams) {
+	.controller('commentThreadCtrl', ['$scope', '$http', '$rootScope', '$stateParams', 'updateVotes', function($scope, $http, $rootScope, $stateParams, updateVotes) {
 		$scope.loggedInUser = $rootScope.user;
 		console.log($scope.loggedInUser);
 		console.log('comment thread controller loaded');
@@ -386,10 +371,25 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			.error(function(err) {
 				console.log(err);
 			});
-
-		// Need a special function to update votes (recursively)
-		function updateVotes(comment) {
 			
+		$scope.up = function(id) {
+			$http({method: 'POST', url: '/comment/upvote/' + id})
+				.success(function(data) {
+					updateVotes([$scope.comment], data);
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+		}
+
+		$scope.down = function(id) {
+			$http({method: 'POST', url: '/comment/downvote/' + id})
+				.success(function(data) {
+					updateVotes([$scope.comment], data);
+				})
+				.error(function(err) {
+					console.log(err);
+				});
 		}
 
 		$scope.createReply = function(id) {

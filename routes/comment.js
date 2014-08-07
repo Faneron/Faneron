@@ -169,10 +169,14 @@ exports.upvote = function(req, res) {
 			var rank = user.rank;
 
 
-			// if the current user has already upvoted the comment, do nothing
+			// if the current user has already upvoted the comment, undo their upvote 
 			if(comment.vote.upvoters.indexOf(req.user.id) !== -1) {
 				console.log("already upboated");
-				res.send(204);
+				var upIndex = comment.vote.upvoters.indexOf(req.user.id);
+				comment.vote.votes--;
+				comment.vote.upvoters.splice(upIndex, 1);
+				comment.save();
+				res.send(200, comment);
 				return;
 			}
 			// if the current user has already downvoted the comment, reverse the effect of the downvote
@@ -216,7 +220,12 @@ exports.downvote = function(req, res) {
 
 			// if the current user has already downvoted the comment, do nothing
 			if(comment.vote.downvoters.indexOf(req.user.id) !== -1) {
-				res.send(204);
+				console.log('already downboated');
+				var downIndex = comment.vote.downvoters.indexOf(req.user.id);
+				comment.vote.votes++;
+				comment.vote.downvoters.splice(downIndex, 1);
+				comment.save();
+				res.send(200, comment);
 				return;
 			}
 			// if the current user has already upvoted the comment, reverse the effect of the upvote
