@@ -7,3 +7,4 @@ form(ng-show="toggled" ng-submit="update(); toggled=false;").bio-edit
 	button.btn.btn-primary.btn-inline(type="submit") Submit
 	button.btn.btn-primary.btn-inline(type="reset" ng-click="toggled=false") Cancel
 p(ng-show="!toggled" style="white-space: pre-wrap").project-body: big {{ $parent.project.info.gameplay || project.info.gameplay }}
+p(ng-if="!project.info.gameplay"): big No gameplay yet!

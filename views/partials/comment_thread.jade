@@ -1,5 +1,5 @@
 div.faneron-container
-	div(ng-if="!comment") Loading...
+	p(ng-if="!comment"): big Loading...
 	// Just testing right now
 	div(ng-if="comment").comment
 		h3.comment-user 
@@ -7,7 +7,8 @@ div.faneron-container
 			small.comment-time &nbsp; Posted {{comment.timestamp}}
 			small.comment-score &nbsp; {{comment.vote.votes}} points
 		p.comment-text {{comment.text.comment}} &nbsp;
+		.comment-buttons
 			strong: a(ng-click="createReply(comment._id)") reply
-			i.fa.fa-fw.fa-chevron-up.vote-button(ng-click="up(comment._id)")
-			i.fa.fa-fw.fa-chevron-down.vote-button(ng-click="down(comment._id)")
+			i.fa.fa-fw.fa-chevron-up.vote-button(ng-click="up(comment._id)" ng-class="{'vote-highlight': comment.vote.upvoters.indexOf(loggedInUser._id)!=-1} ")
+			i.fa.fa-fw.fa-chevron-down.vote-button(ng-click="down(comment._id)" ng-class="{'vote-highlight': comment.vote.downvoters.indexOf(loggedInUser._id)!=-1} ")
 		div(ng-if="comment._replies" ng-include="'/partials/comment_reply_template'" onload="replies = comment._replies").comment.reply

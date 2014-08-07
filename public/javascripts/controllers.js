@@ -301,7 +301,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 					for (var i = 0; i < $scope.comments.length; i++) {
 						// Check comments to update view with new score
 						if ($scope.comments[i]._id === data._id) {
-							$scope.comments[i].vote.votes = data.vote.votes;
+							$scope.comments[i] = data;
 							return;
 						}
 						var replies = $scope.comments[i]._replies;
@@ -324,7 +324,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				.success(function(data) {
 					for (var i = 0; i < $scope.comments.length; i++) {
 						if ($scope.comments[i]._id === data._id) {
-							$scope.comments[i].vote.votes = data.vote.votes;
+							$scope.comments[i] = data;
 						}
 						var replies = $scope.comments[i]._replies;
 						// Check replies to update view with new score
@@ -375,6 +375,8 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			});
 	}])
 	.controller('commentThreadCtrl', ['$scope', '$http', '$rootScope', '$stateParams', function($scope, $http, $rootScope, $stateParams) {
+		$scope.loggedInUser = $rootScope.user;
+		console.log($scope.loggedInUser);
 		console.log('comment thread controller loaded');
 		$http({method: 'GET', url: '/comment/thread/' + $stateParams.id})
 			.success(function(data) {
