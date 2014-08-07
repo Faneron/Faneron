@@ -7,4 +7,4 @@ div(ng-repeat="reply in replies")
 		strong: a(ng-click="createReply(reply._id)") reply
 		i.fa.fa-fw.fa-chevron-up.vote-button(ng-click="up(reply._id)")
 		i.fa.fa-fw.fa-chevron-down.vote-button(ng-click="down(reply._id)")
-	.comment.reply(ng-if="reply._replies" ng-include="'/partials/comment_reply_template.jade'" onload="replies = reply._replies")
+	.comment.reply(ng-if="reply._replies && reply._replies[0]._id" ng-include="'/partials/comment_reply_template.jade'" onload="replies = reply._replies")

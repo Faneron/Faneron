@@ -384,6 +384,34 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			.error(function(err) {
 				console.log(err);
 			});
+
+		// Need a special function to update votes (recursively)
+		function updateVotes(comment) {
+			
+		}
+
+		$scope.createReply = function(id) {
+			// Have to make an random project object for the route to use
+			// project._id
+			var project = {
+				_id: $scope.comment._project
+			}
+			var config = {
+				project: project,
+				subject: 'eat blah blah blah', 
+				comment: "reply test",
+				original: true
+			};
+
+			$http({method: 'POST', url: '/comment/reply/' + id, data: config})
+				.success(function(data) {
+					console.log(data);
+				})
+				.error(function(err) {
+					console.log(err)
+				});
+		}
+
 	}]);
 
 
