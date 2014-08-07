@@ -100,6 +100,7 @@ exports.reply = function(req, res) {
 			});
 			comment._replies.push(reply._id);
 			comment.save();
+			res.send(200);
 		}
 	});
 }

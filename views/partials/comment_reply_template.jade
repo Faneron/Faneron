@@ -1,14 +1,24 @@
 div(ng-repeat="reply in replies").comment.reply
+
 	h3.comment-user
 		a(ng-href="/users/{{comment._user.info.username}}").comment-username {{reply._user.info.username}}
 		small.comment-time &nbsp; Posted {{reply.timestamp}}
 		small.comment-score &nbsp; {{reply.vote.votes}} points
 	p.comment-text {{reply.text.comment}} &nbsp;
+	
 	.comment-buttons
-		strong: a(ng-click="createReply(reply._id)") reply
+		strong: a(href="#" ng-click="$root.replyBoxFor = reply._id") reply
 		i.fa.fa-fw.fa-chevron-up.vote-button(ng-click="up(reply._id)" ng-class="{'vote-highlight': reply.vote.upvoters.indexOf(loggedInUser._id)!=-1} ")
 		i.fa.fa-fw.fa-chevron-down.vote-button(ng-click="down(reply._id)" ng-class="{'vote-highlight': reply.vote.downvoters.indexOf(loggedInUser._id)!=-1} ")
-	.comment.reply(ng-if="reply._replies && reply._replies[0]._id" ng-include="'/partials/comment_reply_template.jade'" onload="replies = reply._replies")
+
+	form(ng-submit="createReply(reply._id)" ng-if="$root.replyBoxFor === reply._id").comment-form
+		.form-group
+			textarea.form-group(type="text" placeholder="type your reply here...")#reply-box
+		.form-group
+		button.btn.btn-primary.btn-inline(type="submit") submit
+		a(href="#" ng-click="$root.replyBoxFor = null") cancel
+	.comment.reply(ng-if="reply._replies && reply._replies[0]._id" ng-include="'/partials/comment_reply_template.jade'" onload="replies = reply._replies" )
+
 	// Check if the array !empty and not populate (which means we want to continue the thread)
 	div(ng-if="reply._replies.length != 0 && !reply._replies[0]._id")
 		a.continue-thread-button(href="/comments/{{reply._id}}") continue this thread

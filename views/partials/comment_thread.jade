@@ -8,7 +8,15 @@ div.faneron-container
 			small.comment-score &nbsp; {{comment.vote.votes}} points
 		p.comment-text {{comment.text.comment}} &nbsp;
 		.comment-buttons
-			strong: a(ng-click="createReply(comment._id)") reply
+			strong: a(href="#" ng-click="$root.replyBoxFor = comment._id") reply
 			i.fa.fa-fw.fa-chevron-up.vote-button(ng-click="up(comment._id)" ng-class="{'vote-highlight': comment.vote.upvoters.indexOf(loggedInUser._id)!=-1} ")
 			i.fa.fa-fw.fa-chevron-down.vote-button(ng-click="down(comment._id)" ng-class="{'vote-highlight': comment.vote.downvoters.indexOf(loggedInUser._id)!=-1} ")
+
+		form(ng-submit="createReply(comment._id)" ng-if="$root.replyBoxFor === comment._id").comment-form
+			.form-group
+				textarea.form-group(type="text" placeholder="type your reply here...")#reply-box
+			.form-group
+			button.btn.btn-primary.btn-inline(type="submit") submit
+			a(href="#" ng-click="$root.replyBoxFor = null") cancel
+
 		div(ng-if="comment._replies" ng-include="'/partials/comment_reply_template'" onload="replies = comment._replies").comment.reply

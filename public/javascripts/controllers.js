@@ -276,7 +276,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		}
 	}])
 
-	.controller('projectCommentsCtrl', ['$scope', '$stateParams', '$state', '$http', 'updateVotes', function($scope, $stateParams, $state, $http, updateVotes) {
+	.controller('projectCommentsCtrl', ['$scope','$rootScope', '$stateParams', '$state', '$http', 'updateVotes', function($scope, $rootScope, $stateParams, $state, $http, updateVotes) {
 		$scope.showCommentForm = false;
 		$http({method: 'GET', url: '/project/comments/' + $stateParams['id']})
 			.success(function(data){
@@ -289,7 +289,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			$scope.showCommentForm = true;
 		}
 		$scope.addComment = function() {
-			$scope.comment = document.getElementById('comment-box').value;
+			$scope.comment = $('comment-box').val();
 			var config = { 
 				project: $scope.$parent.project,
 				subject: 'blah blah blahhhhh',
@@ -328,16 +328,25 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				});
 		}
 		$scope.createReply = function(id) {
+			console.log("replying");
+			var reply = $( "#reply-box" ).val();
+			console.log(reply);
 			var config = {
 				project: $scope.project,
 				subject: 'eat blah blah blah', 
-				comment: "reply test",
+				comment: reply, 
 				original: true
 			};
 
 			$http({method: 'POST', url: '/comment/reply/' + id, data: config})
 				.success(function(data) {
 					console.log(data);
+					$rootScope.replyBoxFor = null;
+					$state.transitionTo('project.comments', $stateParams, {
+						reload: true,
+						inherit: false,
+						notify: true
+					});
 				})
 				.error(function(err) {
 					console.log(err)
@@ -359,9 +368,8 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				console.log(err);
 			});
 	}])
-	.controller('commentThreadCtrl', ['$scope', '$http', '$rootScope', '$stateParams', 'updateVotes', function($scope, $http, $rootScope, $stateParams, updateVotes) {
+	.controller('commentThreadCtrl', ['$scope', '$http', '$rootScope', '$stateParams', '$state', 'updateVotes', function($scope, $http, $rootScope, $stateParams, $state, updateVotes) {
 		$scope.loggedInUser = $rootScope.user;
-		console.log($scope.loggedInUser);
 		console.log('comment thread controller loaded');
 		$http({method: 'GET', url: '/comment/thread/' + $stateParams.id})
 			.success(function(data) {
@@ -401,13 +409,20 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			var config = {
 				project: project,
 				subject: 'eat blah blah blah', 
-				comment: "reply test",
+				comment: $('#reply-box').val(),
 				original: true
 			};
 
 			$http({method: 'POST', url: '/comment/reply/' + id, data: config})
 				.success(function(data) {
 					console.log(data);
+					$rootScope.replyBoxFor = false;
+					$state.transitionTo('comment_thread', $stateParams, {
+						reload: true,
+						inherit: false,
+						notify: true
+					});
+
 				})
 				.error(function(err) {
 					console.log(err)
