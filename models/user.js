@@ -4,7 +4,7 @@
  */
 var mongoose = require('mongoose'),
 	passwordHash = require('password-hash'),
-	mongoose_unique_validator = require('mongoose_unique_validator'); // Used to report error messages at pre-save time
+	mongoose_unique_validator = require('mongoose-unique-validator'); // Used to report error messages at pre-save time
 var Schema = mongoose.Schema;
 
 var unique_message = "It seems like someone's already used that {PATH}";
