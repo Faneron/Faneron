@@ -10,7 +10,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var session = require('express-session')
+var session = require('express-session');
 
 //var passwordHash = require('password-hash');
 

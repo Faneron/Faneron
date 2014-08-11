@@ -4,23 +4,29 @@ form(ng-submit="addComment()" ng-show="showCommentForm").comment-form
 	.form-group
 		textarea.form-group(type="text" placeholder="type your comment here..." ng-model="comment")#comment-box
 	.form-group
-		button.btn.btn-primary(type="submit") submit
+		button.btn.btn-primary.btn-inline(type="submit") submit
+		a(href="#" ng-click="showCommentForm=false") cancel
+
+p(ng-if="!comments"): big Loading...
 
 div(ng-repeat="comment in comments").comment
+
 	h3.comment-user 
 		a(ng-href="/users/{{comment._user.info.username}}").comment-username {{comment._user.info.username}}
 		small.comment-time &nbsp; Posted {{comment.timestamp}}
 		small.comment-score &nbsp; {{comment.vote.votes}} points
+		
 	p.comment-text {{comment.text.comment}} &nbsp;
-		strong: a(ng-click="reply(comment._id)") reply
-		i.fa.fa-fw.fa-chevron-up.vote-button(ng-click="up(comment._id)")
-		i.fa.fa-fw.fa-chevron-down.vote-button(ng-click="down(comment._id)")
-	div(ng-if="comment._replies" ng-repeat="reply in comment._replies").comment.reply
-		h3.comment-user
-			a(ng-href="/users/{{comment._user.info.username}}").comment-username {{reply._user.info.username}}
-			small.comment-time &nbsp; Posted {{reply.timestamp}}
-		small.comment-time &nbsp; {{reply.vote.votes}} points
-		p.comment-text {{reply.text.comment}} &nbsp;
-			strong: a(ng-click="reply(reply._id)") reply
-			i.fa.fa-fw.fa-chevron-up.vote-button(ng-click="up(reply._id)")
-			i.fa.fa-fw.fa-chevron-down.vote-button(ng-click="down(reply._id)")
+	.comment-buttons
+		strong: a(href="#" ng-click="$root.replyBoxFor = comment._id") reply
+		i.fa.fa-fw.fa-chevron-up.vote-button(ng-click="up(comment._id)" ng-class="{'vote-highlight': comment.vote.upvoters.indexOf(loggedInUser._id) != -1}")
+		i.fa.fa-fw.fa-chevron-down.vote-button(ng-click="down(comment._id)" ng-class="{'vote-highlight': comment.vote.downvoters.indexOf(loggedInUser._id)!= -1}")
+
+	form(ng-submit="createReply(comment._id)" ng-if="$root.replyBoxFor === comment._id").comment-form
+		.form-group
+			textarea.form-group(type="text" placeholder="type your reply here...")#reply-box
+		.form-group
+		button.btn.btn-primary.btn-inline(type="submit") submit
+		a(href="#" ng-click="$root.replyBoxFor = null") cancel
+
+	div(ng-if="comment._replies" ng-include="'/partials/comment_reply_template'" onload="replies = comment._replies").comment.reply

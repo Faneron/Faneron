@@ -46,6 +46,8 @@ module.exports = function(app) {
 	// Comment Routes
 	app.get('/comment/get/:id', authHandlers.isLoggedIn, commentHandlers.get);
 
+	app.get('/comment/thread/:id', authHandlers.isLoggedIn, commentHandlers.getThread);
+
 	app.post('/comment/create', authHandlers.isLoggedIn, commentHandlers.create);
 
 	app.post('/comment/reply/:id', authHandlers.isLoggedIn, commentHandlers.reply);

@@ -15,6 +15,10 @@ body {
   font-weight: 300;
 }
 
+a:hover {
+	color: #3a90ff;
+}
+
 .nav, .navbar-brand {
 	font-family: 'Dolce Vita Light', sans-serif;
   letter-spacing: 1px

@@ -50,13 +50,13 @@ var commentSchema = new Schema({
 
 var required_message = 'Please enter a {PATH}';
 // An error message for these paths should never be shown client side
-commentSchema.path('_user').require(true, required_message); 
-commentSchema.path('_project').require(true, required_message);
-commentSchema.path('text.original').require(true, required_message);
+commentSchema.path('_user').required(true, required_message); 
+commentSchema.path('_project').required(true, required_message);
+commentSchema.path('text.original').required(true, required_message);
 // Error messages here should be shown client side
-commentSchema.path('text.comment').require(true, required_message);
-commentSchema.path('_user').require(true);
-commentSchema.path('_project').require(true);
+commentSchema.path('text.comment').required(true, required_message);
+commentSchema.path('_user').required(true);
+commentSchema.path('_project').required(true);
 
 
 var votes_message = "The number of votes is the number of upvotes - the number of downvotes";

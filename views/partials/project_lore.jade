@@ -7,4 +7,4 @@ form(ng-show="toggled" ng-submit="update(); toggled=false;").bio-edit
 	button.btn.btn-primary.btn-inline(type="submit") Submit
 	button.btn.btn-primary.btn-inline(type="reset" ng-click="toggled=!toggled") Cancel
 p(ng-show="!toggled" style="white-space: pre-wrap;").project-body: big {{ $parent.project.info.lore || project.info.lore }}
-p(ng-show="!project.info.lore"): big No lore yet!
+p(ng-if="!project.info.lore"): big No lore yet!
