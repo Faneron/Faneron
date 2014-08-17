@@ -289,10 +289,9 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			$scope.showCommentForm = true;
 		}
 		$scope.addComment = function() {
-			$scope.comment = $('comment-box').val();
 			var config = { 
 				project: $scope.$parent.project,
-				subject: 'blah blah blahhhhh',
+				subject: $scope.subject,
 				comment: $scope.comment,
 				original: true
 			};
