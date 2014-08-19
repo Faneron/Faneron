@@ -87,6 +87,11 @@ exports.logout = function(req, res) {
 // account by creating a temporary signature that the
 // client uses to upload information to S3
 // Adapted from: https://devcenter.heroku.com/articles/s3-upload-node
+//
+// Set the environment variable for the current shell by using
+// the following commands:
+//   S3_BUCKET='name-of-bucket'
+//   AWS_SECRET_KEY='secretkeyhere'
 exports.sign_aws_s3 = function(req, res) {
 
     var S3_BUCKET = process.env.S3_BUCKET,
