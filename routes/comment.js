@@ -42,6 +42,7 @@ exports.get = function(req, res) {
 exports.getThread = function(req, res) {
 	CommentModel.Comment.findById(req.params.id)
 		.populate('_user')
+		.populate('_project')
 		.exec(function(err, doc) {
 			populateReplies(doc, '_replies', 5, res);
 		});

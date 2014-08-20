@@ -1,7 +1,13 @@
 div.faneron-container
 	p(ng-if="!comment"): big Loading...
-	// Just testing right now
+	
 	div(ng-if="comment").comment
+		h2.comment-thread-project
+			b Project: 
+			a(ui-sref="project({'id': comment._project._id})") {{comment._project.info.title}}
+		h3.comment-thread-title
+			b Thread:&nbsp;
+			| {{comment.text.subject}}
 		h3.comment-user 
 			a(ng-href="/users/{{comment._user.info.username}}").comment-username {{comment._user.info.username}}
 			small.comment-time &nbsp; Posted {{comment.timestamp}}
