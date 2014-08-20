@@ -404,7 +404,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			// Have to make an random project object for the route to use
 			// project._id
 			var project = {
-				_id: $scope.comment._project
+				_id: $scope.comment._project._id
 			}
 			var config = {
 				project: project,
