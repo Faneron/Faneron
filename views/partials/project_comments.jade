@@ -32,6 +32,5 @@ div(ng-repeat="comment in comments").comment
 		button.btn.btn-primary.btn-inline(type="submit") submit
 		a(href="#" ng-click="$root.replyBoxFor = null") cancel
 
-	//.comment.reply(ng-if="comment._replies" ng-include="'/partials/comment_reply_template'" onload="replies = comment._replies")
-	a.continue-thread-button(href="/comments/{{comment._id}}" ng-if="comment._replies") view this thread 
+	a.continue-thread-button(href="/comments/{{comment._id}}") view this thread 
 	

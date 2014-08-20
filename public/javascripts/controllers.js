@@ -155,9 +155,9 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			.success(function(data) {
 				console.log(data);
 				$scope.projects = data;
-				// data.forEach(function(data) {
-				// 	data.time = moment(data.info.timestamp).format("MMMM DD, YYYY");
-				// });
+				data.forEach(function(data) {
+					data.time = moment(data.info.timestamp).format("MMMM DD, YYYY");
+				 });
 			});
 	}])
 

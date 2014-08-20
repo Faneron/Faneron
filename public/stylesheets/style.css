@@ -19,6 +19,60 @@ a:hover {
 	color: #3a90ff;
 }
 
+.projects-container {
+
+}
+
+.project-card {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	display: inline-block;
+	width: calc(33% - 20px);
+	padding: 20px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	vertical-align: top;
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+	margin: 10px;
+}
+
+
+.project-card-main-info {
+	margin-bottom: 20px;
+}
+
+.project-card-main-info > * {
+	margin: 10px 0;
+}
+
+.project-card-stats {
+	color: rgba(0, 0, 0, 0.6);
+	font-weight: 500;
+}
+
+.project-card-stats > * {
+	font-weight: 500;
+	margin: 4px 0;
+}
+
+h3.project-card-title {
+	font-weight: 700;
+}
+
+h4.project-card-tagline {
+	color: rgba(0, 0, 0, 0.5);
+	font-weight: 500;
+}
+
+.project-card a {
+	font-weight: 700;
+}
+
+.project-image {
+	width: calc(100% + 41px);
+	margin: -20px -20px 10px -20px;
+}
+
 .nav, .navbar-brand {
 	font-family: 'Dolce Vita Light', sans-serif;
   letter-spacing: 1px
@@ -307,6 +361,11 @@ button.navbar-toggle {
   .faneron-container {
     width: 100%;
   }
+
+  .project-card {
+	width: calc(50% - 20px);
+  }
+
   .navbar-brand,
   .navbar .container-fluid ul li a {
     padding: 20px 10px 16px 10px;
@@ -323,6 +382,10 @@ button.navbar-toggle {
 @media (max-width: 550px) {
   .faneron-container {
     padding: 30px;
+  }
+
+  .project-card {
+	width: 100%;
   }
 }
 

@@ -1,10 +1,16 @@
 .faneron-container
 	h1 Explore
-	.projects-container.cf
-		.thumbnail-box-wrapper(ng-repeat="project in projects")
-			.thumbnail-box
-				.thumbnail-overlay
-					h2 {{project.info.title}}
-					h5 Created {{project.time}}
-					h3 {{project.info.genre}}
-					a(class='overlay-button-container' ng-href='/projects/{{project._id}}'): button.btn.btn-primary See More
+	.explore-sidebar
+		p categories
+	.projects-container.explore-projects.cf
+		.project-card(ng-repeat="project in projects")
+			img(src="/images/splash.jpg").project-image
+			.project-card-main-info
+				h3.project-card-title: a(ui-sref="project({'id': project._id})") {{project.info.title}}
+				h4.project-card-tagline {{project.info.tagline}}
+			.project-card-stats
+				h6 Created {{project.time}}
+				h5 by 
+					a(ui-sref="profile({'username': project._user.info.username})") {{project._user.info.username}}
+				h6 {{project.views}} views | 
+					a(ui-sref="project.comments({'id': project._id})") {{project._comments.length}} threads

@@ -86,10 +86,6 @@ there's a 2px margin between pills*/
 	outline: none;
 }
 
-.profile-view {
-	margin: 0 20px 20px 20px;
-}
-
 .profile-view p {
 	font-size: 125%;
 }
