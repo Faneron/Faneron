@@ -34,6 +34,8 @@ exports.get = function(req, res) {
 		.exec(function(err, data) {
 			console.log("Project info: ");
 			console.log(data);
+			data.views++;
+			data.save();
 			res.send(200, data);
 		});
 };

@@ -1,10 +1,12 @@
-button.btn.btn-primary(ng-click="showCommentForm=true" ng-show="!showCommentForm") Comment
+h1 Discussion 
+br
+button.btn.btn-primary(ng-click="showCommentForm=true" ng-show="!showCommentForm") New Thread 
 
 form(ng-submit="addComment()" ng-show="showCommentForm").comment-form
 	.form-group
-		input.form-group(type="text" placeholder="give your comment a subject" ng-model="subject")
+		input.form-group(type="text" placeholder="subject" ng-model="subject")
 	.form-group
-		textarea.form-group(type="text" placeholder="type your comment here..." ng-model="comment")
+		textarea.form-group(type="text" placeholder="first post here..." ng-model="comment")
 	.form-group
 		button.btn.btn-primary.btn-inline(type="submit") submit
 		a(href="#" ng-click="showCommentForm=false") cancel
@@ -19,7 +21,7 @@ div(ng-repeat="comment in comments").comment
 		small.comment-time &nbsp; Posted {{comment.timestamp}}
 		small.comment-score &nbsp; {{comment.vote.votes}} points
 		
-	p.comment-text {{comment.text.comment}} &nbsp;
+	p(style="white-space: pre-wrap").comment-text {{comment.text.comment}} &nbsp;
 	.comment-buttons
 		strong: a(href="#" ng-click="$root.replyBoxFor = comment._id") reply
 		i.fa.fa-fw.fa-chevron-up.vote-button(ng-click="up(comment._id)" ng-class="{'vote-highlight': comment.vote.upvoters.indexOf(loggedInUser._id) != -1}")
