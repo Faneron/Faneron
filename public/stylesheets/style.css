@@ -20,7 +20,6 @@ a:hover {
 }
 
 .projects-container {
-
 }
 
 .project-card {
@@ -28,7 +27,7 @@ a:hover {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	display: inline-block;
-	width: calc(33% - 20px);
+	width: calc(33% - 18px);
 	padding: 20px;
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	vertical-align: top;
@@ -51,21 +50,23 @@ a:hover {
 }
 
 .project-card-stats > * {
-	font-weight: 500;
+	font-weight: 400;
 	margin: 4px 0;
 }
 
-h3.project-card-title {
-	font-weight: 700;
+h3.project-card-title a {
+	font-weight: 600;
+	font-size: 1.0em;
 }
 
 h4.project-card-tagline {
 	color: rgba(0, 0, 0, 0.5);
 	font-weight: 500;
+	font-size: 1.3em;
 }
 
 .project-card a {
-	font-weight: 700;
+	font-weight: 600;
 }
 
 .project-image {
@@ -136,7 +137,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 800px;
   margin: 0 auto;
   box-shadow: 0 0 8px rgba(51, 51, 51, 0.45);
-  padding: 50px;
+  padding: 30px;
   background-color: white;
 }
 
@@ -362,9 +363,6 @@ button.navbar-toggle {
     width: 100%;
   }
 
-  .project-card {
-	width: calc(50% - 20px);
-  }
 
   .navbar-brand,
   .navbar .container-fluid ul li a {
@@ -377,6 +375,12 @@ button.navbar-toggle {
   .icon-nav {
     padding-right: 10px;
   }
+}
+
+@media(max-width: 780px) {
+	.project-card {
+		width: calc(50% - 20px);
+	}
 }
 
 @media (max-width: 550px) {

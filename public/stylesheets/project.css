@@ -12,7 +12,7 @@
 	background-color: white;
 	position: relative;
 	z-index: 997;
-	left: -50px;
+	left: -30px;
 	top: 0;
 	display: inline-block;
 	margin-bottom: 20px;
@@ -83,7 +83,7 @@
 
 @media (max-width: 635px) {
 	.project-nav {
-		/*left: -30px;*/
+		left: -50px;
 		margin: -10px -80px 20px 10px;
 		/*margin: 10px 0;*/
 		width: calc(100% + 70px);

@@ -60,6 +60,10 @@ exports.create = function(req, res) {
 			original: req.body.original
 		}
 	});
+	newComment.vote.votes = 1;
+	newComment.vote.upvoters = req.user._id;
+	req.user.rank.xp++;
+	req.user.save();
 	newComment.save(function(err) {
 		if(err) {
 			res.send(400);
@@ -163,48 +167,41 @@ exports.upvote = function(req, res) {
 
 	CommentModel.Comment.findById(req.params.id, function(err, comment){
 		if(err) console.log(err);
-		UserModel.User.findById(req.user.id, function(err, user){
-			console.log("User finding");
-			if(err) console.log(err);
-
-			var vote = comment.vote;
-			var rank = user.rank;
-
-
-			// if the current user has already upvoted the comment, undo their upvote 
-			if(comment.vote.upvoters.indexOf(req.user.id) !== -1) {
-				console.log("already upboated");
-				var upIndex = comment.vote.upvoters.indexOf(req.user.id);
-				comment.vote.votes--;
-				comment.vote.upvoters.splice(upIndex, 1);
-				comment.save();
-				res.send(200, comment);
-				return;
-			}
-			// if the current user has already downvoted the comment, reverse the effect of the downvote
-			var downIndex = comment.vote.downvoters.indexOf(req.user.id);
-			if(downIndex !== -1) {
-				// reverse comment votes
-				comment.vote.votes++;
-				comment.vote.downvoters.splice(downIndex, 1);
-				comment.save();
-				// reverse user rank
-				user.rank.xp++;
-				user.save();
-			}
-			// upvote comment and increase user xp and currency each by 1
-			comment.vote.votes++;
-			comment.vote.upvoters.push(req.user.id);
-			comment.save();
-			user.rank.xp++;
-			user.rank.currency++;
-			user.save();
-
-			console.log(user);
-			console.log(comment);
-
-			res.send(200, comment);
+		UserModel.User.findById(comment._user, function(err, commentUser) {
+			if (err) console.log(err);
+			commentUser.rank.xp++;
+			commentUser.save();
 		});
+
+		var vote = comment.vote;
+
+		// if the current user has already upvoted the comment, undo their upvote 
+		if(comment.vote.upvoters.indexOf(req.user.id) !== -1) {
+			console.log("already upboated");
+			var upIndex = comment.vote.upvoters.indexOf(req.user.id);
+			comment.vote.votes--;
+			comment.vote.upvoters.splice(upIndex, 1);
+			comment.save();
+			res.send(200, comment);
+			return;
+		}
+		// if the current user has already downvoted the comment, reverse the effect of the downvote
+		var downIndex = comment.vote.downvoters.indexOf(req.user.id);
+		if(downIndex !== -1) {
+			// reverse comment votes
+			comment.vote.votes++;
+			comment.vote.downvoters.splice(downIndex, 1);
+			comment.save();
+			// reverse user rank
+		}
+		// upvote comment and increase user xp and currency each by 1
+		comment.vote.votes++;
+		comment.vote.upvoters.push(req.user.id);
+		comment.save();
+
+		console.log(comment);
+
+		res.send(200, comment);
 	});
 };
 
@@ -214,43 +211,37 @@ exports.downvote = function(req, res) {
 
 	CommentModel.Comment.findById(req.params.id, function(err, comment){
 		if(err) console.log(err);
-		UserModel.User.findById(req.user.id, function(err, user){
-			if(err) console.log(err);
-
-			// var vote = comment.vote;
-			// var rank = user.rank;
-
-			// if the current user has already downvoted the comment, do nothing
-			if(comment.vote.downvoters.indexOf(req.user.id) !== -1) {
-				console.log('already downboated');
-				var downIndex = comment.vote.downvoters.indexOf(req.user.id);
-				comment.vote.votes++;
-				comment.vote.downvoters.splice(downIndex, 1);
-				comment.save();
-				res.send(200, comment);
-				return;
+		UserModel.User.findById(comment._user, function(err, commentUser) {
+			if (err) console.log(err);
+			else {
+				commentUser.rank.xp--;
+				commentUser.save();
 			}
-			// if the current user has already upvoted the comment, reverse the effect of the upvote
-			var upIndex = comment.vote.upvoters.indexOf(req.user.id);
-			if(upIndex !== -1) {
-				// reverse comment votes
-				comment.vote.votes--;
-				comment.vote.upvoters.splice(upIndex, 1);
-				comment.save();
-				// reverse user rank
-				user.rank.xp--;
-				user.rank.currency--;
-				user.save();
-			}
-			// downvote comment and decrease user xp and currency each by 1
-			comment.vote.votes--;
-			comment.vote.downvoters.push(req.user.id);
-			comment.save();
-			user.rank.xp--;
-			user.rank.currency--;
-			user.save();
-			res.send(200, comment);
 		});
+		
+		// if the current user has already downvoted the comment, do nothing
+		if(comment.vote.downvoters.indexOf(req.user.id) !== -1) {
+			console.log('already downboated');
+			var downIndex = comment.vote.downvoters.indexOf(req.user.id);
+			comment.vote.votes++;
+			comment.vote.downvoters.splice(downIndex, 1);
+			comment.save();
+			res.send(200, comment);
+			return;
+		}
+		// if the current user has already upvoted the comment, reverse the effect of the upvote
+		var upIndex = comment.vote.upvoters.indexOf(req.user.id);
+		if(upIndex !== -1) {
+			// reverse comment votes
+			comment.vote.votes--;
+			comment.vote.upvoters.splice(upIndex, 1);
+			comment.save();
+		}
+		// downvote comment and decrease user xp and currency each by 1
+		comment.vote.votes--;
+		comment.vote.downvoters.push(req.user.id);
+		comment.save();
+		res.send(200, comment);
 	});
 };
 
