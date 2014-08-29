@@ -7,7 +7,8 @@ module.exports = function(app) {
 		userHandlers = require('./user'),
 		authHandlers = require('./auth'),
 		commentHandlers = require('./comment'),
-		defaultHandlers = require('./default');
+		defaultHandlers = require('./default'),
+		exploreHandlers = require('./explore');
 
 	// Auth Routes
 	app.post('/auth/login', authHandlers.login, authHandlers.loginRedirect);
@@ -29,8 +30,10 @@ module.exports = function(app) {
 
 	app.post('/user/update/:id', authHandlers.isLoggedIn, userHandlers.update);
 
-	// Project Routes
+	// Explore Routes
+	app.post('/user/explore', authHandlers.isLoggedIn, exploreHandlers.explore);
 
+	// Project Routes
 	app.get('/project/get/all', authHandlers.isLoggedIn, projectHandlers.all);
 
 	app.get('/project/get/:id', authHandlers.isLoggedIn, projectHandlers.get);

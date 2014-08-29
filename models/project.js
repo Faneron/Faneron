@@ -18,6 +18,10 @@ var projectSchema = new mongoose.Schema({
 		description: {type: String, default: ""},
 		lore: {type: String, default: ""},
 		gameplay: String,
+		stage: {
+			type: Schema.Types.ObjectId,
+			ref: 'Stage'
+		},
 		timestamp: {type: Date, default: Date.now}
 	},
 
@@ -55,6 +59,17 @@ projectSchema.methods.addComment = function(text) {
 projectSchema.methods.edit = function(field, text) {
 	this[field] = text;
 	this.save();
+}
+
+projectSchema.methods.add_stage = function(stage) {
+	this.info.stage = stage._id;
+	this.save(function(err, numAffected, product) {
+		if(err) throw err;
+	});
+	stage._projects.append(this._id);
+	stage.save(function(err, numAffected, product) {
+		if(err) throw err;
+	});
 }
 
 var Project = mongoose.model('Project', projectSchema);

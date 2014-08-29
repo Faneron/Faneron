@@ -24,6 +24,7 @@
     "mongoose-unique-validator": "^0.3.0",
     "mocha": "^1.21.3",
     "crypto": "0.0.3",
-    "nconf": "^0.6.9"
+    "nconf": "^0.6.9",
+    "aws-sdk": "^2.0.15"
   }
 }

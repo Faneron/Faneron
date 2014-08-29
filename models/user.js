@@ -47,17 +47,21 @@ userSchema.path('info.password').required(true, required_message);
 
 var email_has_at = "Invalid email, there is no @ sign";
 userSchema.path('info.email').validate(function(value) {
+	if(!value) return false;
 	return value.indexOf('@') !== -1;
 }, email_has_at);
 	
 var password_too_short = 'Your password must be at least 6 characters long';
 userSchema.path('info.password').validate(function(value) {
-	console.log(value);
+	if(!value) {
+		return false;
+	}
 	return value.length >= 6;
 }, password_too_short);
 
 var password_not_username = "Your password can't be the same as your username";
 userSchema.path('info.password').validate(function(value) {
+	if(!value) return false;
 	var username = this.info.username;
 	return value !== username;
 }, password_not_username);
@@ -79,7 +83,6 @@ userSchema.methods.generateHash = function(password) {
  * Validates that the user's password is correct when logging in.
  */
  userSchema.methods.validatePassword = function(password) {
- 	console.log(this.info.password);
  	return passwordHash.verify(password, this.info.password);
  };
 
