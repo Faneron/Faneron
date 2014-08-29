@@ -6,6 +6,7 @@
 var passport = require('passport'),
     flash = require('connect-flash'),
     app = require('../app');
+var AWS = require('aws-sdk');
 
 // TODO: What is this being used for?
 require('../config/passport');
@@ -81,54 +82,25 @@ exports.logout = function(req, res) {
 };
 
 
-// sign_aws_s3 should be used to sign an AWS S3 upload
-// request from the server. This function helps prevent
-// security breaches and abuse of using Faneron's S3
-// account by creating a temporary signature that the
-// client uses to upload information to S3
-// Adapted from: https://devcenter.heroku.com/articles/s3-upload-node
-//
-// Set the environment variable for the current shell by using
-// the following commands:
-//   S3_BUCKET='name-of-bucket'
-//   AWS_SECRET_KEY='secretkeyhere'
 exports.sign_aws_s3 = function(req, res) {
-
-    var S3_BUCKET = process.env.S3_BUCKET,
-        AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
-
-    // Obtain POST request information:
-    // file's name and mime type
-    var object_name = req.query.s3_object_name,
-        mime_type = req.query.s3_object_type;
-
-    // Set expiration time
-    var now = new Date(),
-        expires = Math.ceil((now.getTime() + 10000) / 1000);
-
-    // AWS request header
-    // Allows the image to be publicly read
-    var amz_headers = "x-amz-acl:public-read";
-
-    // PUT request
-    var put_req = "PUT\n\n"+mime_type+"\n"+expires+"\n"+amz_headers+"\n/"+S3_BUCKET+"/"+object_name;
-
-    // Create the signature using SHA-1
-    // The signature is created based on the AWS secret
-    // key, and is sent to AWS to verify its validity
-    // The signature is escaped for security reasons,
-    // but the '+' sign is not escaped
-    var signature = crypto.createHmac('sha1', AWS_SECRET_KEY).update(put_req).digest('base64');
-    signature = encodeURIComponents(signature.trim());
-    signature = signature.replace('%2B','+');
-
-    // The URL of the object
-    var url = 'https://'+S3_BUCKET+'.s3.amazonaws.com/'+object_name;
-
-    var credentials = {
-        signed_request: url+"?AWSAccessKeyId="+AWS_ACCESS_KEY+"&Expires="+expires+"&Signature="+signature,
-        url: url
-    };
-    res.write(JSON.stringify(credentials));
-    res.end();
-};
+    AWS.config.update({
+        "accessKeyId": process.env.AWS_ACCESS_KEY,
+        "secretAccessKey": process.env.AWS_SECRET_KEY
+    })
+    var s3 = new AWS.S3();
+    var content_type = req.params; // TODO: Get content type somehow
+    var params = {
+        Bucket: "faneron-test",
+        Key: "file-name", // TODO: Get unique file name
+        ACL: 'authenticated-read',
+        ContentType: '', // Get Mime Type of object
+        Expires: 120,
+    }
+    s3.getSignedUrl('putObject', params, function(err, presigned_url) {
+        if(err) {
+            res.send(500);
+        }
+        res.send(presigned_url);
+    });
+    
+}
