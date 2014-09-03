@@ -355,6 +355,10 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		}
 	}])
 
+	.controller('projectImagesCtrl', ['$scope', function($scope) {
+
+	}])
+
 	.controller('projectCtrl', ['$scope', '$http', '$rootScope', '$stateParams', '$state', function($scope, $http, $rootScope, $stateParams, $state) {
 		$scope.showCommentForm = false;
 		$scope.loggedInUser = $rootScope.user;
@@ -364,6 +368,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		$http({method: 'GET', url: '/project/get/' + $stateParams.id})
 			.success(function(data) {
 				$scope.project = data;
+				console.log($scope.project);
 			}).
 			error(function(err) {
 				console.log(err);
