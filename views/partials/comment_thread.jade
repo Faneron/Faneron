@@ -10,8 +10,8 @@ div.faneron-container
 			b {{comment.text.subject}}
 		h3.comment-user 
 			a(ng-href="/users/{{comment._user.info.username}}").comment-username {{comment._user.info.username}}
-			small.comment-time &nbsp; Posted {{comment.timestamp}}
-			small.comment-score &nbsp; {{comment.vote.votes}} points
+			small.comment-time &nbsp; Posted {{moment(comment.timestamp).fromNow()}} |
+			small.comment-score {{comment.vote.votes}} points
 		p.comment-text {{comment.text.comment}} &nbsp;
 		.comment-buttons
 			strong: a(href="#" ng-click="$root.replyBoxFor = comment._id") reply
@@ -25,4 +25,4 @@ div.faneron-container
 			button.btn.btn-primary.btn-inline(type="submit") submit
 			a(href="#" ng-click="$root.replyBoxFor = null") cancel
 
-		div(ng-if="comment._replies" ng-include="'/partials/comment_reply_template'" onload="replies = comment._replies").comment.reply
+		div(ng-if="comment._replies" ng-include="'/partials/comment_reply_template'" onload="replies = comment._replies")

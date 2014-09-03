@@ -33,13 +33,12 @@
 }
 
 .comment {
-	margin: 20px -30px;
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-	padding: 25px;
+	margin: 10px auto;
 }
 
 .comment.reply {
-	margin-left: 20px;
+	padding-left: 30px;
+	border-left: 3px solid rgba(0, 0, 0, 0.2);
 }
 
 .comment-user {

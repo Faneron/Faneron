@@ -25,7 +25,6 @@ exports.all = function(req, res) {
 		});
 }
 
-// Implementation not complete -- see docs (FIXED!)
 exports.get = function(req, res) {
 	console.log(req.route.path);
 	ProjectModel.Project.findById(req.params.id)
@@ -130,6 +129,7 @@ exports.comments = function(req, res) {
 	});
 };
 
+// User that created the project
 exports.user = function(req, res) {
 	console.log(req.user);
 	ProjectModel.Project
@@ -140,3 +140,82 @@ exports.user = function(req, res) {
 		res.send(doc._user);
 	});
 };
+
+exports.upvote = function(req, res) {
+	console.log("upvoting project " + req.params.id);
+	ProjectModel.Project.findById(req.params.id, function(err, project) {
+		if (err) console.log (err);
+		else {
+			UserModel.User.findById(project._user, function(err, user) {
+				if (err) console.log(err);
+				else {
+					user.rank.xp++;
+					user.save();
+				}
+			});
+
+			// change project ranking etc...
+			var upIndex = project.vote.upvoters.indexOf(req.user.id);
+			if (upIndex !== -1) {
+				console.log('already upboated this project');
+				project.vote.upvoters.splice(upIndex, 1);
+				project.vote.votes--;
+				project.save();
+				res.send(200, project);
+				return;
+			}
+
+			var downIndex = project.vote.downvoters.indexOf(req.user.id);
+			if (downIndex !== -1) {
+				console.log('removing downboat');
+				project.vote.downvoters.splice(downIndex, 1);
+			}
+
+			console.log('upboating!');
+			project.vote.upvoters.push(req.user.id);
+			project.vote.votes++;
+			project.save();
+			res.send(200, project);
+
+		}
+	});
+}
+
+exports.downvote = function(req, res) {
+	console.log('downvoting project ' + req.params.id);
+	ProjectModel.Project.findById(req.params.id, function(err, project) {
+		if (err) console.log(err);
+		else {
+			UserModel.User.findById(project._user, function(err, user) {
+				if (err) console.log(err);
+				else {
+					user.rank.xp--;
+					user.save();
+				}
+			});
+
+			// change project ranking etc...
+			var downIndex = project.vote.downvoters.indexOf(req.user.id);
+			if (upIndex !== -1) {
+				console.log('already downboated this project');
+				project.vote.downvoters.splice(downIndex, 1);
+				project.vote.votes++;
+				project.save();
+				res.send(200, project);
+				return;
+			}
+
+			var upIndex = project.vote.upvoters.indexOf(req.user.id);
+			if (upIndex !== -1) {
+				console.log('removing upboat');
+				project.vote.upvoters.splice(upIndex, 1);
+			}
+
+			console.log('downboating!');
+			project.vote.downvoters.push(req.user.id);
+			project.vote.votes--;
+			project.save();
+			res.send(200, project);
+		}
+	});
+}

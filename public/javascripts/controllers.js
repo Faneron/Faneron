@@ -282,6 +282,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		$http({method: 'GET', url: '/project/comments/' + $stateParams['id']})
 			.success(function(data){
 				$scope.comments = data;
+				$scope.moment = moment;
 			})
 			.error(function(err) {
 				console.log(err);
@@ -375,6 +376,9 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			.success(function(data) {
 				console.log(data);
 				$scope.comment = data;
+				console.log(moment($scope.comment.timestamp).fromNow());
+				// Make the moment() function available to angular templates
+				$scope.moment = moment;
 			})
 			.error(function(err) {
 				console.log(err);

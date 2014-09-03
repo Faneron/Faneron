@@ -48,6 +48,10 @@ module.exports = function(app) {
 
 	app.get('/project/user/:id', authHandlers.isLoggedIn, projectHandlers.user); // need to implement
 
+	app.post('/project/upvote/:id', authHandlers.isLoggedIn, projectHandlers.upvote);
+
+	app.post('/project/downvote/:id', authHandlers.isLoggedIn, projectHandlers.downvote);
+
 	// Comment Routes
 	app.get('/comment/get/:id', authHandlers.isLoggedIn, commentHandlers.get);
 

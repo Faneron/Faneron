@@ -11,6 +11,18 @@ var projectSchema = new mongoose.Schema({
 		ref: 'User'
 	},
 
+	vote: {
+		votes: {type: Number, default: 0},
+		upvoters: [{
+			type: Schema.Types.ObjectId,
+			ref: 'User'
+		}],
+		downvoters: [{
+			type: Schema.Types.ObjectId,
+			ref: 'User'
+		}]
+	},
+
 	info: {
 		title: { type: String, default: "" },
 		tagline: { type: String, default: ""},

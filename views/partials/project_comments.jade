@@ -18,8 +18,8 @@ div(ng-repeat="comment in comments").comment
 	h3.comment-user.comment-username Subject: {{comment.text.subject}}
 	h4.comment-user 
 		a(ng-href="/users/{{comment._user.info.username}}").comment-username {{comment._user.info.username}}
-		small.comment-time &nbsp; Posted {{comment.timestamp}}
-		small.comment-score &nbsp; {{comment.vote.votes}} points
+		small.comment-time &nbsp; Posted {{moment(comment.timestamp).fromNow()}} |
+		small.comment-score {{comment.vote.votes}} points
 		
 	p(style="white-space: pre-wrap").comment-text {{comment.text.comment}} &nbsp;
 	.comment-buttons

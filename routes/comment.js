@@ -175,10 +175,10 @@ exports.upvote = function(req, res) {
 
 		var vote = comment.vote;
 
+		var upIndex = comment.vote.upvoters.indexOf(req.user.id);
 		// if the current user has already upvoted the comment, undo their upvote 
-		if(comment.vote.upvoters.indexOf(req.user.id) !== -1) {
+		if(upIndex !== -1) {
 			console.log("already upboated");
-			var upIndex = comment.vote.upvoters.indexOf(req.user.id);
 			comment.vote.votes--;
 			comment.vote.upvoters.splice(upIndex, 1);
 			comment.save();
@@ -191,8 +191,6 @@ exports.upvote = function(req, res) {
 			// reverse comment votes
 			comment.vote.votes++;
 			comment.vote.downvoters.splice(downIndex, 1);
-			comment.save();
-			// reverse user rank
 		}
 		// upvote comment and increase user xp and currency each by 1
 		comment.vote.votes++;
