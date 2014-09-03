@@ -356,6 +356,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 	}])
 
 	.controller('projectImagesCtrl', ['$scope', function($scope) {
+		$scope.aws_upload = AWS_S3;
 
 	}])
 

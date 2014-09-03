@@ -77,17 +77,17 @@ function AWS_S3(file_chooser, upload_button) {
     return {
         // @function onFinish
         // @link _finish_callback
-        onFinish = function(callback) {
+		onFinish : function(callback) {
             _finish_callback = callback;
         },
         // @function onError
         // @link _error_callback
-        onError = function(callback) {
+		onError : function(callback) {
             _error_callback = callback;
         },
         // Starts listening for when the upload button is clicked
         // @function execute
-        execute = function() {
+		execute : function() {
             $(_upload_button).click(function(event) {
 
                 get_presigned_url(
@@ -97,10 +97,10 @@ function AWS_S3(file_chooser, upload_button) {
                             data.presigned_url, 
                             _file_chooser,
                             _finish_callback,
-                            _error_callback,
+                            _error_callback
                         )
                     },
-                    _error_callback,
+                    _error_callback
                 );
 
             });
