@@ -68,19 +68,24 @@ function AWS_S3(file_chooser, upload_button) {
     */
     function upload_to_s3(presigned_url, file_chooser, success_callback, err_callback) {
         var file = file_chooser.files[0];
-        $.ajax({
-            url: presigned_url,
-            data: {
-                "file": file
-            },
-            type: "PUT",
-            success: function(data, textStatus, jqXHR) {
-                if(success_callback) success_callback(data, textStatus, jqXHR);
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                if(err_callback) err_callback(textStatus);
-            }
-        })
+        var file_reader = new FileReader();
+        file_reader.onload = (function() {
+            $.ajax({
+                url: presigned_url,
+                data: {
+                    "file": this.result
+                },
+                type: "POST",
+                success: function(data, textStatus, jqXHR) {
+                    if(success_callback) success_callback(data, textStatus, jqXHR);
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log(xhr, textStatus, errorThrown)
+                    if(err_callback) err_callback(textStatus);
+                }
+            });
+        });
+        file_reader.readAsText(file);
     }
 
     return {
