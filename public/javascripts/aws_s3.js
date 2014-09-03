@@ -6,6 +6,15 @@ jQuery
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 
 */
+
+/*
+@constructor AWS_S3  Uploads the file selected in file_chooser to AWS S3 when
+upload_button is clicked. The URL is pre-signed by the server, then uploaded
+by the browser.
+
+@param file_chooser  A DOM input element of type "file"
+@param upload_button  A DOM input element of type "submit"
+*/
 function AWS_S3(file_chooser, upload_button) {
     var _file_chooser = file_chooser;
     var _upload_button = upload_button;
@@ -89,7 +98,6 @@ function AWS_S3(file_chooser, upload_button) {
         // @function execute
         execute = function() {
             $(_upload_button).click(function(event) {
-
                 get_presigned_url(
                     _file_chooser,
                     function(data, textStatus, jqXHR) {
