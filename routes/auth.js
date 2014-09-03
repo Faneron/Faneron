@@ -81,7 +81,13 @@ exports.logout = function(req, res) {
     res.send(200, {redirect: 'front'});
 };
 
+/*
+Assumes that the server was run with the environment variables:
+AWS_ACCESS_KEY 
+AWS_SECRET_KEY
+This information should come from the key-pairs provided by AWS.
 
+*/
 exports.sign_aws_s3 = function(req, res) {
     AWS.config.update({
         "accessKeyId": process.env.AWS_ACCESS_KEY,
