@@ -46,13 +46,17 @@ function AWS_S3(file_chooser, upload_button) {
             "file_type": file.type,
         }
         $.ajax({
-            url: "/sign_s3",
+            url: "/sign_aws",
             type: "POST",
+			data: data,
             success: function(data, textStatus, jqXHR) {
                 if(success_callback) success_callback(data, textStatus, jqXHR);
+				console.log(data);
+				console.log(textStatus);
             },
             error: function(xhr, textStatus, errorThrown) {
                 if(err_callback) err_callback(textStatus);
+				console.log(textStatus);
             }
         })
     }
@@ -68,12 +72,13 @@ function AWS_S3(file_chooser, upload_button) {
     */
     function upload_to_s3(presigned_url, file_chooser, success_callback, err_callback) {
         var file = file_chooser.files[0];
+		console.log(file);
         $.ajax({
             url: presigned_url,
             data: {
                 "file": file
             },
-            type: "PUT",
+            type: "POST",
             success: function(data, textStatus, jqXHR) {
                 if(success_callback) success_callback(data, textStatus, jqXHR);
             },
@@ -101,8 +106,9 @@ function AWS_S3(file_chooser, upload_button) {
                 get_presigned_url(
                     _file_chooser,
                     function(data, textStatus, jqXHR) {
+						console.log(data);
                         upload_to_s3(
-                            data.presigned_url, 
+                            data, 
                             _file_chooser,
                             _finish_callback,
                             _error_callback

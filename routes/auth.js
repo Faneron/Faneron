@@ -92,7 +92,7 @@ exports.sign_aws_s3 = function(req, res) {
     var content_type = req.params; // TODO: Get content type somehow
     var params = {
         Bucket: "faneron-test",
-        Key: "file-name", // TODO: Get unique file name
+        Key: req.body.file_name, // TODO: Get unique file name
         ACL: 'authenticated-read',
         ContentType: '', // Get Mime Type of object
         Expires: 120,
