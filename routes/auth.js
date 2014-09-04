@@ -80,6 +80,7 @@ exports.logout = function(req, res) {
     req.logout();
     res.send(200, {redirect: 'front'});
 };
+<<<<<<< HEAD
 
 
 exports.sign_aws_s3 = function(req, res) {
@@ -108,3 +109,5 @@ exports.sign_aws_s3 = function(req, res) {
     });
     
 }
+=======
+>>>>>>> 700f1016b30ec99c4715cba8283dc4a30f9cf792
