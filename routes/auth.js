@@ -80,34 +80,3 @@ exports.logout = function(req, res) {
     req.logout();
     res.send(200, {redirect: 'front'});
 };
-<<<<<<< HEAD
-
-
-exports.sign_aws_s3 = function(req, res) {
-    AWS.config.update({
-        "accessKeyId": process.env.AWS_ACCESS_KEY,
-        "secretAccessKey": process.env.AWS_SECRET_KEY
-    });
-	console.log(AWS.config);
-    var s3 = new AWS.S3();
-    var content_type = req.params; // TODO: Get content type somehow
-    var params = {
-        Bucket: "faneron-test",
-        Key: req.body.file_name, // TODO: Get unique file name
-        ACL: 'authenticated-read',
-        ContentType: '', // Get Mime Type of object
-        Expires: 120,
-    }
-    s3.getSignedUrl('putObject', params, function(err, presigned_url) {
-        if(err) {
-			console.log(err);
-            res.send(500);
-			return;
-        }
-		console.log(presigned_url);
-        res.send(presigned_url);
-    });
-    
-}
-=======
->>>>>>> 700f1016b30ec99c4715cba8283dc4a30f9cf792
