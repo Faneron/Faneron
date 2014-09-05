@@ -24,6 +24,18 @@
 			br
 			br
 
+			h4 Sort by
+			input(type="radio" name="sort" ng-model="sort" value="score")
+			| &nbsp; Score
+			br
+			input(type="radio" name="sort" ng-model="sort" value="views")
+			| &nbsp; Views
+			br
+			input(type="radio" name="sort" value="commentNumber")
+			| &nbsp; # of Threads
+			br
+			br
+
 			h4 Genre
 			input(type="checkbox" name="genre" ng-model="action")
 			| &nbsp; Action

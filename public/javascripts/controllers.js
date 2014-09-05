@@ -201,7 +201,13 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 
 	.controller('exploreCtrl', ['$scope', '$http', '$location', function($scope, $http, $location) {
 		var query = $location.search();
-		console.log(query);
+		var keys = Object.keys(query);
+		var dateIndex = keys.indexOf('date');
+		if (dateIndex != -1) keys.splice(dateIndex, 1);
+		var sortIndex = keys.indexOf('sort');
+		if (sortIndex != -1) keys.splice(sortIndex, 1);
+		// get object keys
+		console.log(keys);
 		for (key in query) {
 			if (query.hasOwnProperty(key)) {
 				if (query[key] === 'true') $scope[key] = true;
@@ -209,9 +215,13 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			}
 		}
 
+		// set defaults if no query value given
+		if (!$scope.date) $scope.date = 'today';
+		if (!$scope.sort) $scope.sort = 'score';
+
 		var $container = $('#explore-container');
 
-		$http({method: 'GET', url: '/project/get/all'})
+		$http({method: 'GET', url: '/project/get/all', params: {genre: keys, date: $scope.date, sort: $scope.sort}})
 			.success(function(data) {
 				console.log("got all projects");
 				$scope.projects = data;
