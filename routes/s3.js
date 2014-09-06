@@ -34,6 +34,10 @@ function upload_to_s3(path, key, mime_type, callback) {
 
 /* Expects a file. Ensure that the HTML form that posts to
  * this route has an option 'enctype="multipart/form-data"'
+ * @example An example HTML form to accompany this route (in Jade):
+    form(role="form", action="/upload", method="post", enctype="multipart/form-data")
+        input(name="file", type="file")
+        input(type="submit", value="Submit")
  */
 exports.upload = function(req, res) {
     // Get the image file from the request object
