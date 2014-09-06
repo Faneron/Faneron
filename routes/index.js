@@ -8,7 +8,8 @@ module.exports = function(app) {
 		authHandlers = require('./auth'),
 		commentHandlers = require('./comment'),
 		defaultHandlers = require('./default'),
-		exploreHandlers = require('./explore');
+		exploreHandlers = require('./explore'),
+		s3Handlers = require('./s3');
 
 	// Auth Routes
 	app.post('/auth/login', authHandlers.login, authHandlers.loginRedirect);
@@ -18,8 +19,6 @@ module.exports = function(app) {
 	app.get('/auth/isAuthenticated', authHandlers.isLoggedIn, authHandlers.isAuthenticated);
 
 	app.get('/auth/logout', authHandlers.logout);
-
-	app.post('/sign_aws', authHandlers.sign_aws_s3);
 
 	// User Routes
 	app.get('/user/get/:username', authHandlers.isLoggedIn, userHandlers.get);
@@ -74,6 +73,10 @@ module.exports = function(app) {
 	app.post('/comment/upvote/:id', authHandlers.isLoggedIn, commentHandlers.upvote);
 
 	app.post('/comment/downvote/:id', authHandlers.isLoggedIn, commentHandlers.downvote);
+
+	// S3 routes
+	app.post('/s3/upload', authHandlers.isLoggedIn, s3Handlers.upload);
+
 	// Defaut routes
 	app.get('/partials/:name', defaultHandlers.partials);
 
