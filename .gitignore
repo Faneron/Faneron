@@ -8,3 +8,7 @@ Ignore/password.txt
 config_faneron_test.json
 
 npm-debug.log
+
+*.pem
+
+Ignore/credentials2.csv
