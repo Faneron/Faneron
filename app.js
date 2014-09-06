@@ -9,8 +9,8 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
 var session = require('express-session');
+var multer = require('multer');
 
 //var passwordHash = require('password-hash');
 
@@ -28,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(bodyParser());
 app.use(session({ secret: 'anything' }));
+app.use(multer({dest: "./uploads"}));
 
 // nconf
 var nconf = require('nconf');
