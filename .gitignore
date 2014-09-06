@@ -5,4 +5,6 @@ Ignore/credentials.csv
 
 Ignore/password.txt
 
+config_faneron_test.json
+
 npm-debug.log
