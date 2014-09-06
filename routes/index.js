@@ -20,6 +20,11 @@ module.exports = function(app) {
 
 	app.get('/auth/logout', authHandlers.logout);
 
+<<<<<<< HEAD
+=======
+	//app.post('/sign_aws', authHandlers.sign_aws_s3);
+
+>>>>>>> FETCH_HEAD
 	// User Routes
 	app.get('/user/get/:username', authHandlers.isLoggedIn, userHandlers.get);
 

@@ -157,11 +157,16 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				$scope.projects = data;
 				data.forEach(function(data) {
 					data.time = moment(data.info.timestamp).format("MMMM DD, YYYY");
-				 });
+				});
+				$scope.$watch(function() {
+					$('#container').masonry({
+						itemSelector: '.project-card'
+					});
+				});
 			});
 	}])
 
-	.controller('newProjectCtrl', ['$scope', '$http', '$state', '$stateParams', function($scope, $http, $state, $stateParams) {
+	.controller('newProjectCtrl', ['$scope', '$http', '$state', '$stateParams', '$rootScope', function($scope, $http, $state, $stateParams, $rootScope) {
 		$scope.createProject = function() {
 			$scope.config = {
 				title: $scope.title,
@@ -171,12 +176,8 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			}
 			$http({method: 'POST', url:'/project/create', data: $scope.config})
 				.success(function(data) {
-					// Do this instead of $state.go in order to reload parent state
-					$state.transitionTo('profile.projects', $stateParams, {
-					    reload: true,
-					    inherit: false,
-					    notify: true
-					});
+					console.log($rootScope.user);
+					$state.go('profile.projects', {'username': $rootScope.user.info.username});
 				})
 				.error(function(err) {
 					console.log(err);
@@ -185,7 +186,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		$scope.overlay = document.getElementById('large-overlay').getBoundingClientRect();
 		// allow us to hit escape to go back to projects page
 		document.onkeydown = function(event) {
-			if (event.keyCode === 27) $state.go('profile.projects');
+			if (event.keyCode === 27) $state.go('profile.projects', {'username': $rootScope.user.info.username});
 		}
 		document.getElementById('large-overlay-wrapper').onclick = function(event) {
 			// click on the black part to go back
@@ -193,20 +194,46 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			var clickX = event.clientX;
 			var clickY = event.clientY;
 			if ((clickX < rect.left || clickX > rect.right) && (clickY > rect.top || clickY < rect.bottom)) {	
-				$state.go('profile.projects');
+				$state.go('profile.projects', {'username': $rootScope.user.info.username});
 			}
 		}
 	}])
 
-	.controller('exploreCtrl', ['$scope', '$http', function($scope, $http) {
-		$http({method: 'GET', url: '/project/get/all'})
+	.controller('exploreCtrl', ['$scope', '$http', '$location', function($scope, $http, $location) {
+		var query = $location.search();
+		var keys = Object.keys(query);
+		var dateIndex = keys.indexOf('date');
+		if (dateIndex != -1) keys.splice(dateIndex, 1);
+		var sortIndex = keys.indexOf('sort');
+		if (sortIndex != -1) keys.splice(sortIndex, 1);
+		// get object keys
+		console.log(keys);
+		for (key in query) {
+			if (query.hasOwnProperty(key)) {
+				if (query[key] === 'true') $scope[key] = true;
+				else $scope[key] = query[key];
+			}
+		}
+
+		// set defaults if no query value given
+		if (!$scope.date) $scope.date = 'today';
+		if (!$scope.sort) $scope.sort = 'score';
+
+		var $container = $('#explore-container');
+
+		$http({method: 'GET', url: '/project/get/all', params: {genre: keys, date: $scope.date, sort: $scope.sort}})
 			.success(function(data) {
 				console.log("got all projects");
-				console.log(data);
 				$scope.projects = data;
 				data.forEach(function(data) {
 					data.time = moment(data.time).format("MMMM DD, YYYY");
 				});
+				setTimeout(function() {
+					$container.masonry({
+						itemSelector: '.explore-project-card',
+						gutter: 20
+					});
+				}, 100);
 			})
 			.error(function(err) {
 				console.log(err);
@@ -356,7 +383,16 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 	}])
 
 	.controller('projectImagesCtrl', ['$scope', function($scope) {
-
+		$scope.file_chooser = document.getElementById('file');
+		$scope.upload_button = document.getElementById('submit');
+		$scope.aws_upload = AWS_S3($scope.file_chooser, $scope.upload_button);
+		$scope.aws_upload.onFinish(function(data) {
+			console.log(data);
+		});
+		$scope.aws_upload.onError(function() {
+			console.log('failed!');
+		});
+		$scope.aws_upload.execute();
 	}])
 
 	.controller('projectCtrl', ['$scope', '$http', '$rootScope', '$stateParams', '$state', function($scope, $http, $rootScope, $stateParams, $state) {

@@ -8,7 +8,18 @@ var UserModel = require('../models/user');
 
 exports.all = function(req, res) {
 	console.log(req.route.path);
-	ProjectModel.Project.find()
+	console.log(req.body);
+	console.log(req.query);
+	var params;
+	if (!req.query.genre) params = {};
+	else if (typeof req.query.genre === 'string') {
+		params = {'info.genre' : req.query.genre};
+	} else {
+		params = {'info.genre': {$in: req.query.genre}};
+	}
+	ProjectModel.Project.find(params)
+		.sort('-' + req.query.sort)
+		.limit(10)
 		.populate('_user')
 		.exec(function(err, data) {
 			var options = {
@@ -17,7 +28,6 @@ exports.all = function(req, res) {
 			};
 			if (err) console.log(err);
 			else {
-				console.log(data);
 				ProjectModel.Project.populate(data, options, function(err, doc) {
 					res.send(doc);
 				});
@@ -27,6 +37,7 @@ exports.all = function(req, res) {
 
 exports.get = function(req, res) {
 	console.log(req.route.path);
+	console.log(req.params);
 	ProjectModel.Project.findById(req.params.id)
 		.populate('_user')
 		// .populate('_user')

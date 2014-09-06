@@ -88,7 +88,7 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 					templateUrl: '/partials/profile_projects',
 					controller: 'profileProjectsCtrl'
 				})
-					.state('profile.projects.new', {
+					.state('newProject', {
 						url: '/new',
 						templateUrl: '/partials/profile_projects_new',
 						controller: 'newProjectCtrl'

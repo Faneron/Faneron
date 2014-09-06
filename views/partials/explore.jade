@@ -1,10 +1,85 @@
 .faneron-container
 	h1 Explore
-	.explore-sidebar
-		p categories
-	.projects-container.explore-projects.cf
-		.project-card(ng-repeat="project in projects")
-			img(src="/images/splash.jpg").project-image
+
+	.projects-container.explore-projects.cf#explore-container
+		.explore-project-card.explore-sidebar
+			h3 Categories
+			br
+
+			h4 Date 
+			input(type="radio" name="date" ng-model="date" value="today")
+			| &nbsp; Today
+			br
+			input(type="radio" name="date" ng-model="date" value="week") 
+			| &nbsp; This week
+			br
+			input(type="radio" name="date" ng-model="date" value="month")
+			| &nbsp; This month
+			br
+			input(type="radio" name="date" ng-model="date" value="year")
+			| &nbsp; This year
+			br
+			input(type="radio" name="date" ng-model="date" value="all")
+			| &nbsp; All time
+			br
+			br
+
+			h4 Sort by
+			input(type="radio" name="sort" ng-model="sort" value="score")
+			| &nbsp; Score
+			br
+			input(type="radio" name="sort" ng-model="sort" value="views")
+			| &nbsp; Views
+			br
+			input(type="radio" name="sort" value="commentNumber")
+			| &nbsp; # of Threads
+			br
+			br
+
+			h4 Genre
+			input(type="checkbox" name="genre" ng-model="action")
+			| &nbsp; Action
+			br
+			input(type="checkbox" name="genre" ng-model="platformer")
+			| &nbsp; Platformer
+			br
+			input(type="checkbox" name="genre" ng-model="puzzle")
+			| &nbsp; Puzzle
+			br
+			input(type="checkbox" name="genre" ng-model="shooter")
+			| &nbsp; Shooter 
+			br
+			input(type="checkbox" name="genre" ng-model="adventure")
+			| &nbsp; Adventure
+			br
+			input(type="checkbox" name="genre" ng-model="strategy")
+			| &nbsp; Strategy
+			br
+			input(type="checkbox" name="genre" ng-model="rpg")
+			| &nbsp; RPG
+			br
+			input(type="checkbox" name="genre" ng-model="mmo")
+			| &nbsp; MMO
+			br
+			input(type="checkbox" name="genre" ng-model="casual")
+			| &nbsp; Casual 
+			br
+			input(type="checkbox" name="genre" ng-model="simulation")
+			| &nbsp; Simulation
+			br
+			input(type="checkbox" name="genre" ng-model="racing")
+			| &nbsp; Racing
+			br
+			input(type="checkbox" name="genre" ng-model="sports")
+			| &nbsp; Sports
+			br
+			input(type="checkbox" name="genre" ng-model="other")
+			| &nbsp; Other
+			br
+
+
+		.explore-project-card(ng-repeat="project in projects")
+			img(ng-src="/images/splash2_edit.jpg").project-image
 			.project-card-main-info
 				h3.project-card-title: a(ui-sref="project({'id': project._id})") {{project.info.title}}
 				h4.project-card-tagline {{project.info.tagline}}
