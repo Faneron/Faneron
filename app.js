@@ -29,6 +29,12 @@ app.use(cookieParser());
 app.use(bodyParser());
 app.use(session({ secret: 'anything' }));
 
+// nconf
+var nconf = require('nconf');
+nconf.argv()
+    .env()
+    .file('./config/config_faneron_test.json')
+
 // passport config
 var passport = require('passport');
 var flash = require('connect-flash');

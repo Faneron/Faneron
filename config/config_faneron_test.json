@@ -1,0 +1,12 @@
+{
+    "AWS": {
+      "ACCESS_KEY_ID": "AKIAIP35FLFPYXCC4LBQ",
+      "SECRET_ACCESS_KEY": "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",
+      "BUCKET_NAME": "faneron-test"
+    },
+    "DB": { 
+        "URL": "mongodb://quan:12345@kahana.mongohq.com",
+        "PORT": "10060",
+        "NAME": "funzies"
+    }
+}
