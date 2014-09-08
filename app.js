@@ -20,7 +20,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(favicon());
+app.use(favicon(__dirname + '/public/images/_000_Faneron.png'));
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use(bodyParser.json());

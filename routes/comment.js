@@ -74,6 +74,7 @@ exports.create = function(req, res) {
 		if (err) console.log(err);
 		else {
 			console.log(newComment._id);
+			doc.commentNumber++;
 			doc._comments.push(newComment._id);
 			doc.save(function(err, doc) {
 				if (err) console.log(err);

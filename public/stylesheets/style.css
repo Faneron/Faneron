@@ -8,7 +8,12 @@
   src: url('/Dolce_Vita.ttf');
 }
 
+html {
+	height: 100%;
+}
+
 body {
+	height: 100%;
 	padding-top: 60px;
 	margin: 0;
 	font-family: 'Open Sans', sans-serif;
@@ -143,16 +148,19 @@ h1, h2, h3, h4, h5, h6 {
 /* End animations */
 
 #wrapper {
+	height: 100%;
 	padding: 0; 
 }
 
 /* General container shit used throughout the app */
 .faneron-container {
-  width: 950px;
-  margin: 0 auto;
-  box-shadow: 0 0 8px rgba(51, 51, 51, 0.45);
-  padding: 30px;
-  background-color: white;
+	min-height: 100%;
+	position: relative;
+	width: 950px;
+	margin: 0 auto;
+	box-shadow: 0 0 8px rgba(51, 51, 51, 0.45);
+	padding: 30px;
+	background-color: white;
 }
 
 .navbar {

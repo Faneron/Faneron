@@ -183,61 +183,68 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 					console.log(err);
 				});
 		}
-		$scope.overlay = document.getElementById('large-overlay').getBoundingClientRect();
-		// allow us to hit escape to go back to projects page
-		document.onkeydown = function(event) {
-			if (event.keyCode === 27) $state.go('profile.projects', {'username': $rootScope.user.info.username});
-		}
-		document.getElementById('large-overlay-wrapper').onclick = function(event) {
-			// click on the black part to go back
-			var rect = $scope.overlay;
-			var clickX = event.clientX;
-			var clickY = event.clientY;
-			if ((clickX < rect.left || clickX > rect.right) && (clickY > rect.top || clickY < rect.bottom)) {	
-				$state.go('profile.projects', {'username': $rootScope.user.info.username});
-			}
-		}
 	}])
 
-	.controller('exploreCtrl', ['$scope', '$http', '$location', function($scope, $http, $location) {
-		var query = $location.search();
-		var keys = Object.keys(query);
-		var dateIndex = keys.indexOf('date');
-		if (dateIndex != -1) keys.splice(dateIndex, 1);
-		var sortIndex = keys.indexOf('sort');
-		if (sortIndex != -1) keys.splice(sortIndex, 1);
-		// get object keys
-		console.log(keys);
-		for (key in query) {
-			if (query.hasOwnProperty(key)) {
-				if (query[key] === 'true') $scope[key] = true;
-				else $scope[key] = query[key];
-			}
-		}
-
-		// set defaults if no query value given
-		if (!$scope.date) $scope.date = 'today';
-		if (!$scope.sort) $scope.sort = 'score';
-
+	.controller('exploreCtrl', ['$scope', '$http', '$location', '$state', function($scope, $http, $location, $state) {
 		var $container = $('#explore-container');
 
-		$http({method: 'GET', url: '/project/get/all', params: {genre: keys, date: $scope.date, sort: $scope.sort}})
-			.success(function(data) {
-				console.log("got all projects");
-				$scope.projects = data;
-				data.forEach(function(data) {
-					data.time = moment(data.time).format("MMMM DD, YYYY");
-				});
-				setTimeout(function() {
-					$container.masonry({
-						itemSelector: '.explore-project-card',
-						gutter: 20
+		$scope.getProjects = function() {
+			var query = $location.search();
+			var keys = Object.keys(query);
+			var dateIndex = keys.indexOf('date');
+			if (dateIndex != -1) keys.splice(dateIndex, 1);
+			var sortIndex = keys.indexOf('sort');
+			if (sortIndex != -1) keys.splice(sortIndex, 1);
+			// get object keys
+			console.log(keys);
+			for (key in query) {
+				if (query.hasOwnProperty(key)) {
+					if (query[key] === 'true') $scope[key] = true;
+					else $scope[key] = query[key];
+				}
+			}
+
+			// set defaults if no query value given
+			if (!$scope.date) $scope.date = 'today';
+			if (!$scope.sort) $scope.sort = 'score';
+
+			$http({method: 'GET', url: '/project/get/all', params: {genre: keys, date: $scope.date, sort: $scope.sort}})
+				.success(function(data) {
+					console.log("got all projects");
+					$scope.projects = data.projects;
+					$scope.count = data.count;
+					$scope.pages = Math.ceil(data.count/20);
+					console.log(data);
+					data.projects.forEach(function(data) {
+						data.time = moment(data.info.timestamp).format("MMMM DD, YYYY");
 					});
-				}, 100);
-			})
-			.error(function(err) {
-				console.log(err);
-			});
+					setTimeout(function() {
+						$container.masonry({
+							itemSelector: '.explore-project-card',
+							gutter: 20
+						});
+					}, 100);
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+
+		}
+
+		$scope.getProjects();
+	
+		$scope.updateQuery = function(key, value) {
+			$container.masonry('destroy');
+			$scope.projects = null;
+			if (!$scope[key]) {
+				$location.search(key, null);
+			}
+			else {
+				$location.search(key, $scope[key]);
+			}
+			$scope.getProjects();
+		}
+
 	}])
 
 	.controller('projectDescriptionCtrl', ['$scope', '$stateParams', '$state', '$http', function($scope, $stateParams, $state, $http) {

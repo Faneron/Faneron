@@ -17,9 +17,13 @@ exports.all = function(req, res) {
 	} else {
 		params = {'info.genre': {$in: req.query.genre}};
 	}
+	var project_count = 0;
+	ProjectModel.Project.count(params, function(err, count) {
+		project_count = count;
+	});
 	ProjectModel.Project.find(params)
 		.sort('-' + req.query.sort)
-		.limit(10)
+		.limit(15)
 		.populate('_user')
 		.exec(function(err, data) {
 			var options = {
@@ -29,7 +33,7 @@ exports.all = function(req, res) {
 			if (err) console.log(err);
 			else {
 				ProjectModel.Project.populate(data, options, function(err, doc) {
-					res.send(doc);
+					res.send({count: project_count, projects: doc});
 				});
 			}
 		});

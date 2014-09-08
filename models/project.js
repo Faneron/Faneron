@@ -39,6 +39,8 @@ var projectSchema = new mongoose.Schema({
 
 	views: {type: Number, default: 0},
 
+	commentNumber: {type: Number, default: 0}, 
+
 	_comments: [{
 		type: Schema.Types.ObjectId,
 		ref: 'Comment'

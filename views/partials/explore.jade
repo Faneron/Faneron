@@ -25,55 +25,58 @@
 			br
 
 			h4 Sort by
-			input(type="radio" name="sort" ng-model="sort" value="score")
+			input(type="radio" name="sort" ng-model="sort" value="score" ng-change="updateQuery('sort', score)")
 			| &nbsp; Score
 			br
-			input(type="radio" name="sort" ng-model="sort" value="views")
+			input(type="radio" name="sort" ng-model="sort" value="views" ng-change="updateQuery('sort', views)")
 			| &nbsp; Views
 			br
-			input(type="radio" name="sort" value="commentNumber")
-			| &nbsp; # of Threads
+			input(type="radio" name="sort" ng-model="sort" value="commentNumber" ng-change="updateQuery('sort', commentNumber)")
+			| &nbsp; # of Comments 
+			br
+			input(type="radio" name="sort" ng-model="sort" value="info.timestamp" ng-change="updateQuery('sort', sort)")
+			| &nbsp; Most recent
 			br
 			br
 
 			h4 Genre
-			input(type="checkbox" name="genre" ng-model="action")
+			input(type="checkbox" name="genre" ng-model="action" ng-change="updateQuery('action', action)")
 			| &nbsp; Action
 			br
-			input(type="checkbox" name="genre" ng-model="platformer")
-			| &nbsp; Platformer
-			br
-			input(type="checkbox" name="genre" ng-model="puzzle")
-			| &nbsp; Puzzle
-			br
-			input(type="checkbox" name="genre" ng-model="shooter")
-			| &nbsp; Shooter 
-			br
-			input(type="checkbox" name="genre" ng-model="adventure")
+			input(type="checkbox" name="genre" ng-model="adventure" ng-change="updateQuery('adventure', adventure)")
 			| &nbsp; Adventure
 			br
-			input(type="checkbox" name="genre" ng-model="strategy")
-			| &nbsp; Strategy
-			br
-			input(type="checkbox" name="genre" ng-model="rpg")
-			| &nbsp; RPG
-			br
-			input(type="checkbox" name="genre" ng-model="mmo")
-			| &nbsp; MMO
-			br
-			input(type="checkbox" name="genre" ng-model="casual")
+			input(type="checkbox" name="genre" ng-model="casual" ng-change="updateQuery('casual', casual)")
 			| &nbsp; Casual 
 			br
-			input(type="checkbox" name="genre" ng-model="simulation")
-			| &nbsp; Simulation
+			input(type="checkbox" name="genre" ng-model="mmo" ng-change="updateQuery('mmo', mmo)")
+			| &nbsp; MMO
 			br
-			input(type="checkbox" name="genre" ng-model="racing")
+			input(type="checkbox" name="genre" ng-model="platformer" ng-change="updateQuery('platformer', platformer)")
+			| &nbsp; Platformer
+			br
+			input(type="checkbox" name="genre" ng-model="puzzle" ng-change="updateQuery('puzzle', puzzle)")
+			| &nbsp; Puzzle
+			br
+			input(type="checkbox" name="genre" ng-model="racing" ng-change="updateQuery('racing', racing)")
 			| &nbsp; Racing
 			br
-			input(type="checkbox" name="genre" ng-model="sports")
+			input(type="checkbox" name="genre" ng-model="rpg" ng-change="updateQuery('rpg', rpg)")
+			| &nbsp; RPG
+			br
+			input(type="checkbox" name="genre" ng-model="shooter" ng-change="updateQuery('shooter', shooter)")
+			| &nbsp; Shooter 
+			br
+			input(type="checkbox" name="genre" ng-model="simulation" ng-change="updateQuery('simulation', simulation)")
+			| &nbsp; Simulation
+			br
+			input(type="checkbox" name="genre" ng-model="sports" ng-change="updateQuery('sports', sports)")
 			| &nbsp; Sports
 			br
-			input(type="checkbox" name="genre" ng-model="other")
+			input(type="checkbox" name="genre" ng-model="strategy" ng-change="updateQuery('strategy', strategy)")
+			| &nbsp; Strategy
+			br
+			input(type="checkbox" name="genre" ng-model="other" ng-change="updateQuery('other', other)")
 			| &nbsp; Other
 			br
 
@@ -88,4 +91,4 @@
 				h5 by 
 					a(ui-sref="profile({'username': project._user.info.username})") {{project._user.info.username}}
 				h6 {{project.views}} views | 
-					a(ui-sref="project.comments({'id': project._id})") {{project._comments.length}} threads
+					a(ui-sref="project.comments({'id': project._id})") {{project.commentNumber}} threads
