@@ -34,10 +34,12 @@ function upload_to_s3(path, key, mime_type, callback) {
     });
 }
 
-/* Expects a file. Ensure that the HTML form that posts to
+/* Expects a file and project_id. Ensure that the HTML form that posts to
  * this route has an option 'enctype="multipart/form-data"'
+ * The image URL is saved to the corresponding project model.
  * @example An example HTML form to accompany this route (in Jade):
     form(role="form", action="/upload", method="post", enctype="multipart/form-data")
+        input(name="project_id", hidden)
         input(name="file", type="file")
         input(type="submit", value="Submit")
  */
@@ -59,7 +61,10 @@ exports.upload = function(req, res) {
             if(err) res.send(500);
             var aws_url_to_image = "https://s3-us-west-2.amazonaws.com/" + nconf.get("AWS").BUCKET_NAME + "/" + filename;
             project.image.push(aws_url_to_image);
-            res.send(aws_url_to_image);
+            project.save(function(err, data) {
+                if(err) res.send(500);
+                res.send(aws_url_to_image);
+            });
         });
     });
 }
