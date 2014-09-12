@@ -1,6 +1,7 @@
-var aws = require('aws-sdk');
+var AWS = require('aws-sdk');
 var Project = require('../models/project').Project;
 var nconf = require('nconf');
+var fs = require('fs');
 
 /* Helper method to upload a local file to S3
  * @constructor upload_to_s3
@@ -12,12 +13,15 @@ var nconf = require('nconf');
  */
 function upload_to_s3(path, key, mime_type, callback) {
     aws_config = nconf.get("AWS");
+	console.log(aws_config);
     var bucket= aws_config.BUCKET_NAME;
+	console.log(bucket);
     var file = fs.createReadStream(path);
+	console.log(file);
 
     var params = {
         Bucket: bucket,
-        Key: filename,
+        Key: key,
         ContentType: mime_type,
         Body: file,
         ACL: 'public-read'
@@ -27,8 +31,12 @@ function upload_to_s3(path, key, mime_type, callback) {
         "accessKeyId": aws_config.ACCESS_KEY_ID,
         "secretAccessKey": aws_config.SECRET_ACCESS_KEY
     }
+	console.log(auth);
+
     AWS.config.update(auth);
+	console.log('got to AWS config');
     var s3 = new AWS.S3();
+	console.log('blah blah');
     s3.putObject(params, function(err, data) {
         callback(err, data);
     });
@@ -56,14 +64,22 @@ exports.upload = function(req, res) {
             console.log(err);
             res.send(500);
         }
-        var project_id = req.body.project_id;
+		var project_id = req.body.project_id;
         Project.findById(project_id, function(err, project) {
-            if(err) res.send(500);
+            if(err) {
+				console.log(err);
+				res.send(500);
+			}
+			console.log('Project found');
             var aws_url_to_image = "https://s3-us-west-2.amazonaws.com/" + nconf.get("AWS").BUCKET_NAME + "/" + filename;
             project.image.push(aws_url_to_image);
             project.save(function(err, data) {
-                if(err) res.send(500);
-                res.send(aws_url_to_image);
+                if(err){
+					console.log(err);
+					res.send(500);
+				}                
+			//	res.send(aws_url_to_image);
+				res.redirect('/projects/' + project_id + '/art');
             });
         });
     });

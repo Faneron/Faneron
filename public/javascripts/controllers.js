@@ -389,17 +389,9 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		}
 	}])
 
-	.controller('projectImagesCtrl', ['$scope', function($scope) {
-		$scope.file_chooser = document.getElementById('file');
-		$scope.upload_button = document.getElementById('submit');
-		$scope.aws_upload = AWS_S3($scope.file_chooser, $scope.upload_button);
-		$scope.aws_upload.onFinish(function(data) {
-			console.log(data);
-		});
-		$scope.aws_upload.onError(function() {
-			console.log('failed!');
-		});
-		$scope.aws_upload.execute();
+	.controller('projectImagesCtrl', ['$scope', '$stateParams', function($scope, $stateParams) {
+		$scope.project_id = $stateParams.id;
+		console.log($scope.project_id);
 	}])
 
 	.controller('projectCtrl', ['$scope', '$http', '$rootScope', '$stateParams', '$state', function($scope, $http, $rootScope, $stateParams, $state) {

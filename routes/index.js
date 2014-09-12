@@ -75,7 +75,7 @@ module.exports = function(app) {
 	app.post('/comment/downvote/:id', authHandlers.isLoggedIn, commentHandlers.downvote);
 
 	// S3 routes
-	app.post('/s3/upload', authHandlers.isLoggedIn, s3Handlers.upload);
+	app.post('/s3/upload', s3Handlers.upload);
 
 	// Defaut routes
 	app.get('/partials/:name', defaultHandlers.partials);
