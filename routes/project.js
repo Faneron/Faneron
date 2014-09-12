@@ -17,6 +17,34 @@ exports.all = function(req, res) {
 	} else {
 		params = {'info.genre': {$in: req.query.genre}};
 	}
+	
+	console.log(req.query.date);
+	console.log(req.query.date === 'today');
+	var date = new Date();
+	switch (req.query.date) {
+		case ('today'): 
+			date.setHours(0, 0, 0, 0);
+			break;
+		case('week'):
+			date.setDate(date.getDate() - 7);
+			break;
+		case('month'):
+			date.setMonth(date.getMonth() - 1);
+			break;
+		case('year'):
+			date.setYear(date.getYear() - 1);
+			break;
+		case('all'):
+			date = null;
+		default:
+			date = null;
+
+	}
+	if (date) {
+		params['info.timestamp'] = {"$gte" : date};
+	}
+	console.log(params);
+	console.log(date);
 	var project_count = 0;
 	ProjectModel.Project.count(params, function(err, count) {
 		project_count = count;

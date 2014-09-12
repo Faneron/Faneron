@@ -46,7 +46,7 @@ var projectSchema = new mongoose.Schema({
 		ref: 'Comment'
 	}],
 
-	image: [type: String] // An array of URLs pointing to images in S3 that should be publically readable
+	image: [{type: String}] // An array of URLs pointing to images in S3 that should be publically readable
 });
 
 // Validations

@@ -223,7 +223,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 							itemSelector: '.explore-project-card',
 							gutter: 20
 						});
-					}, 100);
+					}, 150);
 				})
 				.error(function(err) {
 					console.log(err);

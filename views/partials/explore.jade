@@ -7,19 +7,19 @@
 			br
 
 			h4 Date 
-			input(type="radio" name="date" ng-model="date" value="today")
+			input(type="radio" name="date" ng-model="date" value="today" ng-change="updateQuery('date', date)")
 			| &nbsp; Today
 			br
-			input(type="radio" name="date" ng-model="date" value="week") 
+			input(type="radio" name="date" ng-model="date" value="week" ng-change="updateQuery('date', date)") 
 			| &nbsp; This week
 			br
-			input(type="radio" name="date" ng-model="date" value="month")
+			input(type="radio" name="date" ng-model="date" value="month" ng-change="updateQuery('date', date)")
 			| &nbsp; This month
 			br
-			input(type="radio" name="date" ng-model="date" value="year")
+			input(type="radio" name="date" ng-model="date" value="year" ng-change="updateQuery('date', date)")
 			| &nbsp; This year
 			br
-			input(type="radio" name="date" ng-model="date" value="all")
+			input(type="radio" name="date" ng-model="date" value="all" ng-change="updateQuery('date', date)")
 			| &nbsp; All time
 			br
 			br
