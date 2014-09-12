@@ -46,13 +46,14 @@ var projectSchema = new mongoose.Schema({
 		ref: 'Comment'
 	}],
 
-	image: [type: String] // An array of URLs pointing to images in S3 that should be publically readable
+	image: [{type: String}] // An array of URLs pointing to images in S3 that should be publically readable
 });
 
 // Validations
 var required_message = 'Please enter a {PATH}';
 
-projectSchema.path('_user').required(true, required_message); // Message should never be shown client side
+projectSchema.path('_user').required(true, required_message); 
+// Message should never be shown client side
 projectSchema.path('info.title').required(true, required_message);
 projectSchema.path('info.description').required(true, required_message);
 
