@@ -1,4 +1,6 @@
 var aws = require('aws-sdk');
+var Project = require('../models/project').Project;
+var nconf = require('nconf');
 
 /* Helper method to upload a local file to S3
  * @constructor upload_to_s3
@@ -47,10 +49,17 @@ exports.upload = function(req, res) {
     var path = multer_file.path;
 
     upload_to_s3(path, filename, mime_type, function(err, data) {
+
         if(err) {
             console.log(err);
             res.send(500);
         }
-        res.send(200);
+        var project_id = req.body.project_id;
+        Project.findById(project_id, function(err, project) {
+            if(err) res.send(500);
+            var aws_url_to_image = "https://s3-us-west-2.amazonaws.com/" + nconf.get("AWS").BUCKET_NAME + "/" + filename;
+            project.image.push(aws_url_to_image);
+            res.send(aws_url_to_image);
+        });
     });
 }
