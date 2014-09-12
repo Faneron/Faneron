@@ -67,6 +67,11 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 					templateUrl: '/partials/project_lore',
 					controller: 'projectLoreCtrl'
 				})
+				.state('project.images', {
+					url: '/art',
+					templateUrl: '/partials/project_images',
+					controller: 'projectImagesCtrl'
+				})
 			.state('profile', {
 				// will add user ids to this later
 				url: '/users/:username',
@@ -83,7 +88,7 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 					templateUrl: '/partials/profile_projects',
 					controller: 'profileProjectsCtrl'
 				})
-					.state('profile.projects.new', {
+					.state('newProject', {
 						url: '/new',
 						templateUrl: '/partials/profile_projects_new',
 						controller: 'newProjectCtrl'

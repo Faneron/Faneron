@@ -2,9 +2,9 @@
 h1 Projects
 h1(ng-if="projects.length === 0") No projects yet!
 br
-a(ui-sref=".new"): button.btn.btn-primary Add a project
+a(ui-sref="newProject"): button.btn.btn-primary Add a project
 <div ui-view> </div>
-.projects-container
+.projects-container#container
 	.project-card(ng-repeat="project in projects")
 			img(src="/images/splash.jpg").project-image
 			.project-card-main-info

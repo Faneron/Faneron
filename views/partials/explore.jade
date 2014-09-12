@@ -1,10 +1,88 @@
 .faneron-container
 	h1 Explore
-	.explore-sidebar
-		p categories
-	.projects-container.explore-projects.cf
-		.project-card(ng-repeat="project in projects")
-			img(src="/images/splash.jpg").project-image
+
+	.projects-container.explore-projects.cf#explore-container
+		.explore-project-card.explore-sidebar
+			h3 Categories
+			br
+
+			h4 Date 
+			input(type="radio" name="date" ng-model="date" value="today" ng-change="updateQuery('date', date)")
+			| &nbsp; Today
+			br
+			input(type="radio" name="date" ng-model="date" value="week" ng-change="updateQuery('date', date)") 
+			| &nbsp; This week
+			br
+			input(type="radio" name="date" ng-model="date" value="month" ng-change="updateQuery('date', date)")
+			| &nbsp; This month
+			br
+			input(type="radio" name="date" ng-model="date" value="year" ng-change="updateQuery('date', date)")
+			| &nbsp; This year
+			br
+			input(type="radio" name="date" ng-model="date" value="all" ng-change="updateQuery('date', date)")
+			| &nbsp; All time
+			br
+			br
+
+			h4 Sort by
+			input(type="radio" name="sort" ng-model="sort" value="score" ng-change="updateQuery('sort', score)")
+			| &nbsp; Score
+			br
+			input(type="radio" name="sort" ng-model="sort" value="views" ng-change="updateQuery('sort', views)")
+			| &nbsp; Views
+			br
+			input(type="radio" name="sort" ng-model="sort" value="commentNumber" ng-change="updateQuery('sort', commentNumber)")
+			| &nbsp; # of Comments 
+			br
+			input(type="radio" name="sort" ng-model="sort" value="info.timestamp" ng-change="updateQuery('sort', sort)")
+			| &nbsp; Most recent
+			br
+			br
+
+			h4 Genre
+			input(type="checkbox" name="genre" ng-model="action" ng-change="updateQuery('action', action)")
+			| &nbsp; Action
+			br
+			input(type="checkbox" name="genre" ng-model="adventure" ng-change="updateQuery('adventure', adventure)")
+			| &nbsp; Adventure
+			br
+			input(type="checkbox" name="genre" ng-model="casual" ng-change="updateQuery('casual', casual)")
+			| &nbsp; Casual 
+			br
+			input(type="checkbox" name="genre" ng-model="mmo" ng-change="updateQuery('mmo', mmo)")
+			| &nbsp; MMO
+			br
+			input(type="checkbox" name="genre" ng-model="platformer" ng-change="updateQuery('platformer', platformer)")
+			| &nbsp; Platformer
+			br
+			input(type="checkbox" name="genre" ng-model="puzzle" ng-change="updateQuery('puzzle', puzzle)")
+			| &nbsp; Puzzle
+			br
+			input(type="checkbox" name="genre" ng-model="racing" ng-change="updateQuery('racing', racing)")
+			| &nbsp; Racing
+			br
+			input(type="checkbox" name="genre" ng-model="rpg" ng-change="updateQuery('rpg', rpg)")
+			| &nbsp; RPG
+			br
+			input(type="checkbox" name="genre" ng-model="shooter" ng-change="updateQuery('shooter', shooter)")
+			| &nbsp; Shooter 
+			br
+			input(type="checkbox" name="genre" ng-model="simulation" ng-change="updateQuery('simulation', simulation)")
+			| &nbsp; Simulation
+			br
+			input(type="checkbox" name="genre" ng-model="sports" ng-change="updateQuery('sports', sports)")
+			| &nbsp; Sports
+			br
+			input(type="checkbox" name="genre" ng-model="strategy" ng-change="updateQuery('strategy', strategy)")
+			| &nbsp; Strategy
+			br
+			input(type="checkbox" name="genre" ng-model="other" ng-change="updateQuery('other', other)")
+			| &nbsp; Other
+			br
+
+
+		.explore-project-card(ng-repeat="project in projects")
+			img(ng-src="/images/splash2_edit.jpg").project-image
 			.project-card-main-info
 				h3.project-card-title: a(ui-sref="project({'id': project._id})") {{project.info.title}}
 				h4.project-card-tagline {{project.info.tagline}}
@@ -13,4 +91,4 @@
 				h5 by 
 					a(ui-sref="profile({'username': project._user.info.username})") {{project._user.info.username}}
 				h6 {{project.views}} views | 
-					a(ui-sref="project.comments({'id': project._id})") {{project._comments.length}} threads
+					a(ui-sref="project.comments({'id': project._id})") {{project.commentNumber}} threads

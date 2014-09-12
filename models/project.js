@@ -11,6 +11,18 @@ var projectSchema = new mongoose.Schema({
 		ref: 'User'
 	},
 
+	vote: {
+		votes: {type: Number, default: 0},
+		upvoters: [{
+			type: Schema.Types.ObjectId,
+			ref: 'User'
+		}],
+		downvoters: [{
+			type: Schema.Types.ObjectId,
+			ref: 'User'
+		}]
+	},
+
 	info: {
 		title: { type: String, default: "" },
 		tagline: { type: String, default: ""},
@@ -18,21 +30,30 @@ var projectSchema = new mongoose.Schema({
 		description: {type: String, default: ""},
 		lore: {type: String, default: ""},
 		gameplay: String,
+		stage: {
+			type: Schema.Types.ObjectId,
+			ref: 'Stage'
+		},
 		timestamp: {type: Date, default: Date.now}
 	},
 
 	views: {type: Number, default: 0},
 
+	commentNumber: {type: Number, default: 0}, 
+
 	_comments: [{
 		type: Schema.Types.ObjectId,
 		ref: 'Comment'
-	}]
+	}],
+
+	image: [{type: String}] // An array of URLs pointing to images in S3 that should be publically readable
 });
 
 // Validations
 var required_message = 'Please enter a {PATH}';
 
-projectSchema.path('_user').required(true, required_message); // Message should never be shown client side
+projectSchema.path('_user').required(true, required_message); 
+// Message should never be shown client side
 projectSchema.path('info.title').required(true, required_message);
 projectSchema.path('info.description').required(true, required_message);
 
@@ -55,6 +76,17 @@ projectSchema.methods.addComment = function(text) {
 projectSchema.methods.edit = function(field, text) {
 	this[field] = text;
 	this.save();
+}
+
+projectSchema.methods.add_stage = function(stage) {
+	this.info.stage = stage._id;
+	this.save(function(err, numAffected, product) {
+		if(err) throw err;
+	});
+	stage._projects.append(this._id);
+	stage.save(function(err, numAffected, product) {
+		if(err) throw err;
+	});
 }
 
 var Project = mongoose.model('Project', projectSchema);

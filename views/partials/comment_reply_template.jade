@@ -2,8 +2,8 @@ div(ng-repeat="reply in replies").comment.reply
 
 	h3.comment-user
 		a(ng-href="/users/{{comment._user.info.username}}").comment-username {{reply._user.info.username}}
-		small.comment-time &nbsp; Posted {{reply.timestamp}}
-		small.comment-score &nbsp; {{reply.vote.votes}} points
+		small.comment-time &nbsp; Posted {{moment(reply.timestamp).fromNow()}} |
+		small.comment-score {{reply.vote.votes}} points
 	p.comment-text {{reply.text.comment}} &nbsp;
 	
 	.comment-buttons
@@ -17,7 +17,7 @@ div(ng-repeat="reply in replies").comment.reply
 		.form-group
 		button.btn.btn-primary.btn-inline(type="submit") submit
 		a(href="#" ng-click="$root.replyBoxFor = null") cancel
-	.comment.reply(ng-if="reply._replies && reply._replies[0]._id" ng-include="'/partials/comment_reply_template.jade'" onload="replies = reply._replies" )
+	div(ng-if="reply._replies && reply._replies[0]._id" ng-include="'/partials/comment_reply_template.jade'" onload="replies = reply._replies" )
 
 	// Check if the array !empty and not populate (which means we want to continue the thread)
 	div(ng-if="reply._replies.length != 0 && !reply._replies[0]._id")

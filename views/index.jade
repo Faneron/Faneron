@@ -16,11 +16,11 @@ block body
 				//- .collapse.in thing is a total hack, but hey, it works! :)
 				ul.nav.navbar-nav.collapse.in.myNav 
 					li(ui-sref-active="active"): a(ui-sref="explore") EXPLORE
-					li(ui-sref-active="active"): a(ui-sref="profile.projects.new({'username': username})") START
+					li(ui-sref-active="active"): a(ui-sref="newProject") START
 				ul.nav.navbar-nav.navbar-right.icon-nav.collapse.in.myNav(ng-if="loggedIn")
-					li: a(href="/", data-toggle="collapse", data-target=".myNav").search-link 
-						a(ng-href="/users/{{user.info.username}}", data-toggle="collapse", data-target=".myNav").profile-link 
+					li: a(href="/", data-toggle="collapse").search-link 
+						a(ng-href="/users/{{user.info.username}}").profile-link 
 						a(href="/", data-toggle="collapse", data-target=".myNav").messages-link
-						a(ng-click="logout()", data-toggle="collapse", data-target=".myNav").logout-link: small Log Out
+						a(ng-click="logout()", data-toggle="collapse").logout-link: small Log Out
 	#wrapper(ui-view)
 	script $('.collapse').collapse();

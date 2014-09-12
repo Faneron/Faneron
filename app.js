@@ -9,8 +9,8 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
 var session = require('express-session');
+var multer = require('multer');
 
 //var passwordHash = require('password-hash');
 
@@ -20,7 +20,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(favicon());
+app.use(favicon(__dirname + '/public/images/_000_Faneron.png'));
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use(bodyParser.json());
@@ -28,6 +28,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(bodyParser());
 app.use(session({ secret: 'anything' }));
+app.use(multer({dest: "./uploads"}));
+
+// nconf
+var nconf = require('nconf');
+nconf.argv()
+    .env()
+    .file('./config/config_faneron_test.json')
 
 // passport config
 var passport = require('passport');

@@ -1,0 +1,10 @@
+h1 Artwork
+br
+a(href="#" ng-click="toggle=true" ng-show="$parent.loggedInUser._id === $parent.project._user._id && !toggle").btn.btn-primary Add artwork
+
+img(ng-repeat="image in project.image" ng-src="{{image}}")
+
+form(role="form", action="/s3/upload", method="post", enctype="multipart/form-data")
+	input(name="project_id", hidden, ng-model="project_id")
+	input(name="file", type="file")
+	input(type="submit", value="Submit").btn.btn-primary.btn-inline

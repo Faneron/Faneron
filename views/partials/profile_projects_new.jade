@@ -1,10 +1,24 @@
 .large-overlay-wrapper#large-overlay-wrapper
 	.large-overlay#large-overlay
-		span(ui-sref="profile.projects").overlay-close-button &#10006;
+		//span(ui-sref="profile.projects").overlay-close-button &#10006;
 		h1 Create Project
 		form(ng-submit='createProject()')
 			input.form-control(type='text', ng-model='title', placeholder='title' required autofocus)
-			input.form-control(type='text', ng-model='genre', placeholder='genre' required)
+			select(ng-model='genre' required)
+				option(value="") select a genre
+				option(value="action") action
+				option(value="adventure") adventure
+				option(value="casual") casual
+				option(value="mmo") MMO
+				option(value="platformer") platformer
+				option(value="puzzle") puzzle 
+				option(value="racing") racing
+				option(value="rpg") RPG 
+				option(value="shooter") shooter
+				option(value="simulation") simulation
+				option(value="sports") sports
+				option(value="strategy") strategy
+				option(value="other") other
 			input.form-control(type='text', ng-model='tagline', placeholder='tagline' required)
 			textarea.form-control(placeholder='description' rows='3' ng-model='description')
 			button.btn.btn-primary(type='submit') Submit
