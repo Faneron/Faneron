@@ -212,6 +212,7 @@ exports.upvote = function(req, res) {
 			if (downIndex !== -1) {
 				console.log('removing downboat');
 				project.vote.downvoters.splice(downIndex, 1);
+				project.vote.votes++;
 			}
 
 			console.log('upboating!');
@@ -239,7 +240,7 @@ exports.downvote = function(req, res) {
 
 			// change project ranking etc...
 			var downIndex = project.vote.downvoters.indexOf(req.user.id);
-			if (upIndex !== -1) {
+			if (downIndex !== -1) {
 				console.log('already downboated this project');
 				project.vote.downvoters.splice(downIndex, 1);
 				project.vote.votes++;
@@ -252,6 +253,7 @@ exports.downvote = function(req, res) {
 			if (upIndex !== -1) {
 				console.log('removing upboat');
 				project.vote.upvoters.splice(upIndex, 1);
+				project.vote.votes--;
 			}
 
 			console.log('downboating!');

@@ -10,24 +10,43 @@
 
 html {
 	height: 100%;
+	width: 100%;
 }
 
 body {
 	height: 100%;
+	width: 100%;
 	padding-top: 60px;
 	margin: 0;
 	font-family: 'Open Sans', sans-serif;
-  font-weight: 300;
+	font-weight: 300;
 }
 
 a:hover {
 	color: #3a90ff;
 }
 
-.projects-container {
+.cancel-button {
+	font-weight: 600;
 }
 
-.explore-projects {
+#image-container {
+	padding-top: 20px;
+	margin-bottom: -20px;
+	margin-left: -30px;
+	margin-right: -30px;
+}
+
+.image-card {
+	width: calc(100%);
+}
+
+.image-card.grid {
+	width: calc(50%);
+	margin: 0;
+}
+
+.projects-container {
 }
 
 .explore-project-card,
@@ -385,7 +404,6 @@ button.navbar-toggle {
     width: 100%;
   }
 
-
   .navbar-brand,
   .navbar .container-fluid ul li a {
     padding: 20px 10px 16px 10px;
@@ -399,12 +417,16 @@ button.navbar-toggle {
   }
 }
 
+
 @media(max-width: 780px) {
 	.project-card {
 		width: calc(50% - 20px);
 	}
 	.explore-project-card {
 		width: calc(50% - 10px);
+	}
+	.image-card.grid {
+		width: 50%;
 	}
 }
 
@@ -414,7 +436,8 @@ button.navbar-toggle {
   }
 
   .explore-project-card,
-  .project-card {
+  .project-card,
+  .image-card.grid {
 	width: 100%;
   }
   

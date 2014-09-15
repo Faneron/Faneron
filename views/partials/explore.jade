@@ -82,13 +82,18 @@
 
 
 		.explore-project-card(ng-repeat="project in projects")
-			img(ng-src="/images/splash2_edit.jpg").project-image
+			img(ng-src="{{project.coverImage ? project.coverImage : '/images/_0000_Faneron.png'}}").project-image
 			.project-card-main-info
 				h3.project-card-title: a(ui-sref="project({'id': project._id})") {{project.info.title}}
 				h4.project-card-tagline {{project.info.tagline}}
+
 			.project-card-stats
 				h6 Created {{project.time}}
 				h5 by 
 					a(ui-sref="profile({'username': project._user.info.username})") {{project._user.info.username}}
 				h6 {{project.views}} views | 
 					a(ui-sref="project.comments({'id': project._id})") {{project.commentNumber}} threads
+			span {{project.vote.votes}} {{project.vote.votes == 1 ? "point" : "points"}} 
+			i.fa.fa-fw.fa-chevron-up.vote-button(ng-click="upvote(project)" ng-class="{'vote-highlight': project.vote.upvoters.indexOf(loggedInUser._id)!=-1}")
+			i.fa.fa-fw.fa-chevron-down.vote-button(ng-click="downvote(project)" ng-class="{'vote-highlight': project.vote.downvoters.indexOf(loggedInUser._id)!=-1}")
+

@@ -185,7 +185,8 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		}
 	}])
 
-	.controller('exploreCtrl', ['$scope', '$http', '$location', '$state', function($scope, $http, $location, $state) {
+	.controller('exploreCtrl', ['$scope', '$http', '$location', '$rootScope', '$state', function($scope, $http, $location, $rootScope, $state) {
+		$scope.loggedInUser = $rootScope.user;
 		var $container = $('#explore-container');
 
 		$scope.getProjects = function() {
@@ -243,6 +244,26 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				$location.search(key, $scope[key]);
 			}
 			$scope.getProjects();
+		}
+
+		$scope.upvote = function(project) {
+			$http({method: 'POST', url: '/project/upvote/' + project._id})
+				.success(function(data) {
+					project.vote = data.vote;
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+		}
+
+		$scope.downvote = function(project) {
+			$http({method: 'POST', url: '/project/downvote/' + project._id})
+				.success(function(data) {
+					project.vote = data.vote;
+				})
+				.error(function(err) {
+					console.log(err);
+				});
 		}
 
 	}])
@@ -392,9 +413,26 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 	.controller('projectImagesCtrl', ['$scope', '$stateParams', function($scope, $stateParams) {
 		$scope.project_id = $stateParams.id;
 		console.log($scope.project_id);
+		$scope.toggleGrid = function() {
+			var cards = $('.image-card')
+			if (!$scope.gridToggled) {
+				$scope.gridToggled = true;
+				cards.addClass('grid');
+				$('#image-container')
+					.css('margin-bottom', "10px")
+					.masonry({itemSelector: '.image-card', gutter: 0});
+			} else {
+				$scope.gridToggled = false;
+				cards.removeClass('grid');
+				$('#image-container')
+					.css('margin-bottom', '-20px')
+					.masonry('destroy');
+			}
+		}
 	}])
 
 	.controller('projectCtrl', ['$scope', '$http', '$rootScope', '$stateParams', '$state', function($scope, $http, $rootScope, $stateParams, $state) {
+		var cover = $("#cover-wrapper");
 		$scope.showCommentForm = false;
 		$scope.loggedInUser = $rootScope.user;
 		$scope.show = function() {
@@ -403,11 +441,32 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		$http({method: 'GET', url: '/project/get/' + $stateParams.id})
 			.success(function(data) {
 				$scope.project = data;
-				console.log($scope.project);
+				$scope.moment = moment($scope.project.info.timestamp).format("MMMM DD, YYYY");
+				cover.css("background-image", "url('" + $scope.project.coverImage + "')");
+				cover.css("background-size", "cover");
+				console.log(cover);
 			}).
 			error(function(err) {
 				console.log(err);
 			});
+		$scope.upvote = function() {
+			$http({method: 'POST', url: '/project/upvote/' + $stateParams.id})
+				.success(function(data) {
+					$scope.project.vote = data.vote;
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+		};
+		$scope.downvote = function() {
+			$http({method: 'POST', url: '/project/downvote/' + $stateParams.id})
+				.success(function(data) {
+					$scope.project.vote = data.vote;
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+		}
 	}])
 	.controller('commentThreadCtrl', ['$scope', '$http', '$rootScope', '$stateParams', '$state', 'updateVotes', function($scope, $http, $rootScope, $stateParams, $state, updateVotes) {
 		$scope.loggedInUser = $rootScope.user;

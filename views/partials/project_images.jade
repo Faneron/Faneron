@@ -1,10 +1,14 @@
 h1 Artwork
 br
-a(href="#" ng-click="toggle=true" ng-show="$parent.loggedInUser._id === $parent.project._user._id && !toggle").btn.btn-primary Add artwork
+a(href="#" ng-click="toggle=true" ng-show="$parent.loggedInUser._id === $parent.project._user._id && !toggle").btn.btn-primary.btn-inline Add artwork
+button.btn.btn-primary.btn-inline(ng-click="toggleGrid()") {{gridToggled ? "Normal View" : "Grid View"}}
 
-img(ng-repeat="image in project.image" ng-src="{{image}}")
-
-form(role="form", action="/s3/upload", method="post", enctype="multipart/form-data")
+form(role="form", action="/s3/upload", method="post", enctype="multipart/form-data" ng-show="$parent.loggedInUser._id === $parent.project._user._id && toggle").bio-edit
 	input(name="project_id", hidden, ng-model="project_id")
-	input(name="file", type="file")
-	input(type="submit", value="Submit").btn.btn-primary.btn-inline
+	input(name="file", type="file" required)
+	.form-group
+		input(type="submit", value="Submit").btn.btn-primary.btn-inline
+		a(href="#" ng-click="toggle=false").cancel-button Cancel
+
+#image-container.cf
+	img(ng-repeat="image in project.image" ng-src="{{image}}").image-card

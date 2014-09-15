@@ -57,20 +57,23 @@ exports.upload = function(req, res) {
     var filename = multer_file.name;
     var mime_type = multer_file.mimetype;
     var path = multer_file.path;
+	console.log(multer_file);
 
     upload_to_s3(path, filename, mime_type, function(err, data) {
 
         if(err) {
             console.log(err);
             res.send(500);
+			return;
         }
+		// delete from uploads folder after sending to Amazon
+		fs.unlink(path);
 		var project_id = req.body.project_id;
         Project.findById(project_id, function(err, project) {
             if(err) {
 				console.log(err);
 				res.send(500);
 			}
-			console.log('Project found');
             var aws_url_to_image = "https://s3-us-west-2.amazonaws.com/" + nconf.get("AWS").BUCKET_NAME + "/" + filename;
             project.image.push(aws_url_to_image);
             project.save(function(err, data) {
@@ -83,4 +86,38 @@ exports.upload = function(req, res) {
             });
         });
     });
+}
+
+exports.uploadCover = function(req, res) {
+    var multer_file = req.files['file'];
+    var filename = multer_file.name;
+    var mime_type = multer_file.mimetype;
+    var path = multer_file.path;
+	console.log(multer_file);
+
+    upload_to_s3(path, filename, mime_type, function(err, data) {
+		if (err) {
+			console.log(err);
+			res.send(500);
+			return;
+		}
+		fs.unlink(path);
+		var project_id = req.body.project_id;
+		Project.findById(project_id, function(err, project) {
+			if (err) {
+				console.log(err);
+				res.send(500);
+			}
+			console.log('Project found');
+            var aws_url_to_image = "https://s3-us-west-2.amazonaws.com/" + nconf.get("AWS").BUCKET_NAME + "/" + filename;
+			project.coverImage = aws_url_to_image;
+			project.save(function(err, data) {
+				if (err) {
+					console.log(err);
+					res.send(500);
+				}
+				res.redirect('/projects/' + project_id);
+			});
+		})
+	});
 }
