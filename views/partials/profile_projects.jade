@@ -2,7 +2,7 @@
 h1 Projects
 br
 p(ng-if="projects.length === 0"): big No projects yet!
-a(ui-sref="newProject").btn.btn-primary Add a project
+a(ui-sref="newProject" ng-show="$root.user._id === user._id").btn.btn-primary Add a project
 .projects-container#container
 	.project-card(ng-repeat="project in projects" dir)
 			img(ng-src="{{project.coverImage ? project.coverImage : '/images/_0000_Faneron.png'}}").project-image

@@ -1,6 +1,6 @@
 //- Nested ui-view template for user bios
 h1 Bio
-	a(ng-show="loggedInUser._id === user._id" href="#" ng-click="editBioToggled=!editBioToggled").edit-button
+	a(ng-show="$root.user._id === user._id" href="#" ng-click="editBioToggled=!editBioToggled").edit-button
 		i.fa.fa-fw.fa-pencil 
 form(ng-show="editBioToggled" ng-submit="editBio(); editBioToggled=false;").bio-edit
 	.form-group

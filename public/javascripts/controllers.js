@@ -124,6 +124,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				console.log($scope.user);
 				if ($scope.user.profile) $('.crop-box').css("background-image", "url('" + $scope.user.profile + "')");
 				else $('.crop-box').css("background-image", "url('/images/Logo 1.jpg')");
+				if ($scope.user.cover) $('#cover-wrapper').css("background-image", "url('" + $scope.user.cover + "')");
 			})
 			.error(function() {console.log("Log the FUCK in!")});
 	}])
