@@ -2,6 +2,7 @@ var AWS = require('aws-sdk');
 var Project = require('../models/project').Project;
 var nconf = require('nconf');
 var fs = require('fs');
+var sizeOf = require('image-size');
 
 /* Helper method to upload a local file to S3
  * @constructor upload_to_s3
@@ -101,6 +102,8 @@ exports.uploadCover = function(req, res) {
 			res.send(500);
 			return;
 		}
+		var dimensions = sizeOf(path);
+		var height = dimensions.height / dimensions.width;
 		fs.unlink(path);
 		var project_id = req.body.project_id;
 		Project.findById(project_id, function(err, project) {
@@ -111,6 +114,8 @@ exports.uploadCover = function(req, res) {
 			console.log('Project found');
             var aws_url_to_image = "https://s3-us-west-2.amazonaws.com/" + nconf.get("AWS").BUCKET_NAME + "/" + filename;
 			project.coverImage = aws_url_to_image;
+			project.image.push(aws_url_to_image);
+			project.coverHeight = height;
 			project.save(function(err, data) {
 				if (err) {
 					console.log(err);

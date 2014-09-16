@@ -47,6 +47,8 @@ var projectSchema = new mongoose.Schema({
 	}],
 
 	coverImage: {type: String},
+	
+	coverHeight: {type: Number},
 
 	image: [{type: String}] // An array of URLs pointing to images in S3 that should be publically readable
 });

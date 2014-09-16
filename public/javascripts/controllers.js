@@ -182,7 +182,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 	.controller('exploreCtrl', ['$scope', '$http', '$location', '$rootScope', '$state', function($scope, $http, $location, $rootScope, $state) {
 		$scope.loggedInUser = $rootScope.user;
 		var $container = $('#explore-container');
-
+		//$container.masonry({itemSelector: '.explore-project-card', gutter: 20});
 		$scope.getProjects = function() {
 			var query = $location.search();
 			var keys = Object.keys(query);
@@ -213,12 +213,12 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 					data.projects.forEach(function(data) {
 						data.time = moment(data.info.timestamp).format("MMMM DD, YYYY");
 					});
-					setTimeout(function() {
+					/*setTimeout(function() {
 						$container.masonry({
 							itemSelector: '.explore-project-card',
 							gutter: 20
 						});
-					}, 150);
+					}, 150);*/
 				})
 				.error(function(err) {
 					console.log(err);

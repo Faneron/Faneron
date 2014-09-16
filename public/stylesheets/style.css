@@ -30,6 +30,10 @@ a:hover {
 	font-weight: 600;
 }
 
+.navbar-header {
+	height: 100%;
+}
+
 #image-container {
 	padding-top: 20px;
 	margin-bottom: -20px;

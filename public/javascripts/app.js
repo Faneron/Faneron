@@ -120,12 +120,32 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 	}])
 	.directive('dir', function() {
 		return function(scope, elem, attrs) {
+			var $elem = $(elem);
+			var img = $elem.find("img");
+			img.height(scope.project.coverHeight * $elem.width());
+			console.log(scope);
 			if (scope.$first) {
 				setTimeout(function() {
 					$('#container').masonry({itemSelector: '.project-card'});
 				}, 200);
 			} else {
-					$('#container').masonry('appended', $(elem));
+				$('#container').masonry('appended', $(elem));
+			}
+		}
+	})
+	.directive('exploredir', function() {
+		return function(scope, elem, attrs) {
+			var $elem = $(elem);
+			var img = $elem.find('img');
+			img.height(scope.project.coverHeight * $elem.width());
+			console.log(scope);
+			if (scope.$first) {
+				setTimeout(function() {
+					$('#explore-container').masonry({itemSelector : '.explore-project-card', gutter: 20})
+				}, 200);
+			}
+			else {
+				$('#explore-container').masonry('appended', $(elem));
 			}
 		}
 	});

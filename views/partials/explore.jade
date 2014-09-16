@@ -81,7 +81,7 @@
 			br
 
 
-		.explore-project-card(ng-repeat="project in projects")
+		.explore-project-card(ng-repeat="project in projects" exploredir)
 			img(ng-src="{{project.coverImage ? project.coverImage : '/images/_0000_Faneron.png'}}").project-image
 			.project-card-main-info
 				h3.project-card-title: a(ui-sref="project({'id': project._id})") {{project.info.title}}
