@@ -25,10 +25,13 @@ app.use(logger('dev'));
 
 app.get('/images/splash', function(req, res) {
 	//supposed to be aliased as sendFile (but not -___-)
-	if (Math.random() > 0.5) {
+	var rand = Math.random()
+	if (rand > 0.66) {
 		var file = 'splash.jpg';
-	} else {
+	} else if (rand > 0.33) {
 		var file = 'splash2.jpg';
+	} else {
+		var file = 'splash3.jpg';
 	}
 	res.sendfile(__dirname + '/public/images/' + file);
 });

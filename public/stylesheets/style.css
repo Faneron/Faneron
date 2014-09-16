@@ -447,6 +447,11 @@ button.navbar-toggle {
 	.image-card.grid {
 		width: 50%;
 	}
+	.explore-sidebar div {
+		vertical-align: top;
+		float: left; 
+		width: 50%;
+	}
 }
 
 @media (max-width: 550px) {
@@ -459,7 +464,10 @@ button.navbar-toggle {
   .image-card.grid {
 	width: 100%;
   }
-  
+
+  .explore-sidebar div {
+	width: 33%;
+  }
 }
 
 /* Bootstrap hack for navbar collapsing -___- */
