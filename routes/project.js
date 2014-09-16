@@ -74,6 +74,9 @@ exports.get = function(req, res) {
 		.populate('_user')
 		// .populate('_user')
 		.exec(function(err, data) {
+			if (err) {
+				res.send(404);
+			}
 			console.log("Project info: ");
 			console.log(data);
 			data.views++;
@@ -87,9 +90,11 @@ exports.create = function(req, res) {
 	
 	console.log(req.user);
 	UserModel.User.findById(req.user._id, function(err, data) {
-		if (err) console.log(err);
+		if (err) {
+			console.log(err);
+			res.send(404);
+		}
 		else {
-			console.log(data);
 			var project = new ProjectModel.Project({
 				_user: req.user._id, // currently logged in user
 				info: {
@@ -101,13 +106,14 @@ exports.create = function(req, res) {
 					gameplay: req.body.gameplay,
 				}
 			});
-			project.save();
+			project.save(function(err, p) {
+				res.send(p);
+			});
 			data.projects.push(project._id);
 			data.save();
 			console.log(data);
 		}
 	});
-	res.send(200);
 };
 
 exports.update = function(req, res) {

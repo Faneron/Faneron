@@ -121,6 +121,9 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			.success(function(data) {
 				if (!data) $state.go('err');
 				else $scope.user = data;
+				console.log($scope.user);
+				if ($scope.user.profile) $('.crop-box').css("background-image", "url('" + $scope.user.profile + "')");
+				else $('.crop-box').css("background-image", "url('/images/Logo 1.jpg')");
 			})
 			.error(function() {console.log("Log the FUCK in!")});
 	}])
@@ -160,6 +163,26 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 
 	}])
 
+	.controller('profileArtCtrl', ['$scope', function($scope) {
+		$scope.toggleGrid = function() {
+			var cards = $('.image-card')
+			if (!$scope.gridToggled) {
+				$scope.gridToggled = true;
+				cards.addClass('grid');
+				$('#image-container')
+					.css('margin-bottom', "10px")
+					.masonry({itemSelector: '.image-card', gutter: 0});
+			} else {
+				$scope.gridToggled = false;
+				cards.removeClass('grid');
+				$('#image-container')
+					.css('margin-bottom', '-20px')
+					.masonry('destroy');
+			}
+		}
+
+	}])
+
 	.controller('newProjectCtrl', ['$scope', '$http', '$state', '$stateParams', '$rootScope', function($scope, $http, $state, $stateParams, $rootScope) {
 		$scope.createProject = function() {
 			$scope.config = {
@@ -171,7 +194,8 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			$http({method: 'POST', url:'/project/create', data: $scope.config})
 				.success(function(data) {
 					console.log($rootScope.user);
-					$state.go('profile.projects', {'username': $rootScope.user.info.username});
+					console.log(data);
+					$state.go('project', {id: data._id});
 				})
 				.error(function(err) {
 					console.log(err);
@@ -441,6 +465,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			}).
 			error(function(err) {
 				console.log(err);
+				$state.go('err');
 			});
 		$scope.upvote = function() {
 			$http({method: 'POST', url: '/project/upvote/' + $stateParams.id})

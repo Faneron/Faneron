@@ -19,7 +19,7 @@
 
 			form(ng-show="toggle===true" action="/s3/cover/upload" method="post" enctype="multipart/form-data").bio-edit
 				input(type="text" hidden name="project_id" ng-model="project._id")
-				input(name="file" type="file" required)
+				input(name="file" accept="image/*" type="file" required)
 				.form-group
 					input.btn.btn-primary.btn-inline(type="submit" value="Submit")
 					a(href="#" ng-click="toggle=false").cancel-button Cancel

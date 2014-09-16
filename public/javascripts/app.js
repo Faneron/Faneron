@@ -9,6 +9,10 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 				url: '/err',
 				templateUrl: '/partials/error'
 			})
+			.state('project_err', {
+				url: '/projects/err',
+				templateUrl: '/partials/project_error'
+			})
 			.state('front', {
 				url: '/',
 				templateUrl: '/partials/frontpage',
@@ -100,7 +104,8 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 				})
 				.state('profile.art', {
 					url: '/art',
-					templateUrl: '/partials/profile_art'
+					templateUrl: '/partials/profile_art',
+					controller: 'profileArtCtrl'
 				})
 			.state('new_project', {
 				url: '/projects/new',

@@ -3,12 +3,20 @@
 	.profile-info
 		.profile-header
 			.crop-box
-				img.profile-picture(alt="placeholder", src="/images/splash.jpg")
 			.basic-info
 				h1.username {{user.info.username}}
 				h4.email {{user.info.email}}
 				h3.experience: span {{user.rank.xp}} Experience
-				
+				a.btn.btn-primary(href="#" ng-show="loggedInUser._id === user._id && !toggle" ng-click="toggle = true")
+					i.fa.fa-fw.fa-pencil 
+					span Edit profile picture
+				form(role="form", action="/s3/profile/upload", method="post", enctype="multipart/form-data" ng-show="loggedInUser._id === user._id && toggle").bio-edit
+					input(type="text" name="username" hidden ng-model="user.info.username")
+					input(name="file" accept="image/*" type="file" required)
+					.form-group
+						input(type="submit", value="Submit").btn.btn-primary.btn-inline
+						a(href="#" ng-click="toggle=false").cancel-button Cancel
+
 		.profile-nav
 			ul.nav.nav-pills
 				//- ui-sref-active binds the "active" class to the li if the program is at the ui-sref specified in the a

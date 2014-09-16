@@ -33,6 +33,8 @@
 	overflow: hidden;
 	margin-right: 30px;
 	float: left;
+	background-position: center center;
+	background-size: cover;
 }
 
 .profile-picture {

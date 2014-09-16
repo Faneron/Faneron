@@ -1,5 +1,6 @@
 var AWS = require('aws-sdk');
 var Project = require('../models/project').Project;
+var User = require('../models/user').User;
 var nconf = require('nconf');
 var fs = require('fs');
 var sizeOf = require('image-size');
@@ -76,6 +77,10 @@ exports.upload = function(req, res) {
 				res.send(500);
 			}
             var aws_url_to_image = "https://s3-us-west-2.amazonaws.com/" + nconf.get("AWS").BUCKET_NAME + "/" + filename;
+			User.findById(project._user, function(err, data) {
+				data.art.push(aws_url_to_image);
+				data.save();
+			});
             project.image.push(aws_url_to_image);
             project.save(function(err, data) {
                 if(err){
@@ -113,6 +118,10 @@ exports.uploadCover = function(req, res) {
 			}
 			console.log('Project found');
             var aws_url_to_image = "https://s3-us-west-2.amazonaws.com/" + nconf.get("AWS").BUCKET_NAME + "/" + filename;
+			User.findById(project._user, function(err, data) {
+				data.art.push(aws_url_to_image);
+				data.save();
+			});
 			project.coverImage = aws_url_to_image;
 			project.image.push(aws_url_to_image);
 			project.coverHeight = height;
@@ -124,5 +133,35 @@ exports.uploadCover = function(req, res) {
 				res.redirect('/projects/' + project_id);
 			});
 		})
+	});
+}
+
+exports.uploadProfile = function(req, res) {
+    var multer_file = req.files['file'];
+    var filename = multer_file.name;
+    var mime_type = multer_file.mimetype;
+    var path = multer_file.path;
+	console.log(multer_file);
+	upload_to_s3(path, filename, mime_type, function(err, data) {
+		if (err) {
+			console.log(err);
+			res.send(500);
+			return;
+		}
+		fs.unlink(path);
+		var username = req.body.username;
+		console.log(username);
+		User.find({'info.username': username}, function(err, user) {
+			console.log(user);
+            var aws_url_to_image = "https://s3-us-west-2.amazonaws.com/" + nconf.get("AWS").BUCKET_NAME + "/" + filename;
+			user[0].profile = aws_url_to_image;
+			user[0].save(function(err, data) {
+				if (err) {
+					console.log(err);
+					res.send(500);
+				}
+				res.redirect('/users/' + username);
+			});
+		});
 	});
 }

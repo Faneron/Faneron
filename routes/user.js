@@ -34,6 +34,7 @@ exports.projects = function(req, res) {
 	.populate('projects')
 	.exec(function(err, doc) {
 		if(err) console.log(err);
+		if (!doc) { res.send(404) }
 		else res.send(doc.projects);
 	});
 };

@@ -1,8 +1,8 @@
 //- Nested ui-view for user projects
 h1 Projects
-h1(ng-if="projects.length === 0") No projects yet!
 br
-a(ui-sref="newProject"): button.btn.btn-primary Add a project
+p(ng-if="projects.length === 0"): big No projects yet!
+a(ui-sref="newProject").btn.btn-primary Add a project
 .projects-container#container
 	.project-card(ng-repeat="project in projects" dir)
 			img(ng-src="{{project.coverImage ? project.coverImage : '/images/_0000_Faneron.png'}}").project-image

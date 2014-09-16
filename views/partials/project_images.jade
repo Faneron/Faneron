@@ -5,7 +5,7 @@ button.btn.btn-primary.btn-inline(ng-click="toggleGrid()") {{gridToggled ? "Norm
 
 form(role="form", action="/s3/upload", method="post", enctype="multipart/form-data" ng-show="$parent.loggedInUser._id === $parent.project._user._id && toggle").bio-edit
 	input(name="project_id", hidden, ng-model="project_id")
-	input(name="file", type="file" required)
+	input(name="file" accept="image/*" type="file" required)
 	.form-group
 		input(type="submit", value="Submit").btn.btn-primary.btn-inline
 		a(href="#" ng-click="toggle=false").cancel-button Cancel
