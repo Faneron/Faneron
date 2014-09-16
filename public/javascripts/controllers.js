@@ -149,21 +149,15 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 	}])
 
 	// !!! Marked for future alterations
-	.controller('profileProjectsCtrl', ['$scope', '$state', '$http', '$stateParams', function($scope, $state, $http, $stateParams) {
-		console.log($stateParams);
+	.controller('profileProjectsCtrl', ['$scope', '$state', '$http', '$stateParams', '$timeout', function($scope, $state, $http, $stateParams, $timeout) {
 		$http({method: 'GET', url: '/user/projects/' + $stateParams.username})
 			.success(function(data) {
-				console.log(data);
 				$scope.projects = data;
 				data.forEach(function(data) {
 					data.time = moment(data.info.timestamp).format("MMMM DD, YYYY");
 				});
-				$scope.$watch(function() {
-					$('#container').masonry({
-						itemSelector: '.project-card'
-					});
-				});
 			});
+
 	}])
 
 	.controller('newProjectCtrl', ['$scope', '$http', '$state', '$stateParams', '$rootScope', function($scope, $http, $state, $stateParams, $rootScope) {
@@ -443,7 +437,6 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				$scope.project = data;
 				$scope.moment = moment($scope.project.info.timestamp).format("MMMM DD, YYYY");
 				cover.css("background-image", "url('" + $scope.project.coverImage + "')");
-				cover.css("background-size", "cover");
 				console.log(cover);
 			}).
 			error(function(err) {

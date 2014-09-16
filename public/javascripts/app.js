@@ -1,8 +1,9 @@
 angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ngAnimate'])
 
-	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider, $q) {
+	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 		$urlRouterProvider.when('/users/:username', '/users/:username/bio');
 		$urlRouterProvider.when('/projects/:id', '/projects/:id/description');
+
 		$stateProvider
 			.state('err', {
 				url: '/err',
@@ -86,7 +87,7 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 				.state('profile.projects', {
 					url: '/projects',
 					templateUrl: '/partials/profile_projects',
-					controller: 'profileProjectsCtrl'
+					controller: 'profileProjectsCtrl',
 				})
 					.state('newProject', {
 						url: '/new',
@@ -116,4 +117,16 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 	// Removes hash (#) from URL
 	.config(['$locationProvider', function($locationProvider) {
 		$locationProvider.html5Mode(true);
-	}]);
+	}])
+	.directive('dir', function() {
+		return function(scope, elem, attrs) {
+			if (scope.$first) {
+				setTimeout(function() {
+					$('#container').masonry({itemSelector: '.project-card'});
+				}, 200);
+			} else {
+					$('#container').masonry('appended', $(elem));
+			}
+		}
+	});
+

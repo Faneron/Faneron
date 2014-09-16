@@ -20,8 +20,19 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(favicon(__dirname + '/public/images/_000_Faneron.png'));
+app.use(favicon(__dirname + '/public/images/_0000_Faneron.png'));
 app.use(logger('dev'));
+
+app.get('/images/splash', function(req, res) {
+	//supposed to be aliased as sendFile (but not -___-)
+	if (Math.random() > 0.5) {
+		var file = 'splash.jpg';
+	} else {
+		var file = 'splash2.jpg';
+	}
+	res.sendfile(__dirname + '/public/images/' + file);
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded());

@@ -4,6 +4,8 @@
 	width: 100%;
 	position: fixed;
 	overflow: hidden;
+	background-size: cover;
+	background-position: center center;
 }
 
 .project-wrapper {

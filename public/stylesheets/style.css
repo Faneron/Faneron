@@ -166,9 +166,24 @@ h1, h2, h3, h4, h5, h6 {
 
 /* End animations */
 
-#wrapper {
+.background-wrapper {
+	/* Custom response to a GET /images/splash */
+	background: url('/images/splash') center center;
+	z-index: -1;
+	width: 100%;
 	height: 100%;
+	position: fixed;
 	padding: 0; 
+	background-size: cover;
+}
+
+.hidden {
+	display: none;
+}
+
+#wrapper {
+	width: 100%;
+	height: 100%;
 }
 
 /* General container shit used throughout the app */
