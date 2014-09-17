@@ -116,6 +116,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 
 	.controller('profileCtrl', ['$scope', '$rootScope', '$http', '$state', '$stateParams', function($scope, $rootScope, $http, $state, $stateParams) {
 		$scope.loggedInUser = $rootScope.user;
+		if (!$stateParams.username) $state.go('err');
 		// Fetching user's data for that particular page
 		$http({method: 'GET', url: '/user/get/' + $stateParams.username})
 			.success(function(data) {
@@ -472,6 +473,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 	}])
 
 	.controller('projectCtrl', ['$scope', '$http', '$rootScope', '$stateParams', '$state', function($scope, $http, $rootScope, $stateParams, $state) {
+		if (!$stateParams.id) $state.go('err_proj') ;
 		var cover = $("#cover-wrapper");
 		$scope.showCommentForm = false;
 		$scope.loggedInUser = $rootScope.user;
@@ -487,7 +489,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			}).
 			error(function(err) {
 				console.log(err);
-				$state.go('err');
+				$state.go('err_proj');
 			});
 		$scope.upvote = function() {
 			$http({method: 'POST', url: '/project/upvote/' + $stateParams.id})

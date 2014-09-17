@@ -9,8 +9,8 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 				url: '/err',
 				templateUrl: '/partials/error'
 			})
-			.state('project_err', {
-				url: '/projects/err',
+			.state('err_proj', {
+				url: '/project_err',
 				templateUrl: '/partials/project_error'
 			})
 			.state('front', {
