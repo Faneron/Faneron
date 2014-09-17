@@ -207,7 +207,8 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 	.controller('exploreCtrl', ['$scope', '$http', '$location', '$rootScope', '$state', function($scope, $http, $location, $rootScope, $state) {
 		$scope.loggedInUser = $rootScope.user;
 		var $container = $('#explore-container');
-		//$container.masonry({itemSelector: '.explore-project-card', gutter: 20});
+		// max number of pages to the left and right of the current page number
+		$scope.limit = 2;
 		$scope.getProjects = function() {
 			var query = $location.search();
 			var keys = Object.keys(query);
@@ -215,6 +216,11 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			if (dateIndex != -1) keys.splice(dateIndex, 1);
 			var sortIndex = keys.indexOf('sort');
 			if (sortIndex != -1) keys.splice(sortIndex, 1);
+			var pageIndex = keys.indexOf('page');
+			if (pageIndex != -1) {
+				$scope.pageNumber = parseInt(query.page);
+				keys.splice(pageIndex, 1);
+			}			
 			// get object keys
 			console.log(keys);
 			for (key in query) {
@@ -224,16 +230,22 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				}
 			}
 
+			if (!$scope.pageNumber) $scope.pageNumber = 0;
+
 			// set defaults if no query value given
 			if (!$scope.date) $scope.date = 'today';
-			if (!$scope.sort) $scope.sort = 'score';
+			if (!$scope.sort) $scope.sort = 'vote.votes';
 
-			$http({method: 'GET', url: '/project/get/all', params: {genre: keys, date: $scope.date, sort: $scope.sort}})
+			$http({method: 'GET', url: '/project/get/all', params: {genre: keys, date: $scope.date, sort: $scope.sort, 'skip': $scope.pageNumber}})
 				.success(function(data) {
 					console.log("got all projects");
 					$scope.projects = data.projects;
 					$scope.count = data.count;
 					$scope.pages = Math.ceil(data.count/20);
+					$scope.range = function(n) {
+						return new Array(n);
+					}
+					console.log($scope.pages);
 					console.log(data);
 					data.projects.forEach(function(data) {
 						data.time = moment(data.info.timestamp).format("MMMM DD, YYYY");
@@ -263,6 +275,15 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				$location.search(key, $scope[key]);
 			}
 			$scope.getProjects();
+		}
+
+		$scope.changePage = function(page) {
+			if (page !== $scope.pageNumber && page < $scope.pages && page >= 0) {
+				$container.masonry('destroy');
+				$scope.projects = null;
+				$location.search('page', page);
+				$scope.getProjects();
+			}
 		}
 
 		$scope.upvote = function(project) {

@@ -50,6 +50,7 @@ exports.all = function(req, res) {
 		project_count = count;
 	});
 	ProjectModel.Project.find(params)
+		.skip(req.query.skip * 20)
 		.sort('-' + req.query.sort)
 		.limit(15)
 		.populate('_user')

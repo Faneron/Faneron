@@ -1,6 +1,14 @@
 .faneron-container
 	h1 Explore
 
+	.text-center
+		ul.pagination.top
+			li(ng-class="{'disabled' : pageNumber == 0}"): a(href="#" ng-click="changePage(pageNumber - 1)") &laquo;
+			li(ng-show="pageNumber > 0 + limit"): a(href="#" ng-click="changePage(pageNumber - limit - 1)") ...
+			li(ng-repeat="n in range(pages) track by $index" ng-if="$index >= pageNumber-limit && $index <= pageNumber+limit" ng-class="{'active': $index == pageNumber}"): a(href="#" ng-click="changePage($index)") {{$index + 1}} 
+			li(ng-show="pageNumber < pages - limit - 1"): a(href="#" ng-click="changePage(pageNumber + limit + 1)") ...
+			li(ng-class="{'disabled' : pageNumber === pages - 1}"): a(href="#" ng-click="changePage(pageNumber + 1)") &raquo;
+
 	.projects-container.explore-projects.cf#explore-container
 		.explore-project-card.explore-sidebar
 			h3 Categories
@@ -97,3 +105,11 @@
 			i.fa.fa-fw.fa-chevron-up.vote-button(ng-click="upvote(project)" ng-class="{'vote-highlight': project.vote.upvoters.indexOf(loggedInUser._id)!=-1}")
 			i.fa.fa-fw.fa-chevron-down.vote-button(ng-click="downvote(project)" ng-class="{'vote-highlight': project.vote.downvoters.indexOf(loggedInUser._id)!=-1}")
 
+
+	.text-center
+		ul.pagination
+			li(ng-class="{'disabled' : pageNumber == 0}"): a(href="#" ng-click="changePage(pageNumber - 1)") &laquo;
+			li(ng-show="pageNumber > 0 + limit"): a(href="#" ng-click="changePage(pageNumber - limit - 1)") ...
+			li(ng-repeat="n in range(pages) track by $index" ng-if="$index >= pageNumber-limit && $index <= pageNumber+limit" ng-class="{'active': $index == pageNumber}"): a(href="#" ng-click="changePage($index)") {{$index + 1}} 
+			li(ng-show="pageNumber < pages - limit - 1"): a(href="#" ng-click="changePage(pageNumber + limit + 1)") ...
+			li(ng-class="{'disabled' : pageNumber === pages - 1}"): a(href="#" ng-click="changePage(pageNumber + 1)") &raquo;

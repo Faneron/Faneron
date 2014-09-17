@@ -22,8 +22,19 @@ body {
 	font-weight: 300;
 }
 
+a, a:active, a:focus {
+	outline: none;
+}
+
 a:hover {
 	color: #3a90ff;
+}
+
+#explore-container {
+}
+
+.pagination.top {
+	margin-bottom: 0;
 }
 
 .cancel-button {
