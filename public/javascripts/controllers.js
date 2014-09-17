@@ -116,11 +116,16 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 
 	.controller('profileCtrl', ['$scope', '$rootScope', '$http', '$state', '$stateParams', function($scope, $rootScope, $http, $state, $stateParams) {
 		$scope.loggedInUser = $rootScope.user;
+		if (!$stateParams.username) $state.go('err');
 		// Fetching user's data for that particular page
 		$http({method: 'GET', url: '/user/get/' + $stateParams.username})
 			.success(function(data) {
 				if (!data) $state.go('err');
 				else $scope.user = data;
+				console.log($scope.user);
+				if ($scope.user.profile) $('.crop-box').css("background-image", "url('" + $scope.user.profile + "')");
+				else $('.crop-box').css("background-image", "url('/images/Logo 1.jpg')");
+				if ($scope.user.cover) $('#cover-wrapper').css("background-image", "url('" + $scope.user.cover + "')");
 			})
 			.error(function() {console.log("Log the FUCK in!")});
 	}])
@@ -149,21 +154,35 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 	}])
 
 	// !!! Marked for future alterations
-	.controller('profileProjectsCtrl', ['$scope', '$state', '$http', '$stateParams', function($scope, $state, $http, $stateParams) {
-		console.log($stateParams);
+	.controller('profileProjectsCtrl', ['$scope', '$state', '$http', '$stateParams', '$timeout', function($scope, $state, $http, $stateParams, $timeout) {
 		$http({method: 'GET', url: '/user/projects/' + $stateParams.username})
 			.success(function(data) {
-				console.log(data);
 				$scope.projects = data;
 				data.forEach(function(data) {
 					data.time = moment(data.info.timestamp).format("MMMM DD, YYYY");
 				});
-				$scope.$watch(function() {
-					$('#container').masonry({
-						itemSelector: '.project-card'
-					});
-				});
 			});
+
+	}])
+
+	.controller('profileArtCtrl', ['$scope', function($scope) {
+		$scope.toggleGrid = function() {
+			var cards = $('.image-card')
+			if (!$scope.gridToggled) {
+				$scope.gridToggled = true;
+				cards.addClass('grid');
+				$('#image-container')
+					.css('margin-bottom', "10px")
+					.masonry({itemSelector: '.image-card', gutter: 0});
+			} else {
+				$scope.gridToggled = false;
+				cards.removeClass('grid');
+				$('#image-container')
+					.css('margin-bottom', '-20px')
+					.masonry('destroy');
+			}
+		}
+
 	}])
 
 	.controller('newProjectCtrl', ['$scope', '$http', '$state', '$stateParams', '$rootScope', function($scope, $http, $state, $stateParams, $rootScope) {
@@ -177,7 +196,8 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			$http({method: 'POST', url:'/project/create', data: $scope.config})
 				.success(function(data) {
 					console.log($rootScope.user);
-					$state.go('profile.projects', {'username': $rootScope.user.info.username});
+					console.log(data);
+					$state.go('project', {id: data._id});
 				})
 				.error(function(err) {
 					console.log(err);
@@ -185,9 +205,11 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		}
 	}])
 
-	.controller('exploreCtrl', ['$scope', '$http', '$location', '$state', function($scope, $http, $location, $state) {
+	.controller('exploreCtrl', ['$scope', '$http', '$location', '$rootScope', '$state', function($scope, $http, $location, $rootScope, $state) {
+		$scope.loggedInUser = $rootScope.user;
 		var $container = $('#explore-container');
-
+		// max number of pages to the left and right of the current page number
+		$scope.limit = 2;
 		$scope.getProjects = function() {
 			var query = $location.search();
 			var keys = Object.keys(query);
@@ -195,6 +217,11 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 			if (dateIndex != -1) keys.splice(dateIndex, 1);
 			var sortIndex = keys.indexOf('sort');
 			if (sortIndex != -1) keys.splice(sortIndex, 1);
+			var pageIndex = keys.indexOf('page');
+			if (pageIndex != -1) {
+				$scope.pageNumber = parseInt(query.page);
+				keys.splice(pageIndex, 1);
+			}			
 			// get object keys
 			console.log(keys);
 			for (key in query) {
@@ -204,26 +231,32 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				}
 			}
 
+			if (!$scope.pageNumber) $scope.pageNumber = 0;
+
 			// set defaults if no query value given
 			if (!$scope.date) $scope.date = 'today';
-			if (!$scope.sort) $scope.sort = 'score';
+			if (!$scope.sort) $scope.sort = 'vote.votes';
 
-			$http({method: 'GET', url: '/project/get/all', params: {genre: keys, date: $scope.date, sort: $scope.sort}})
+			$http({method: 'GET', url: '/project/get/all', params: {genre: keys, date: $scope.date, sort: $scope.sort, 'skip': $scope.pageNumber}})
 				.success(function(data) {
 					console.log("got all projects");
 					$scope.projects = data.projects;
 					$scope.count = data.count;
 					$scope.pages = Math.ceil(data.count/20);
+					$scope.range = function(n) {
+						return new Array(n);
+					}
+					console.log($scope.pages);
 					console.log(data);
 					data.projects.forEach(function(data) {
 						data.time = moment(data.info.timestamp).format("MMMM DD, YYYY");
 					});
-					setTimeout(function() {
+					/*setTimeout(function() {
 						$container.masonry({
 							itemSelector: '.explore-project-card',
 							gutter: 20
 						});
-					}, 150);
+					}, 150);*/
 				})
 				.error(function(err) {
 					console.log(err);
@@ -243,6 +276,35 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				$location.search(key, $scope[key]);
 			}
 			$scope.getProjects();
+		}
+
+		$scope.changePage = function(page) {
+			if (page !== $scope.pageNumber && page < $scope.pages && page >= 0) {
+				$container.masonry('destroy');
+				$scope.projects = null;
+				$location.search('page', page);
+				$scope.getProjects();
+			}
+		}
+
+		$scope.upvote = function(project) {
+			$http({method: 'POST', url: '/project/upvote/' + project._id})
+				.success(function(data) {
+					project.vote = data.vote;
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+		}
+
+		$scope.downvote = function(project) {
+			$http({method: 'POST', url: '/project/downvote/' + project._id})
+				.success(function(data) {
+					project.vote = data.vote;
+				})
+				.error(function(err) {
+					console.log(err);
+				});
 		}
 
 	}])
@@ -392,9 +454,27 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 	.controller('projectImagesCtrl', ['$scope', '$stateParams', function($scope, $stateParams) {
 		$scope.project_id = $stateParams.id;
 		console.log($scope.project_id);
+		$scope.toggleGrid = function() {
+			var cards = $('.image-card')
+			if (!$scope.gridToggled) {
+				$scope.gridToggled = true;
+				cards.addClass('grid');
+				$('#image-container')
+					.css('margin-bottom', "10px")
+					.masonry({itemSelector: '.image-card', gutter: 0});
+			} else {
+				$scope.gridToggled = false;
+				cards.removeClass('grid');
+				$('#image-container')
+					.css('margin-bottom', '-20px')
+					.masonry('destroy');
+			}
+		}
 	}])
 
 	.controller('projectCtrl', ['$scope', '$http', '$rootScope', '$stateParams', '$state', function($scope, $http, $rootScope, $stateParams, $state) {
+		if (!$stateParams.id) $state.go('err_proj') ;
+		var cover = $("#cover-wrapper");
 		$scope.showCommentForm = false;
 		$scope.loggedInUser = $rootScope.user;
 		$scope.show = function() {
@@ -403,11 +483,32 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 		$http({method: 'GET', url: '/project/get/' + $stateParams.id})
 			.success(function(data) {
 				$scope.project = data;
-				console.log($scope.project);
+				$scope.moment = moment($scope.project.info.timestamp).format("MMMM DD, YYYY");
+				cover.css("background-image", "url('" + $scope.project.coverImage + "')");
+				console.log(cover);
 			}).
 			error(function(err) {
 				console.log(err);
+				$state.go('err_proj');
 			});
+		$scope.upvote = function() {
+			$http({method: 'POST', url: '/project/upvote/' + $stateParams.id})
+				.success(function(data) {
+					$scope.project.vote = data.vote;
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+		};
+		$scope.downvote = function() {
+			$http({method: 'POST', url: '/project/downvote/' + $stateParams.id})
+				.success(function(data) {
+					$scope.project.vote = data.vote;
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+		}
 	}])
 	.controller('commentThreadCtrl', ['$scope', '$http', '$rootScope', '$stateParams', '$state', 'updateVotes', function($scope, $http, $rootScope, $stateParams, $state, updateVotes) {
 		$scope.loggedInUser = $rootScope.user;

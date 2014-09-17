@@ -1,12 +1,17 @@
 angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ngAnimate'])
 
-	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider, $q) {
+	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 		$urlRouterProvider.when('/users/:username', '/users/:username/bio');
 		$urlRouterProvider.when('/projects/:id', '/projects/:id/description');
+
 		$stateProvider
 			.state('err', {
 				url: '/err',
 				templateUrl: '/partials/error'
+			})
+			.state('err_proj', {
+				url: '/project_err',
+				templateUrl: '/partials/project_error'
 			})
 			.state('front', {
 				url: '/',
@@ -86,7 +91,7 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 				.state('profile.projects', {
 					url: '/projects',
 					templateUrl: '/partials/profile_projects',
-					controller: 'profileProjectsCtrl'
+					controller: 'profileProjectsCtrl',
 				})
 					.state('newProject', {
 						url: '/new',
@@ -99,7 +104,8 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 				})
 				.state('profile.art', {
 					url: '/art',
-					templateUrl: '/partials/profile_art'
+					templateUrl: '/partials/profile_art',
+					controller: 'profileArtCtrl'
 				})
 			.state('new_project', {
 				url: '/projects/new',
@@ -116,4 +122,36 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 	// Removes hash (#) from URL
 	.config(['$locationProvider', function($locationProvider) {
 		$locationProvider.html5Mode(true);
-	}]);
+	}])
+	.directive('dir', function() {
+		return function(scope, elem, attrs) {
+			var $elem = $(elem);
+			var img = $elem.find("img");
+			img.height(scope.project.coverHeight * $elem.width());
+			console.log(scope);
+			if (scope.$first) {
+				setTimeout(function() {
+					$('#container').masonry({itemSelector: '.project-card'});
+				}, 200);
+			} else {
+				$('#container').masonry('appended', $(elem));
+			}
+		}
+	})
+	.directive('exploredir', function() {
+		return function(scope, elem, attrs) {
+			var $elem = $(elem);
+			var img = $elem.find('img');
+			img.height(scope.project.coverHeight * $elem.width());
+			console.log(scope);
+			if (scope.$first) {
+				setTimeout(function() {
+					$('#explore-container').masonry({itemSelector : '.explore-project-card', gutter: 20})
+				}, 200);
+			}
+			else {
+				$('#explore-container').masonry('appended', $(elem));
+			}
+		}
+	});
+

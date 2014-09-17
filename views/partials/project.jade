@@ -1,15 +1,34 @@
 //- Template for video game project page
+//	img.cover-art(ng-src="{{project.coverImage}}")
+#cover-wrapper
 .project-wrapper
 	.faneron-container
 		.project-header
 			h1.project-title {{project.info.title}}
 			h3 {{project.info.tagline}}
-			h5 {{moment}}
+			.project-stats
+				h5 Created {{moment}}
+				h4 by 
+					strong: a(ui-sref="profile({'username': project._user.info.username})") {{project._user.info.username}}
+				h5 {{project.vote.votes}} {{project.vote.votes === 1 ? "point" : "points"}} 
+					i.fa.fa-fw.fa-chevron-up.vote-button(ng-class="{'vote-highlight': project.vote.upvoters.indexOf(loggedInUser._id)!=-1} " ng-click="upvote()")
+					i.fa.fa-fw.fa-chevron-down.vote-button(ng-class="{'vote-highlight': project.vote.downvoters.indexOf(loggedInUser._id)!=-1}" ng-click="downvote()")
+			a.btn.btn-primary(href="#" ng-show="project._user._id == loggedInUser._id && !toggle" ng-click="toggle=true"): big
+				i.fa.fa-fw.fa-pencil
+				span Edit cover art 
+
+			form(ng-show="toggle===true" action="/s3/cover/upload" method="post" enctype="multipart/form-data").bio-edit
+				input(type="text" hidden name="project_id" ng-model="project._id")
+				input(name="file" accept="image/*" type="file" required)
+				.form-group
+					input.btn.btn-primary.btn-inline(type="submit" value="Submit")
+					a(href="#" ng-click="toggle=false").cancel-button Cancel
+
 		.project-nav
 			ul.nav.nav-pills
 				li(ui-sref-active="active"): a(ui-sref=".description") home
+				li(ui-sref-active="active").comment-nav-button: a(ui-sref=".comments") COMMENTS
 				li(ui-sref-active="active"): a(ui-sref=".gameplay") gameplay
 				li(ui-sref-active="active"): a(ui-sref=".images") artwork
 				li(ui-sref-active="active"): a(ui-sref=".lore") lore
-				li(ui-sref-active="active"): a(ui-sref=".comments") comments
 		<div class="project-info" ui-view> </div>

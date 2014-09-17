@@ -77,6 +77,10 @@ module.exports = function(app) {
 	// S3 routes
 	app.post('/s3/upload', s3Handlers.upload);
 
+	app.post('/s3/cover/upload', s3Handlers.uploadCover);
+
+	app.post('/s3/profile/upload', s3Handlers.uploadProfile);
+
 	// Defaut routes
 	app.get('/partials/:name', defaultHandlers.partials);
 

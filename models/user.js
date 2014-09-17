@@ -26,6 +26,10 @@ var userSchema = new mongoose.Schema({
 		xp: {type: Number, default: 0}
 	},
 
+	profile: {type: String},
+
+	art: [{type: String}],
+
 	projects: [{
 		type: Schema.Types.ObjectId,
 		ref: 'Project'

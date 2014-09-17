@@ -1,1 +1,6 @@
-h1 Insert sexy artwork here
+h1 Artwork
+
+button.btn.btn-primary(ng-click="toggleGrid()") {{gridToggled ? "Normal View" : "Grid View"}}
+
+#image-container.cf
+	img(ng-repeat="image in $parent.user.art" ng-src="{{image}}").image-card

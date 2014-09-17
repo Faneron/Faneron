@@ -5,5 +5,5 @@ form(ng-show="toggled" ng-submit="update(); toggled=false;").bio-edit
 	.form-group
 		textarea.form-control(type="text" placeholder="write your project description here" ng-model="description")
 	button.btn.btn-primary.btn-inline(type="submit") Submit
-	button.btn.btn-primary.btn-inline(type="reset" ng-click="toggled=false") Cancel
+	a(href="#" type="reset" ng-click="toggled=false").cancel-button Cancel
 p(ng-show="!toggled" style="white-space: pre-wrap").project-body: big {{ $parent.project.info.description }}

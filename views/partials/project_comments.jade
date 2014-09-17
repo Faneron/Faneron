@@ -2,18 +2,18 @@ h1 Discussion
 br
 button.btn.btn-primary(ng-click="showCommentForm=true" ng-show="!showCommentForm") New Thread 
 
-form(ng-submit="addComment()" ng-show="showCommentForm").comment-form
+form(ng-submit="addComment()" ng-show="showCommentForm").comment-form.bio-edit
 	.form-group
 		input.form-group(type="text" placeholder="subject" ng-model="subject")
 	.form-group
 		textarea.form-group(type="text" placeholder="first post here..." ng-model="comment")
 	.form-group
 		button.btn.btn-primary.btn-inline(type="submit") submit
-		a(href="#" ng-click="showCommentForm=false") cancel
+		a(href="#" ng-click="showCommentForm=false").cancel-button cancel
 
 p(ng-if="!comments"): big Loading...
 
-div(ng-repeat="comment in comments").comment
+div(ng-repeat="comment in comments").comment.thread
 
 	h3.comment-user.comment-username Subject: {{comment.text.subject}}
 	h4.comment-user 
@@ -35,4 +35,4 @@ div(ng-repeat="comment in comments").comment
 		a(href="#" ng-click="$root.replyBoxFor = null") cancel
 
 	a.continue-thread-button(href="/comments/{{comment._id}}") view this thread 
-	
+p(ng-if="!showCommentForm && project._comments.length === 0"): big No comments yet!

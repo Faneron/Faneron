@@ -1,12 +1,11 @@
 //- Nested ui-view for user projects
 h1 Projects
-h1(ng-if="projects.length === 0") No projects yet!
 br
-a(ui-sref="newProject"): button.btn.btn-primary Add a project
-<div ui-view> </div>
+p(ng-if="projects.length === 0"): big No projects yet!
+a(ui-sref="newProject" ng-show="$root.user._id === user._id").btn.btn-primary Add a project
 .projects-container#container
-	.project-card(ng-repeat="project in projects")
-			img(src="/images/splash.jpg").project-image
+	.project-card(ng-repeat="project in projects" dir)
+			img(ng-src="{{project.coverImage ? project.coverImage : '/images/_0000_Faneron.png'}}").project-image
 			.project-card-main-info
 				h3.project-card-title: a(ui-sref="project({'id': project._id})") {{project.info.title}}
 				h4.project-card-tagline {{project.info.tagline}}
@@ -14,4 +13,5 @@ a(ui-sref="newProject"): button.btn.btn-primary Add a project
 				h5 Created {{project.time}}
 				h6 {{project.views}} views | 
 					a(ui-sref="project.comments({'id': project._id})") {{project._comments.length}} threads
+					| | {{project.vote.votes}} {{project.vote.votes == 1 ? "point" : "points"}}
 	
