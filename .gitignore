@@ -1,4 +1,5 @@
-
+uploads/*
+config/config_faneron_production.json
 Ignore/admin-key-pair-uswestoregon.pem
 
 Ignore/credentials.csv
