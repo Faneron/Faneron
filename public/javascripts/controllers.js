@@ -19,6 +19,14 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 	.controller('navCtrl', ['$scope', '$rootScope', '$http', '$state', function($scope, $rootScope, $http, $state) {
 		$rootScope.loggedIn = false;
 		$scope.$on('$stateChangeStart', function() {
+			$http({method: 'GET', url: '/notes'})
+				.success(function(data) {
+					$rootScope.notes = data;
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+
 			$http({method: 'GET', url: '/auth/isAuthenticated'})
 			.success(function(data) {
 				$rootScope.user = data;
@@ -30,6 +38,16 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				$rootScope.user = null;
 			});
 		});
+
+		setInterval(function() {
+			$http({method: 'GET', url: '/notes'})
+				.success(function(data) {
+					$rootScope.notes = data;
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+		}, 60000);
 		
 		$scope.logout = function() {
 			$http({method: 'GET', url: '/auth/logout'})
@@ -574,6 +592,33 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 				});
 		}
 
+	}])
+
+	.controller('notesCtrl', ['$scope', '$http', function($scope, $http) {
+		$http({method: 'GET', url: '/notes/all'})
+			.success(function(data) {
+				console.log(data);
+				$scope.notes = data;
+			})
+			.error(function(err) {
+				console.log(err);
+			});
+
+		$scope.delete = function(note) {
+			$http({method: 'POST', url: '/notes/delete/' + note._id})
+				.success(function(data) {
+					console.log(data);
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+
+			var index = $scope.notes.indexOf(note);
+			if (index != -1) $scope.notes.splice(index, 1)
+
+			var index = $rootScope.notes.indexOf(note);
+			if (index != -1) $rootScope.notes.splice(index, 1)
+		}
 	}]);
 
 

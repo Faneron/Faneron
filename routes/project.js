@@ -69,8 +69,6 @@ exports.all = function(req, res) {
 }
 
 exports.get = function(req, res) {
-	console.log(req.route.path);
-	console.log(req.params);
 	ProjectModel.Project.findById(req.params.id)
 		.populate('_user')
 		// .populate('_user')
@@ -78,8 +76,6 @@ exports.get = function(req, res) {
 			if (err) {
 				res.send(404);
 			}
-			console.log("Project info: ");
-			console.log(data);
 			data.views++;
 			data.save();
 			res.send(200, data);

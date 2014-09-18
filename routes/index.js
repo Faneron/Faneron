@@ -9,6 +9,7 @@ module.exports = function(app) {
 		commentHandlers = require('./comment'),
 		defaultHandlers = require('./default'),
 		exploreHandlers = require('./explore'),
+		noteHandlers = require('./note'),
 		s3Handlers = require('./s3');
 
 	// Auth Routes
@@ -73,6 +74,12 @@ module.exports = function(app) {
 	app.post('/comment/upvote/:id', authHandlers.isLoggedIn, commentHandlers.upvote);
 
 	app.post('/comment/downvote/:id', authHandlers.isLoggedIn, commentHandlers.downvote);
+
+	app.get('/notes', authHandlers.isLoggedIn, noteHandlers.get);
+
+	app.get('/notes/all', authHandlers.isLoggedIn, noteHandlers.all);
+
+	app.post('/notes/delete/:id', authHandlers.isLoggedIn, noteHandlers.delete);
 
 	// S3 routes
 	app.post('/s3/upload', s3Handlers.upload);

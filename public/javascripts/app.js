@@ -13,6 +13,11 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 				url: '/project_err',
 				templateUrl: '/partials/project_error'
 			})
+			.state('notes', {
+				url: '/notifications',
+				templateUrl: '/partials/notes',
+				controller: 'notesCtrl'
+			})
 			.state('front', {
 				url: '/',
 				templateUrl: '/partials/frontpage',

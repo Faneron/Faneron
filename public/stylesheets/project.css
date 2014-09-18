@@ -22,12 +22,17 @@
 .project-header {
 	margin-bottom: 40px;
 	position: relative;
+	word-wrap: break-word;
 }
 
 .project-info {
 	position: relative;
 	z-index: 1;
 	padding-bottom: 20px;
+}
+
+.project-body {
+	word-wrap: break-word;
 }
 
 .project-stats {

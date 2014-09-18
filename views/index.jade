@@ -20,7 +20,8 @@ block body
 				ul.nav.navbar-nav.navbar-right.icon-nav.collapse.in.myNav(ng-if="loggedIn")
 					li: a(ng-href="/users/{{user.info.username}}").profile-link 
 						//a(href="/", data-toggle="collapse").search-link 
-						//a(href="/", data-toggle="collapse", data-target=".myNav").messages-link
+						a(ui-sref="notes").messages-link
+							span(ng-if="notes.length > 0").notification-icon: span {{notes.length}}
 						a(ng-click="logout()", data-toggle="collapse").logout-link: small Log Out
 	.background-wrapper
 	#wrapper(ui-view)
