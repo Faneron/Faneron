@@ -49,7 +49,7 @@ app.use(multer({dest: "./uploads"}));
 var nconf = require('nconf');
 nconf.argv()
     .env()
-    .file('./config/config_faneron_test.json')
+    .file('./config/config_faneron_production.json')
 
 // passport config
 var passport = require('passport');

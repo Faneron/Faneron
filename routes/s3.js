@@ -87,8 +87,8 @@ exports.upload = function(req, res) {
 					console.log(err);
 					res.send(500);
 				}                
-			//	res.send(aws_url_to_image);
-				res.redirect('/projects/' + project_id + '/art');
+			//res.send(aws_url_to_image);
+			res.redirect('/projects/' + project_id + '/art');
             });
         });
     });
