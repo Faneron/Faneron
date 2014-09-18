@@ -277,6 +277,42 @@ li a p small {
 
 /* end used by ui-sref-active */
 
+.note-link {
+	font-weight: 600;
+}
+
+.clear-note-button {
+	float: right;
+	-webkit-transform: scale(2.5, 2.5);
+	-moz-transform: scale(2.5, 2.5);
+	-o-transfrom: scale(2.5, 2.5);
+	transform: scale(2.5, 2.5);
+	font-weight: 900;
+	cursor: pointer;
+}
+
+.notification-icon {
+	font-family: 'Open Sans';
+	font-size: 12px;
+	font-weight: 700;
+	width: 20px;
+	height: 20px;
+	display: block;
+	color: white;
+	background-color: red;
+	border-radius: 10px;
+	text-align: center;
+	position: relative;
+	top: 8px;
+	left: 2px;
+}
+
+.notification-icon > * {
+	position: relative;
+	left: 1.5px;
+	top: -1px;
+}
+
 .profile-link {
   background: url('/images/_0002_Profile.png') no-repeat;
 }

@@ -23,6 +23,7 @@ app.set('view engine', 'jade');
 app.use(favicon(__dirname + '/public/images/Logo 1.jpg'));
 app.use(logger('dev'));
 
+// Change splash image each request
 app.get('/images/splash', function(req, res) {
 	//supposed to be aliased as sendFile (but not -___-)
 	var rand = Math.random()

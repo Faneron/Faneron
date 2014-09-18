@@ -1,0 +1,7 @@
+.faneron-container
+	.comment.thread(ng-repeat="note in notes")
+		a.note-link(ui-sref="profile({username: note._fromUser.info.username})") {{note._fromUser.info.username}} 
+		| commented on your project 
+		a.note-link(ui-sref="project({id: note._project._id})") {{note._project.info.title}}
+		span(ng-click="delete(note)").clear-note-button &#x2716; 
+	h1(ng-if="notes.length == 0") No notifications.

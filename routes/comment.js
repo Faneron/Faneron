@@ -8,7 +8,8 @@ console.log("configuring comment routes");
 
 var CommentModel = require('../models/comment'),
 	UserModel = require('../models/user'),
-	ProjectModel = require('../models/project');
+	ProjectModel = require('../models/project'),
+	NoteModel = require('../models/note');
 
 // Recursive populate function for abitrary comment thread
 // 'comment' is the root of the tree 
@@ -68,12 +69,24 @@ exports.create = function(req, res) {
 		if(err) {
 			res.send(400);
 			console.log(err);
-		}	
+		}
 	});
 	ProjectModel.Project.findById(req.body.project._id, function(err, doc) {
 		if (err) console.log(err);
 		else {
-			console.log(newComment._id);
+			console.log("Project: " + doc._user);
+			console.log("User: " +  req.user._id);
+			console.log(doc._user.equals(req.user._id));
+			if (!doc._user.equals(req.user._id)) {
+				console.log('creating note');
+				var note = new NoteModel.Note({
+					_user: doc._user,
+					_fromUser: req.user._id,
+					_project: doc._id,
+					_comment: newComment._id
+				});
+				note.save();
+			}
 			doc.commentNumber++;
 			doc._comments.push(newComment._id);
 			doc.save(function(err, doc) {
