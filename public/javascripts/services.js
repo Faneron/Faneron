@@ -8,8 +8,6 @@ angular.module('faneronServices', ['ui.router'])
 				var deferred = $q.defer();
 				$http({method: 'GET', url: '/auth/isAuthenticated'})
 					.success(function(data) {
-						console.log("Yasss!");
-						console.log(data.info.username);
 						$state.go('profile', {"username": data.info.username});
 						deferred.reject("YAY");
 					})
@@ -18,6 +16,25 @@ angular.module('faneronServices', ['ui.router'])
 						deferred.resolve("yay");
 					});
 				return deferred.promise;
+			}
+		}
+	})
+
+	// Checks if logged in, redirects to login screen if not logged in
+	.factory('RedirectService', function($http, $state, $q) {
+		return {
+			check: function() {
+				var deferred = $q.defer();
+				$http({method: 'GET', url: '/auth/isAuthenticated'})
+					.success(function(data) {
+						deferred.resolve();
+					})
+					.error(function(err) {
+						console.log('not logged in');
+						deferred.reject('nope');
+						$state.go('login');
+					});
+				return deferred.promise();
 			}
 		}
 	});

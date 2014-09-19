@@ -16,7 +16,12 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 			.state('notes', {
 				url: '/notifications',
 				templateUrl: '/partials/notes',
-				controller: 'notesCtrl'
+				controller: 'notesCtrl',
+				resolve: {
+					auth: function(RedirectService) {
+						return RedirectService.check();
+					}
+				}
 			})
 			.state('front', {
 				url: '/',
@@ -50,12 +55,22 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 			.state('explore', {
 				url: '/explore',
 				templateUrl: '/partials/explore',
-				controller: 'exploreCtrl'
+				controller: 'exploreCtrl',
+				resolve: {
+					auth: function(RedirectService) {
+						return RedirectService.check();
+					}
+				}
 			})
 			.state('project', {
 				url: '/projects/:id',
 				templateUrl: '/partials/project',
-				controller: 'projectCtrl'
+				controller: 'projectCtrl',
+				resolve: {
+					auth: function(RedirectService) {
+						return RedirectService.check();
+					}
+				}
 			})
 				.state('project.description', {
 					url:'/description',
@@ -86,7 +101,12 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 				// will add user ids to this later
 				url: '/users/:username',
 				templateUrl: '/partials/profile',
-				controller: 'profileCtrl'
+				controller: 'profileCtrl',
+				resolve: {
+					auth: function(RedirectService) {
+						return RedirectService.check();
+					}
+				}
 			})
 				.state('profile.bio', {
 					url: '/bio',
@@ -115,12 +135,26 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 			.state('new_project', {
 				url: '/projects/new',
 				templateUrl: '/partials/profile_projects_new',
-				controller: 'newProjectCtrl'
+				controller: 'newProjectCtrl',
+				resolve: {
+					auth: function(RedirectService) {
+						return RedirectService.check();
+					}
+				}
 			})
 			.state('comment_thread', {
 				url: '/comments/:id',
 				templateUrl: '/partials/comment_thread',
-				controller: 'commentThreadCtrl'
+				controller: 'commentThreadCtrl',
+				resolve: {
+					auth: function(RedirectService) {
+						return RedirectService.check();
+					}
+				}
+			})
+			.state('notfound', {
+				url: "*path",
+				templateUrl: "/partials/404"
 			});
 	}])
 
