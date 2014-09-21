@@ -27,7 +27,7 @@ angular.module('faneronControllers', ['faneronServices', 'ui.router'])
 					console.log(err);
 				});
 
-			$http({method: 'GET', url: '/auth/isAuthenticated'})
+		$http({method: 'GET', url: '/auth/isAuthenticated'})
 			.success(function(data) {
 				$rootScope.user = data;
 				$scope.username = data.info.username;

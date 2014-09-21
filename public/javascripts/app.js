@@ -118,11 +118,6 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 					templateUrl: '/partials/profile_projects',
 					controller: 'profileProjectsCtrl',
 				})
-					.state('newProject', {
-						url: '/new',
-						templateUrl: '/partials/profile_projects_new',
-						controller: 'newProjectCtrl'
-					})
 				.state('profile.thoughts', {
 					url: '/thoughts',
 					templateUrl: '/partials/profile_thoughts'
@@ -132,8 +127,8 @@ angular.module('app', ['ui.router', 'faneronControllers', 'faneronServices', 'ng
 					templateUrl: '/partials/profile_art',
 					controller: 'profileArtCtrl'
 				})
-			.state('new_project', {
-				url: '/projects/new',
+			.state('newProject', {
+				url: '/new',
 				templateUrl: '/partials/profile_projects_new',
 				controller: 'newProjectCtrl',
 				resolve: {
