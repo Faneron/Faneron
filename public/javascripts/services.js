@@ -24,17 +24,19 @@ angular.module('faneronServices', ['ui.router'])
 	.factory('RedirectService', function($http, $state, $q) {
 		return {
 			check: function() {
+				console.log("checkin things out");
 				var deferred = $q.defer();
 				$http({method: 'GET', url: '/auth/isAuthenticated'})
 					.success(function(data) {
-						deferred.resolve();
+						deferred.resolve('asdfasdf');
+						console.log('you are logged in');
 					})
 					.error(function(err) {
-						console.log('not logged in');
-						deferred.reject('nope');
+						console.log(err);
 						$state.go('login');
+						deferred.reject("asdf");
 					});
-				return deferred.promise();
+				return deferred.promise;
 			}
 		}
 	});
